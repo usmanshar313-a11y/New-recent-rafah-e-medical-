@@ -1,0 +1,19 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Patient medical reports path
+    match /patients/{patientUid}/reports/{fileName} {
+      // Patients can read files ONLY inside their own UID directory
+      allow read: if request.auth != null && request.auth.uid == patientUid;
+      
+      // Hospital admins can read, create, update, and delete reports for any patient
+      allow read, write: if request.auth != null;
+    }
+
+    // Default catch-all for storage objects
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

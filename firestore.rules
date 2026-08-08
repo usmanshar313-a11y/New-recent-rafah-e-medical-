@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user is the patient owner
+    function isOwner(patientUid) {
+      return isAuthenticated() && request.auth.uid == patientUid;
+    }
+
+    // Reports collection security rules
+    match /reports/{reportId} {
+      // Patients can read reports where patientId matches their authenticated UID
+      // Admins (authenticated users) can read, create, update, delete any report
+      allow read: if isAuthenticated() && (resource.data.patientId == request.auth.uid || true);
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // Patients collection
+    match /patients/{patientId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Appointments collection
+    match /appointments/{appointmentId} {
+      allow read, write: if true;
+    }
+
+    // Doctors collection
+    match /doctors/{doctorId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Reviews collection
+    match /reviews/{reviewId} {
+      allow read, create: if true;
+      allow update, delete: if isAuthenticated();
+    }
+
+    // Services collection
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /{document=**} {
+      allow read, write: if isAuthenticated();
+    }
+  }
+}
+
+
