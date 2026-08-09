@@ -60,10 +60,8 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
   const [selectedPatientForUpload, setSelectedPatientForUpload] = useState<Patient | null>(null);
   const [reportTitle, setReportTitle] = useState('');
   const [driveUrlInput, setDriveUrlInput] = useState('');
-  const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [reportDescription, setReportDescription] = useState('');
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [uploadError, setUploadError] = useState('');
 
   // Delete modal state
@@ -142,55 +140,21 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
     }
   };
 
-  const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
-
   const openUploadModal = (patient: Patient) => {
     setSelectedPatientForUpload(patient);
-    setUploadFile(null);
     setReportTitle('');
     setDriveUrlInput('');
     setReportDescription('');
     setUploadError('');
-    setUploadProgress(null);
   };
 
   const closeUploadModal = () => {
     if (isUploading) return;
     setSelectedPatientForUpload(null);
-    setUploadFile(null);
     setReportTitle('');
     setDriveUrlInput('');
     setReportDescription('');
     setUploadError('');
-    setUploadProgress(null);
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-        setUploadError('Please select a valid PDF file (.pdf).');
-        setUploadFile(null);
-        return;
-      }
-      if (file.size > 20 * 1024 * 1024) {
-        setUploadError('File size exceeds the 20MB limit.');
-        setUploadFile(null);
-        return;
-      }
-      setUploadError('');
-      setUploadFile(file);
-      if (!reportTitle) {
-        const cleanName = file.name.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ');
-        setReportTitle(cleanName);
-      }
-    }
   };
 
   const handleUploadSubmit = async (e: React.FormEvent) => {
@@ -205,71 +169,18 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
       return;
     }
 
-    if (!trimmedDriveUrl && !uploadFile) {
-      setUploadError('Please enter a Google Drive PDF Link OR select a PDF file to upload.');
+    if (!trimmedDriveUrl) {
+      setUploadError('Please enter a valid Google Drive PDF link.');
       return;
     }
 
     setIsUploading(true);
     setUploadError('');
-    setUploadProgress(0);
 
     const patientUid = selectedPatientForUpload.uid;
 
     try {
-      console.log(`[ReportSave] Processing report for ${selectedPatientForUpload.name} (UID: ${patientUid})`);
-      let finalFileUrl = trimmedDriveUrl;
-      let finalFileSize = 'Google Drive PDF';
-
-      // If a local PDF file was selected, upload it to Cloud Storage
-      if (uploadFile) {
-        const sanitizedFileName = `${Date.now()}_${uploadFile.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-        const storagePath = `patients/${patientUid}/reports/${sanitizedFileName}`;
-        const storageRef = ref(storage, storagePath);
-
-        try {
-          finalFileUrl = await new Promise<string>((resolve, reject) => {
-            const uploadTask = uploadBytesResumable(storageRef, uploadFile);
-
-            uploadTask.on(
-              'state_changed',
-              (snapshot) => {
-                if (snapshot.totalBytes > 0) {
-                  const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                  setUploadProgress(progress);
-                }
-              },
-              (error) => {
-                console.error('[ReportSave Error] Storage upload failed:', error);
-                reject(error);
-              },
-              async () => {
-                try {
-                  const url = await getDownloadURL(uploadTask.snapshot.ref);
-                  resolve(url);
-                } catch (urlErr) {
-                  reject(urlErr);
-                }
-              }
-            );
-          });
-          finalFileSize = formatFileSize(uploadFile.size);
-        } catch (storageErr: any) {
-          console.warn('[ReportSave] Cloud Storage upload fallback to Base64/Drive URL:', storageErr);
-          if (!trimmedDriveUrl && uploadFile.size <= 5 * 1024 * 1024) {
-            finalFileUrl = await new Promise<string>((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onload = () => resolve(reader.result as string);
-              reader.onerror = (e) => reject(e);
-              reader.readAsDataURL(uploadFile);
-            });
-          } else if (trimmedDriveUrl) {
-            finalFileUrl = trimmedDriveUrl;
-          } else {
-            throw storageErr;
-          }
-        }
-      }
+      console.log(`[ReportSave] Saving Google Drive report link for ${selectedPatientForUpload.name} (UID: ${patientUid})`);
 
       // Prepare metadata document for global 'reports' collection in Firestore
       const newReport = {
@@ -277,10 +188,10 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
         patientName: selectedPatientForUpload.name || 'Patient',
         patientEmail: selectedPatientForUpload.email || '',
         reportName: trimmedTitle,
-        driveUrl: trimmedDriveUrl || finalFileUrl,
-        fileUrl: finalFileUrl || trimmedDriveUrl,
-        fileName: uploadFile ? uploadFile.name : `${trimmedTitle}.pdf`,
-        fileSize: finalFileSize,
+        driveUrl: trimmedDriveUrl,
+        fileUrl: trimmedDriveUrl,
+        fileName: `${trimmedTitle}.pdf`,
+        fileSize: 'Google Drive PDF',
         uploadedAt: new Date().toISOString(),
         serverCreatedAt: serverTimestamp(),
         uploadedBy: 'admin',
@@ -301,7 +212,6 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
       alert(`⚠️ Medical Report Save Failed:\n\n${errorMessage}\n\nPlease verify your network connectivity or Firestore security rules. Detailed error logged in browser console.`);
     } finally {
       setIsUploading(false);
-      setUploadProgress(null);
     }
   };
 
@@ -725,6 +635,7 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                 </label>
                 <input
                   type="url"
+                  required
                   disabled={isUploading}
                   placeholder="https://drive.google.com/file/d/12345/view?usp=sharing"
                   value={driveUrlInput}
@@ -734,25 +645,6 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                 <p className="text-[10px] text-emerald-700 mt-1">
                   Paste the public or viewable Google Drive shareable link for the PDF report.
                 </p>
-              </div>
-
-              <div className="relative flex py-1 items-center">
-                <div className="flex-grow border-t border-emerald-900/10"></div>
-                <span className="flex-shrink mx-2 text-[10px] font-bold text-emerald-800/60 uppercase">OR Upload PDF File</span>
-                <div className="flex-grow border-t border-emerald-900/10"></div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-emerald-900 mb-1">
-                  Attach PDF File (Optional)
-                </label>
-                <input
-                  type="file"
-                  accept="application/pdf,.pdf"
-                  disabled={isUploading}
-                  onChange={handleFileChange}
-                  className="w-full text-xs text-emerald-900 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#0B6B4E] file:text-white hover:file:bg-[#08523c] file:cursor-pointer bg-[#F5F1E8] p-2 rounded-xl border border-emerald-900/20"
-                />
               </div>
 
               <div>
@@ -768,21 +660,6 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                   className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
                 />
               </div>
-
-              {isUploading && uploadProgress !== null && uploadProgress > 0 && (
-                <div className="space-y-1.5 pt-2">
-                  <div className="flex justify-between text-xs font-bold text-[#0B6B4E]">
-                    <span>Uploading PDF attachment...</span>
-                    <span>{uploadProgress}%</span>
-                  </div>
-                  <div className="w-full bg-emerald-100 rounded-full h-2.5 overflow-hidden">
-                    <div
-                      className="bg-[#0B6B4E] h-2.5 rounded-full transition-all duration-200"
-                      style={{ width: `${uploadProgress}%` }}
-                    />
-                  </div>
-                </div>
-              )}
 
               <div className="pt-3 flex items-center justify-end gap-2 border-t border-emerald-900/10">
                 <button

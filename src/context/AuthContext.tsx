@@ -34,7 +34,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const snap = await getDoc(patientRef);
 
       if (snap.exists()) {
-        setPatientProfile(snap.data() as Patient);
+        const data = snap.data() as Patient;
+        // Automatically ensure zipCode is set to their patientId (uid) if missing
+        if (!data.zipCode) {
+          const autoZip = firebaseUser.uid;
+          await updateDoc(patientRef, { zipCode: autoZip }).catch(() => {
+            setDoc(patientRef, { zipCode: autoZip }, { merge: true }).catch(console.error);
+          });
+          data.zipCode = autoZip;
+        }
+        setPatientProfile(data);
       } else {
         const newPatient: Patient = {
           uid: firebaseUser.uid,
@@ -42,6 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           email: firebaseUser.email || extraData?.email || '',
           phone: extraData?.phone || firebaseUser.phoneNumber || '',
           photoURL: firebaseUser.photoURL || '',
+          zipCode: extraData?.zipCode || firebaseUser.uid, // Automatically set with Patient ID
           createdAt: new Date().toISOString(),
           ...extraData,
         };
@@ -76,6 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         name: name.trim() || 'Patient',
         email: cleanEmail,
         phone: phone.trim(),
+        zipCode: res.user.uid, // Automatically set with Patient ID
         createdAt: new Date().toISOString(),
       };
       await setDoc(doc(db, 'patients', res.user.uid), patientData);

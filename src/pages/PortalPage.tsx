@@ -30,7 +30,9 @@ import {
   query, 
   where, 
   getDocs, 
+  getDoc,
   doc, 
+  setDoc,
   updateDoc, 
   deleteDoc
 } from 'firebase/firestore';
@@ -86,8 +88,17 @@ export const PortalPage: React.FC = () => {
   const [profileDob, setProfileDob] = useState('');
   const [profileBloodGroup, setProfileBloodGroup] = useState('A+');
   const [profileEmergencyContact, setProfileEmergencyContact] = useState('');
+  const [profileZipCode, setProfileZipCode] = useState('');
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSuccessMsg, setProfileSuccessMsg] = useState('');
+
+  // Target ZIP Code & ZIP Verification Modal state
+  const [patientZipCode, setPatientZipCode] = useState<string | null>(null);
+  const [selectedReportForView, setSelectedReportForView] = useState<MedicalReport | null>(null);
+  const [zipModalOpen, setZipModalOpen] = useState(false);
+  const [zipInput, setZipInput] = useState('');
+  const [zipError, setZipError] = useState('');
+  const [isVerifyingZip, setIsVerifyingZip] = useState(false);
 
   // Toast & Confirm Modal state
   const [toast, setToast] = useState<ToastMessage | null>(null);
@@ -113,6 +124,10 @@ export const PortalPage: React.FC = () => {
       setProfileDob(patientProfile.dob || '');
       setProfileBloodGroup(patientProfile.bloodGroup || 'A+');
       setProfileEmergencyContact(patientProfile.emergencyContact || '');
+      setProfileZipCode(patientProfile.zipCode || '');
+      if (patientProfile.zipCode) {
+        setPatientZipCode(patientProfile.zipCode);
+      }
     }
   }, [patientProfile]);
 
@@ -127,6 +142,116 @@ export const PortalPage: React.FC = () => {
       setResetSentModalOpen(false);
     }
   }, [user]);
+
+  const fetchPatientZipCode = async () => {
+    const currentUid = auth.currentUser?.uid || user?.uid;
+    if (!currentUid) return null;
+    try {
+      const patientDocRef = doc(db, 'patients', currentUid);
+      const patientSnap = await getDoc(patientDocRef);
+      let zip = '';
+      if (patientSnap.exists()) {
+        const data = patientSnap.data();
+        zip = (data.zipCode || data.postalCode || data.zip || '').toString().trim();
+        // If zipCode is missing in Firestore, automatically set it to patientId (currentUid)
+        if (!zip) {
+          zip = currentUid;
+          await updateDoc(patientDocRef, { zipCode: currentUid }).catch(() => {
+            setDoc(patientDocRef, { zipCode: currentUid }, { merge: true }).catch(console.error);
+          });
+        }
+      } else {
+        // Automatically create patient document with zipCode = currentUid
+        zip = currentUid;
+        await setDoc(patientDocRef, { uid: currentUid, zipCode: currentUid, createdAt: new Date().toISOString() }, { merge: true }).catch(console.error);
+      }
+      setPatientZipCode(zip);
+      setProfileZipCode(zip);
+      return zip;
+    } catch (err) {
+      console.error('Error fetching patient ZIP code:', err);
+      setPatientZipCode(currentUid);
+      setProfileZipCode(currentUid);
+      return currentUid;
+    }
+  };
+
+  const handleOpenReportWithZipCheck = (report: MedicalReport) => {
+    setSelectedReportForView(report);
+    setZipInput('');
+    setZipError('');
+    setZipModalOpen(true);
+  };
+
+  const closeZipModal = () => {
+    setZipModalOpen(false);
+    setSelectedReportForView(null);
+    setZipInput('');
+    setZipError('');
+  };
+
+  const handleVerifyZipAndOpenReport = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedReportForView) return;
+
+    const entered = zipInput.trim().toLowerCase();
+    if (!entered) {
+      setZipError('Please enter your ZIP code.');
+      return;
+    }
+
+    setIsVerifyingZip(true);
+    setZipError('');
+
+    try {
+      // Step 1: Retrieve target ZIP code from Firestore patients/{uid}
+      const currentUid = auth.currentUser?.uid || user?.uid;
+      let targetZip = patientZipCode || currentUid || '';
+
+      if (currentUid) {
+        const pDocRef = doc(db, 'patients', currentUid);
+        const pSnap = await getDoc(pDocRef);
+        if (pSnap.exists()) {
+          const pData = pSnap.data();
+          targetZip = (pData.zipCode || pData.postalCode || pData.zip || currentUid).toString().trim();
+          if (!pData.zipCode) {
+            await updateDoc(pDocRef, { zipCode: currentUid }).catch(() => {
+              setDoc(pDocRef, { zipCode: currentUid }, { merge: true }).catch(console.error);
+            });
+          }
+        } else {
+          targetZip = currentUid;
+          await setDoc(pDocRef, { uid: currentUid, zipCode: currentUid, createdAt: new Date().toISOString() }, { merge: true }).catch(console.error);
+        }
+        setPatientZipCode(targetZip);
+      }
+
+      // Step 3: Compare entered ZIP against targetZip OR patientId (currentUid)
+      const isMatch =
+        entered === targetZip.toLowerCase() ||
+        (currentUid && entered === currentUid.toLowerCase());
+
+      if (isMatch) {
+        // MATCH: Close modal, clear input, and open Google Drive link in a new tab
+        const targetUrl = selectedReportForView.driveUrl || selectedReportForView.fileUrl;
+        closeZipModal();
+
+        if (targetUrl) {
+          window.open(targetUrl, '_blank', 'noopener,noreferrer');
+        } else {
+          alert('Report Google Drive link is unavailable.');
+        }
+      } else {
+        // NO MATCH: Show red error message and keep modal open
+        setZipError('Incorrect ZIP code. Please try again.');
+      }
+    } catch (err) {
+      console.error('ZIP verification error:', err);
+      setZipError('Verification failed. Please check your network connection and try again.');
+    } finally {
+      setIsVerifyingZip(false);
+    }
+  };
 
   const fetchPatientReports = async () => {
     const currentUid = auth.currentUser?.uid || user?.uid;
@@ -156,6 +281,9 @@ export const PortalPage: React.FC = () => {
     if (!currentUid) return;
     setLoadingData(true);
     try {
+      // Retrieve patient profile ZIP code
+      fetchPatientZipCode();
+
       // Fetch Appointments strictly by patientId (auth.currentUser.uid)
       const apptQ = query(collection(db, 'appointments'), where('patientId', '==', currentUid));
       const apptSnap = await getDocs(apptQ);
@@ -428,7 +556,9 @@ export const PortalPage: React.FC = () => {
         dob: profileDob,
         bloodGroup: profileBloodGroup,
         emergencyContact: profileEmergencyContact,
+        zipCode: profileZipCode,
       });
+      setPatientZipCode(profileZipCode);
       setProfileSuccessMsg('Profile updated successfully!');
     } catch (err) {
       console.error('Profile update failed:', err);
@@ -1276,30 +1406,25 @@ export const PortalPage: React.FC = () => {
 
                       <div className="flex items-center gap-2">
                         {report.driveUrl || report.fileUrl ? (
-                          <a
-                            href={report.driveUrl || report.fileUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            referrerPolicy="no-referrer"
+                          <button
+                            type="button"
+                            onClick={() => handleOpenReportWithZipCheck(report)}
                             className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
                           >
                             <ExternalLink className="w-3.5 h-3.5" />
                             <span>Open PDF Link</span>
-                          </a>
+                          </button>
                         ) : null}
 
                         {report.fileUrl && (
-                          <a
-                            href={report.fileUrl}
-                            download={report.fileName || 'medical_report.pdf'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            referrerPolicy="no-referrer"
+                          <button
+                            type="button"
+                            onClick={() => handleOpenReportWithZipCheck(report)}
                             className="bg-[#F5F1E8] hover:bg-emerald-100 text-[#0B6B4E] p-1.5 rounded-xl text-xs font-bold border border-emerald-900/15 cursor-pointer transition-colors"
                             title="Download PDF"
                           >
                             <Download className="w-4 h-4" />
-                          </a>
+                          </button>
                         )}
                       </div>
                     </div>
@@ -1389,6 +1514,17 @@ export const PortalPage: React.FC = () => {
                 </div>
               </div>
 
+              <div>
+                <label className="block text-xs font-bold mb-1">ZIP Code / Postal Code (For Medical Report Security)</label>
+                <input
+                  type="text"
+                  value={profileZipCode}
+                  onChange={(e) => setProfileZipCode(e.target.value)}
+                  placeholder="e.g. 75210"
+                  className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                />
+              </div>
+
               <button
                 type="submit"
                 disabled={profileSaving}
@@ -1401,6 +1537,80 @@ export const PortalPage: React.FC = () => {
         )}
 
       </div>
+
+      {/* ZIP Code Security Verification Modal */}
+      {zipModalOpen && selectedReportForView && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-fadeIn">
+          <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-emerald-900/10 overflow-hidden">
+            <div className="p-6 sm:p-7 space-y-5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-emerald-100 text-[#0B6B4E] rounded-2xl shrink-0">
+                    <Lock className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-[#0B6B4E]">Verify Identity</h3>
+                    <p className="text-xs text-emerald-800/70 mt-0.5">
+                      Please enter your ZIP code to securely view your report.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={closeZipModal}
+                  className="text-emerald-900/50 hover:text-emerald-900 p-1 rounded-lg transition-colors cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <form onSubmit={handleVerifyZipAndOpenReport} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold text-emerald-900 mb-1.5">
+                    ZIP Code / Postal Code
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    autoFocus
+                    value={zipInput}
+                    onChange={(e) => {
+                      setZipInput(e.target.value);
+                      if (zipError) setZipError('');
+                    }}
+                    placeholder="Enter your ZIP code"
+                    className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3.5 py-2.5 text-sm font-medium text-emerald-950 focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                  />
+                </div>
+
+                {zipError && (
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-xs font-bold flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{zipError}</span>
+                  </div>
+                )}
+
+                <div className="pt-2 flex items-center justify-end gap-2.5">
+                  <button
+                    type="button"
+                    onClick={closeZipModal}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isVerifyingZip}
+                    className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-colors shadow-xs cursor-pointer disabled:opacity-50"
+                  >
+                    {isVerifyingZip ? 'Verifying...' : 'Submit'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       {confirmModal.isOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 p-4">

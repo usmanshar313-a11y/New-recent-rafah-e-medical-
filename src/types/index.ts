@@ -9,6 +9,7 @@ export interface Patient {
   dob?: string;
   bloodGroup?: string;
   emergencyContact?: string;
+  zipCode?: string;
   createdAt: string;
 }
 
