@@ -1275,28 +1275,32 @@ export const PortalPage: React.FC = () => {
                       </span>
 
                       <div className="flex items-center gap-2">
-                        <a
-                          href={report.fileUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          referrerPolicy="no-referrer"
-                          className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
-                        >
-                          <Eye className="w-3.5 h-3.5" />
-                          <span>View PDF</span>
-                        </a>
+                        {report.driveUrl || report.fileUrl ? (
+                          <a
+                            href={report.driveUrl || report.fileUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            referrerPolicy="no-referrer"
+                            className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>Open PDF Link</span>
+                          </a>
+                        ) : null}
 
-                        <a
-                          href={report.fileUrl}
-                          download={report.fileName || 'medical_report.pdf'}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          referrerPolicy="no-referrer"
-                          className="bg-[#F5F1E8] hover:bg-emerald-100 text-[#0B6B4E] p-1.5 rounded-xl text-xs font-bold border border-emerald-900/15 cursor-pointer transition-colors"
-                          title="Download PDF"
-                        >
-                          <Download className="w-4 h-4" />
-                        </a>
+                        {report.fileUrl && (
+                          <a
+                            href={report.fileUrl}
+                            download={report.fileName || 'medical_report.pdf'}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            referrerPolicy="no-referrer"
+                            className="bg-[#F5F1E8] hover:bg-emerald-100 text-[#0B6B4E] p-1.5 rounded-xl text-xs font-bold border border-emerald-900/15 cursor-pointer transition-colors"
+                            title="Download PDF"
+                          >
+                            <Download className="w-4 h-4" />
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>

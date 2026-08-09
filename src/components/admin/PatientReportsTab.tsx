@@ -16,6 +16,7 @@ import {
   Shield,
   Clock,
   Filter,
+  Link,
 } from 'lucide-react';
 import {
   collection,
@@ -25,6 +26,7 @@ import {
   doc,
   query,
   orderBy,
+  serverTimestamp,
 } from 'firebase/firestore';
 import {
   ref,
@@ -54,10 +56,11 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
   const [reportSearchQuery, setReportSearchQuery] = useState('');
   const [activeSubTab, setActiveSubTab] = useState<'upload' | 'all_reports'>('upload');
 
-  // Modal / Upload State
+  // Modal / Form State
   const [selectedPatientForUpload, setSelectedPatientForUpload] = useState<Patient | null>(null);
-  const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [reportTitle, setReportTitle] = useState('');
+  const [driveUrlInput, setDriveUrlInput] = useState('');
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [reportDescription, setReportDescription] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
@@ -95,7 +98,7 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
       try {
         snap = await getDocs(q);
       } catch (firestoreSortErr) {
-        console.warn('Firestore orderBy("name") failed (e.g. missing index or document fields), falling back to unordered collection query:', firestoreSortErr);
+        console.warn('Firestore orderBy("name") failed (e.g. missing index), falling back to unordered collection query:', firestoreSortErr);
         snap = await getDocs(patientsRef);
       }
 
@@ -151,6 +154,7 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
     setSelectedPatientForUpload(patient);
     setUploadFile(null);
     setReportTitle('');
+    setDriveUrlInput('');
     setReportDescription('');
     setUploadError('');
     setUploadProgress(null);
@@ -161,6 +165,7 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
     setSelectedPatientForUpload(null);
     setUploadFile(null);
     setReportTitle('');
+    setDriveUrlInput('');
     setReportDescription('');
     setUploadError('');
     setUploadProgress(null);
@@ -182,7 +187,6 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
       setUploadError('');
       setUploadFile(file);
       if (!reportTitle) {
-        // Auto pre-fill title without extension
         const cleanName = file.name.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ');
         setReportTitle(cleanName);
       }
@@ -191,8 +195,18 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
 
   const handleUploadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedPatientForUpload || !uploadFile) {
-      setUploadError('Please select a PDF file to upload.');
+    if (!selectedPatientForUpload) return;
+
+    const trimmedTitle = reportTitle.trim();
+    const trimmedDriveUrl = driveUrlInput.trim();
+
+    if (!trimmedTitle) {
+      setUploadError('Please provide a Report Name (e.g. "Blood Test Results").');
+      return;
+    }
+
+    if (!trimmedDriveUrl && !uploadFile) {
+      setUploadError('Please enter a Google Drive PDF Link OR select a PDF file to upload.');
       return;
     }
 
@@ -201,97 +215,91 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
     setUploadProgress(0);
 
     const patientUid = selectedPatientForUpload.uid;
-    const sanitizedFileName = `${Date.now()}_${uploadFile.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-    const storagePath = `patients/${patientUid}/reports/${sanitizedFileName}`;
-    const storageRef = ref(storage, storagePath);
 
     try {
-      console.log(`[ReportUpload] Starting upload for patient ${selectedPatientForUpload.name} (UID: ${patientUid})`);
-      console.log(`[ReportUpload] Storage target path: ${storagePath}`);
+      console.log(`[ReportSave] Processing report for ${selectedPatientForUpload.name} (UID: ${patientUid})`);
+      let finalFileUrl = trimmedDriveUrl;
+      let finalFileSize = 'Google Drive PDF';
 
-      let downloadUrl = '';
+      // If a local PDF file was selected, upload it to Cloud Storage
+      if (uploadFile) {
+        const sanitizedFileName = `${Date.now()}_${uploadFile.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const storagePath = `patients/${patientUid}/reports/${sanitizedFileName}`;
+        const storageRef = ref(storage, storagePath);
 
-      // Step 1: Upload file to Cloud Storage with progress callback wrapped in a Promise
-      try {
-        downloadUrl = await new Promise<string>((resolve, reject) => {
-          const uploadTask = uploadBytesResumable(storageRef, uploadFile);
+        try {
+          finalFileUrl = await new Promise<string>((resolve, reject) => {
+            const uploadTask = uploadBytesResumable(storageRef, uploadFile);
 
-          uploadTask.on(
-            'state_changed',
-            (snapshot) => {
-              if (snapshot.totalBytes > 0) {
-                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                setUploadProgress(progress);
+            uploadTask.on(
+              'state_changed',
+              (snapshot) => {
+                if (snapshot.totalBytes > 0) {
+                  const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                  setUploadProgress(progress);
+                }
+              },
+              (error) => {
+                console.error('[ReportSave Error] Storage upload failed:', error);
+                reject(error);
+              },
+              async () => {
+                try {
+                  const url = await getDownloadURL(uploadTask.snapshot.ref);
+                  resolve(url);
+                } catch (urlErr) {
+                  reject(urlErr);
+                }
               }
-            },
-            (error) => {
-              console.error('[ReportUpload Error] Firebase Storage task error:', error);
-              reject(error);
-            },
-            async () => {
-              try {
-                const url = await getDownloadURL(uploadTask.snapshot.ref);
-                resolve(url);
-              } catch (urlErr) {
-                console.error('[ReportUpload Error] Error obtaining download URL:', urlErr);
-                reject(urlErr);
-              }
-            }
-          );
-        });
-      } catch (storageErr: any) {
-        console.warn('[ReportUpload] Cloud Storage direct upload encountered an issue:', storageErr);
-        // Fallback for smaller files (<= 5MB) if Storage bucket CORS/permission is missing
-        if (uploadFile.size <= 5 * 1024 * 1024) {
-          console.log('[ReportUpload] Attempting Base64 Data URL fallback for storage...');
-          downloadUrl = await new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = (e) => reject(e);
-            reader.readAsDataURL(uploadFile);
+            );
           });
-          console.log('[ReportUpload] Base64 Data URL generated successfully as fallback.');
-        } else {
-          throw storageErr;
+          finalFileSize = formatFileSize(uploadFile.size);
+        } catch (storageErr: any) {
+          console.warn('[ReportSave] Cloud Storage upload fallback to Base64/Drive URL:', storageErr);
+          if (!trimmedDriveUrl && uploadFile.size <= 5 * 1024 * 1024) {
+            finalFileUrl = await new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result as string);
+              reader.onerror = (e) => reject(e);
+              reader.readAsDataURL(uploadFile);
+            });
+          } else if (trimmedDriveUrl) {
+            finalFileUrl = trimmedDriveUrl;
+          } else {
+            throw storageErr;
+          }
         }
       }
 
-      console.log('[ReportUpload] Step 1 Complete. Storage URL ready:', downloadUrl.substring(0, 50) + '...');
-
-      // Step 2: Save metadata record into Firestore 'reports' collection
+      // Prepare metadata document for global 'reports' collection in Firestore
       const newReport = {
         patientId: patientUid,
         patientName: selectedPatientForUpload.name || 'Patient',
         patientEmail: selectedPatientForUpload.email || '',
-        reportName: reportTitle.trim() || uploadFile.name,
-        fileName: uploadFile.name,
-        fileUrl: downloadUrl,
-        fileSize: formatFileSize(uploadFile.size),
+        reportName: trimmedTitle,
+        driveUrl: trimmedDriveUrl || finalFileUrl,
+        fileUrl: finalFileUrl || trimmedDriveUrl,
+        fileName: uploadFile ? uploadFile.name : `${trimmedTitle}.pdf`,
+        fileSize: finalFileSize,
         uploadedAt: new Date().toISOString(),
+        serverCreatedAt: serverTimestamp(),
         uploadedBy: 'admin',
         description: reportDescription.trim() || '',
       };
 
-      console.log('[ReportUpload] Step 2: Saving document to Firestore reports collection...', newReport);
+      console.log('[ReportSave] Writing report document to Firestore reports collection:', newReport);
       await addDoc(collection(db, 'reports'), newReport);
 
-      console.log('[ReportUpload] Successfully completed upload & saved metadata record!');
-      showToast(`✅ Medical report uploaded successfully for ${selectedPatientForUpload.name}`, 'success');
+      showToast(`✅ Medical report link saved successfully for ${selectedPatientForUpload.name}`, 'success');
       closeUploadModal();
       fetchReports();
     } catch (err: any) {
-      console.error('[ReportUpload Fatal Error] Complete exception stack during report upload:', err);
+      console.error('[ReportSave Fatal Error] Exception during report link save:', err);
 
-      const errorMessage = err?.message || err?.code || 'Unknown error occurred during upload.';
-      const formattedError = `Upload Failed: ${errorMessage}`;
-
-      // Set UI error message state
-      setUploadError(formattedError);
-
-      // Display alert message to the admin
-      alert(`⚠️ Medical Report Upload Failed:\n\n${errorMessage}\n\nPlease verify Firebase Storage rules or network connectivity. Detailed error logged to Console.`);
+      const errorMessage = err?.message || err?.code || 'Failed to save report link.';
+      setUploadError(`Save Failed: ${errorMessage}`);
+      alert(`⚠️ Medical Report Save Failed:\n\n${errorMessage}\n\nPlease verify your network connectivity or Firestore security rules. Detailed error logged in browser console.`);
     } finally {
-      // ALWAYS reset loading state in finally block to avoid infinite loading UI state
       setIsUploading(false);
       setUploadProgress(null);
     }
@@ -301,13 +309,10 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
     if (!reportToDelete) return;
     setIsDeleting(true);
     try {
-      // 1. Delete Firestore document
       await deleteDoc(doc(db, 'reports', reportToDelete.id));
 
-      // 2. Attempt to delete storage object if URL available
-      if (reportToDelete.fileUrl) {
+      if (reportToDelete.fileUrl && reportToDelete.fileUrl.includes('firebasestorage.googleapis.com')) {
         try {
-          // Attempt to extract reference from URL
           const fileRef = ref(storage, reportToDelete.fileUrl);
           await deleteObject(fileRef);
         } catch (storageErr) {
@@ -358,7 +363,7 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
             Patient Medical Reports Management
           </h2>
           <p className="text-xs text-emerald-800/70">
-            Upload PDF lab test results, diagnostic scans, and medical reports to patient accounts securely via Cloud Storage.
+            Attach Google Drive PDF links or upload lab test results to patient accounts securely in Firestore.
           </p>
         </div>
 
@@ -383,21 +388,21 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                 : 'text-emerald-900 hover:bg-emerald-900/10'
             }`}
           >
-            All Uploaded Reports ({reports.length})
+            All Reports ({reports.length})
           </button>
         </div>
       </div>
 
-      {/* SUB-TAB 1: PATIENTS LIST (For selecting patient & uploading report) */}
+      {/* SUB-TAB 1: PATIENTS LIST (A-Z) */}
       {activeSubTab === 'upload' && (
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-emerald-900/10 space-y-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h3 className="font-heading font-bold text-base text-[#0B6B4E]">
-                Select Patient to Upload Medical Report
+                Select Patient to Add Report Link
               </h3>
               <p className="text-xs text-emerald-800/70">
-                Click "Upload Report" next to any patient to upload a PDF file directly to their personal secure storage folder.
+                Patients are sorted alphabetically (A-Z). Click "Add Report Link" next to any patient to attach a Google Drive PDF link.
               </p>
             </div>
 
@@ -433,9 +438,9 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#0B6B4E] text-white text-xs font-bold">
-                    <th className="p-3.5">Patient Details</th>
+                    <th className="p-3.5">Patient Name (A-Z)</th>
                     <th className="p-3.5">Firestore Document ID (Auth UID)</th>
-                    <th className="p-3.5">Contact Info</th>
+                    <th className="p-3.5">Contact Details</th>
                     <th className="p-3.5">Blood Group & DOB</th>
                     <th className="p-3.5 text-right">Action</th>
                   </tr>
@@ -455,7 +460,7 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                               {patientReportsCount > 0 && (
                                 <span className="inline-flex items-center gap-1 text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 mt-0.5">
                                   <FileCheck className="w-3 h-3 text-[#0B6B4E]" />
-                                  {patientReportsCount} Report(s) on File
+                                  {patientReportsCount} Report(s) Linked
                                 </span>
                               )}
                             </div>
@@ -489,8 +494,8 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                             onClick={() => openUploadModal(patient)}
                             className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
                           >
-                            <Upload className="w-3.5 h-3.5" />
-                            <span>Upload Report</span>
+                            <Link className="w-3.5 h-3.5" />
+                            <span>Add Report Link</span>
                           </button>
                         </td>
                       </tr>
@@ -503,16 +508,16 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
         </div>
       )}
 
-      {/* SUB-TAB 2: ALL UPLOADED REPORTS */}
+      {/* SUB-TAB 2: ALL REPORTS */}
       {activeSubTab === 'all_reports' && (
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-emerald-900/10 space-y-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h3 className="font-heading font-bold text-base text-[#0B6B4E]">
-                Uploaded Patient Reports Repository
+                Patient Medical Reports Repository
               </h3>
               <p className="text-xs text-emerald-800/70">
-                All uploaded medical reports stored in Firebase Cloud Storage & Firestore.
+                All patient report links stored in Cloud Firestore.
               </p>
             </div>
 
@@ -521,7 +526,7 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                 <Search className="w-4 h-4 text-emerald-700 absolute left-3 top-2.5" />
                 <input
                   type="text"
-                  placeholder="Filter by report title, patient, or file..."
+                  placeholder="Filter by report title or patient..."
                   value={reportSearchQuery}
                   onChange={(e) => setReportSearchQuery(e.target.value)}
                   className="w-full pl-9 pr-3 py-2 bg-[#F5F1E8] border border-emerald-900/20 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
@@ -548,11 +553,11 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
           ) : filteredReports.length === 0 ? (
             <div className="p-12 text-center bg-[#F5F1E8]/50 rounded-2xl border border-dashed border-emerald-900/20 space-y-3">
               <FileText className="w-12 h-12 text-emerald-700/40 mx-auto" />
-              <div className="text-base font-bold text-[#0B6B4E]">No medical reports uploaded yet</div>
+              <div className="text-base font-bold text-[#0B6B4E]">No medical reports linked yet</div>
               <p className="text-xs text-emerald-800/70 max-w-md mx-auto">
                 {reportSearchQuery
-                  ? 'No uploaded reports matched your search query.'
-                  : 'When you upload PDF reports for patients from the "Patients List" tab, they will be archived here for reference.'}
+                  ? 'No reports matched your search query.'
+                  : 'When you add Google Drive report links for patients, they will be listed here.'}
               </p>
               {!reportSearchQuery && (
                 <button
@@ -560,8 +565,8 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                   onClick={() => setActiveSubTab('upload')}
                   className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer shadow-xs"
                 >
-                  <Upload className="w-3.5 h-3.5" />
-                  <span>Go to Patients List to Upload</span>
+                  <Link className="w-3.5 h-3.5" />
+                  <span>Go to Patients List to Add Links</span>
                 </button>
               )}
             </div>
@@ -572,88 +577,80 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                   <tr className="bg-[#0B6B4E] text-white text-xs font-bold">
                     <th className="p-3.5">Report Title</th>
                     <th className="p-3.5">Patient Name & UID</th>
-                    <th className="p-3.5">File Details</th>
-                    <th className="p-3.5">Date Uploaded</th>
+                    <th className="p-3.5">Google Drive URL</th>
+                    <th className="p-3.5">Date Created</th>
                     <th className="p-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-emerald-900/10 text-xs font-medium">
-                  {filteredReports.map((report) => (
-                    <tr key={report.id} className="hover:bg-[#F5F1E8]/40 transition-colors">
-                      <td className="p-3.5">
-                        <div className="font-bold text-[#0B6B4E] text-sm flex items-center gap-2">
-                          <FileText className="w-4 h-4 text-red-600 shrink-0" />
-                          <span>{report.reportName || report.fileName}</span>
-                        </div>
-                        {report.description && (
-                          <div className="text-[11px] text-emerald-800/70 italic mt-0.5 line-clamp-1">
-                            {report.description}
+                  {filteredReports.map((report) => {
+                    const targetUrl = report.driveUrl || report.fileUrl || '#';
+                    return (
+                      <tr key={report.id} className="hover:bg-[#F5F1E8]/40 transition-colors">
+                        <td className="p-3.5">
+                          <div className="font-bold text-[#0B6B4E] text-sm flex items-center gap-2">
+                            <FileText className="w-4 h-4 text-red-600 shrink-0" />
+                            <span>{report.reportName || report.fileName || 'Medical Report'}</span>
                           </div>
-                        )}
-                      </td>
+                          {report.description && (
+                            <div className="text-[11px] text-emerald-800/70 italic mt-0.5 line-clamp-1">
+                              {report.description}
+                            </div>
+                          )}
+                        </td>
 
-                      <td className="p-3.5">
-                        <div className="font-bold text-emerald-950">{report.patientName || 'Patient'}</div>
-                        <div className="font-mono text-[10px] text-emerald-800/70 select-all">
-                          UID: {report.patientId}
-                        </div>
-                      </td>
+                        <td className="p-3.5">
+                          <div className="font-bold text-emerald-950">{report.patientName || 'Patient'}</div>
+                          <div className="font-mono text-[10px] text-emerald-800/70 select-all">
+                            UID: {report.patientId}
+                          </div>
+                        </td>
 
-                      <td className="p-3.5 space-y-0.5">
-                        <div className="text-emerald-900 truncate max-w-[180px]" title={report.fileName}>
-                          {report.fileName}
-                        </div>
-                        <div className="text-[10px] font-bold text-emerald-700">
-                          {report.fileSize || 'PDF'}
-                        </div>
-                      </td>
-
-                      <td className="p-3.5 text-emerald-900 text-[11px]">
-                        <div className="flex items-center gap-1 font-semibold">
-                          <Clock className="w-3 h-3 text-emerald-700" />
-                          {report.uploadedAt ? new Date(report.uploadedAt).toLocaleDateString() : 'N/A'}
-                        </div>
-                        <div className="text-[10px] text-emerald-700">
-                          {report.uploadedAt ? new Date(report.uploadedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
-                        </div>
-                      </td>
-
-                      <td className="p-3.5 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
+                        <td className="p-3.5">
                           <a
-                            href={report.fileUrl}
+                            href={targetUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-emerald-100 hover:bg-emerald-200 text-[#0B6B4E] p-2 rounded-lg text-xs font-bold inline-flex items-center gap-1 cursor-pointer transition-colors"
-                            title="View PDF Report in New Window"
+                            className="text-blue-700 hover:underline font-mono text-[11px] truncate block max-w-[220px]"
+                            title={targetUrl}
                           >
-                            <Eye className="w-3.5 h-3.5" />
-                            <span className="hidden sm:inline">View PDF</span>
+                            {targetUrl}
                           </a>
+                        </td>
 
-                          <a
-                            href={report.fileUrl}
-                            download={report.fileName || 'report.pdf'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-blue-50 hover:bg-blue-100 text-blue-800 p-2 rounded-lg text-xs font-bold inline-flex items-center gap-1 cursor-pointer transition-colors"
-                            title="Download PDF"
-                          >
-                            <Download className="w-3.5 h-3.5" />
-                          </a>
+                        <td className="p-3.5 text-emerald-900 text-[11px]">
+                          <div className="flex items-center gap-1 font-semibold">
+                            <Clock className="w-3 h-3 text-emerald-700" />
+                            {report.uploadedAt ? new Date(report.uploadedAt).toLocaleDateString() : 'N/A'}
+                          </div>
+                        </td>
 
-                          <button
-                            type="button"
-                            onClick={() => setReportToDelete(report)}
-                            className="bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg text-xs font-bold inline-flex items-center gap-1 cursor-pointer transition-colors"
-                            title="Delete Medical Report"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                        <td className="p-3.5 text-right">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <a
+                              href={targetUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="bg-emerald-100 hover:bg-emerald-200 text-[#0B6B4E] p-2 rounded-lg text-xs font-bold inline-flex items-center gap-1 cursor-pointer transition-colors"
+                              title="Open PDF Link in New Window"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              <span className="hidden sm:inline">Open Drive Link</span>
+                            </a>
+
+                            <button
+                              type="button"
+                              onClick={() => setReportToDelete(report)}
+                              className="bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg text-xs font-bold inline-flex items-center gap-1 cursor-pointer transition-colors"
+                              title="Delete Medical Report"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -661,17 +658,17 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
         </div>
       )}
 
-      {/* UPLOAD REPORT MODAL */}
+      {/* ADD REPORT LINK MODAL */}
       {selectedPatientForUpload && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full border border-emerald-900/10 overflow-hidden animate-in zoom-in-95">
             <div className="bg-[#0B6B4E] text-white p-5 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 bg-white/10 rounded-xl">
-                  <Upload className="w-5 h-5 text-white" />
+                  <Link className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-heading font-bold text-base">Upload Medical Report</h3>
+                  <h3 className="font-heading font-bold text-base">Add Medical Report Link</h3>
                   <p className="text-xs text-emerald-200">
                     For Patient: <strong className="text-white">{selectedPatientForUpload.name}</strong>
                   </p>
@@ -690,13 +687,13 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
             <form onSubmit={handleUploadSubmit} className="p-6 space-y-4">
               <div className="p-3 bg-[#F5F1E8] rounded-xl text-xs space-y-1 border border-emerald-900/10">
                 <div className="flex items-center justify-between font-bold text-[#0B6B4E]">
-                  <span>Target Storage Path:</span>
-                  <span className="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-emerald-900/10 select-all">
-                    patients/{selectedPatientForUpload.uid}/reports/
+                  <span>Target Patient Auth UID:</span>
+                  <span className="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-emerald-900/10 select-all font-bold">
+                    {selectedPatientForUpload.uid}
                   </span>
                 </div>
                 <div className="text-emerald-900/70 text-[11px]">
-                  Patient Email: {selectedPatientForUpload.email || 'N/A'} • UID: {selectedPatientForUpload.uid}
+                  Patient Email: {selectedPatientForUpload.email || 'N/A'}
                 </div>
               </div>
 
@@ -706,23 +703,6 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                   <span>{uploadError}</span>
                 </div>
               )}
-
-              <div>
-                <label className="block text-xs font-bold text-emerald-900 mb-1">
-                  Select Medical Report PDF File *
-                </label>
-                <input
-                  type="file"
-                  accept="application/pdf,.pdf"
-                  required
-                  disabled={isUploading}
-                  onChange={handleFileChange}
-                  className="w-full text-xs text-emerald-900 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#0B6B4E] file:text-white hover:file:bg-[#08523c] file:cursor-pointer bg-[#F5F1E8] p-2 rounded-xl border border-emerald-900/20"
-                />
-                <p className="text-[10px] text-emerald-700 mt-1">
-                  Format required: PDF file (.pdf). Maximum file size: 20MB.
-                </p>
-              </div>
 
               <div>
                 <label className="block text-xs font-bold text-emerald-900 mb-1">
@@ -741,7 +721,43 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
 
               <div>
                 <label className="block text-xs font-bold text-emerald-900 mb-1">
-                  Additional Lab Notes / Description (Optional)
+                  Google Drive PDF Share Link *
+                </label>
+                <input
+                  type="url"
+                  disabled={isUploading}
+                  placeholder="https://drive.google.com/file/d/12345/view?usp=sharing"
+                  value={driveUrlInput}
+                  onChange={(e) => setDriveUrlInput(e.target.value)}
+                  className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                />
+                <p className="text-[10px] text-emerald-700 mt-1">
+                  Paste the public or viewable Google Drive shareable link for the PDF report.
+                </p>
+              </div>
+
+              <div className="relative flex py-1 items-center">
+                <div className="flex-grow border-t border-emerald-900/10"></div>
+                <span className="flex-shrink mx-2 text-[10px] font-bold text-emerald-800/60 uppercase">OR Upload PDF File</span>
+                <div className="flex-grow border-t border-emerald-900/10"></div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-emerald-900 mb-1">
+                  Attach PDF File (Optional)
+                </label>
+                <input
+                  type="file"
+                  accept="application/pdf,.pdf"
+                  disabled={isUploading}
+                  onChange={handleFileChange}
+                  className="w-full text-xs text-emerald-900 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#0B6B4E] file:text-white hover:file:bg-[#08523c] file:cursor-pointer bg-[#F5F1E8] p-2 rounded-xl border border-emerald-900/20"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-emerald-900 mb-1">
+                  Additional Notes / Description (Optional)
                 </label>
                 <textarea
                   rows={2}
@@ -753,10 +769,10 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                 />
               </div>
 
-              {isUploading && uploadProgress !== null && (
+              {isUploading && uploadProgress !== null && uploadProgress > 0 && (
                 <div className="space-y-1.5 pt-2">
                   <div className="flex justify-between text-xs font-bold text-[#0B6B4E]">
-                    <span>Uploading PDF to Cloud Storage...</span>
+                    <span>Uploading PDF attachment...</span>
                     <span>{uploadProgress}%</span>
                   </div>
                   <div className="w-full bg-emerald-100 rounded-full h-2.5 overflow-hidden">
@@ -779,18 +795,18 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                 </button>
                 <button
                   type="submit"
-                  disabled={isUploading || !uploadFile}
+                  disabled={isUploading}
                   className="px-5 py-2 bg-[#0B6B4E] hover:bg-[#08523c] disabled:bg-gray-400 text-white text-xs font-bold rounded-xl shadow cursor-pointer transition-colors inline-flex items-center gap-1.5 disabled:cursor-not-allowed"
                 >
                   {isUploading ? (
                     <>
                       <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>Uploading ({uploadProgress}%)...</span>
+                      <span>Saving Report...</span>
                     </>
                   ) : (
                     <>
-                      <Upload className="w-3.5 h-3.5" />
-                      <span>Upload Report to Patient</span>
+                      <Link className="w-3.5 h-3.5" />
+                      <span>Save Report Link</span>
                     </>
                   )}
                 </button>

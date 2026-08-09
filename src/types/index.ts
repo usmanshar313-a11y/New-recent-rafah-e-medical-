@@ -89,8 +89,9 @@ export interface MedicalReport {
   patientName?: string;
   patientEmail?: string;
   reportName?: string;
-  fileName: string;
-  fileUrl: string;
+  fileName?: string;
+  fileUrl?: string;
+  driveUrl?: string;
   fileSize?: string;
   uploadedBy: 'admin' | 'patient';
   uploadedAt: string;
