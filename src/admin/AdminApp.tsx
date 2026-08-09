@@ -59,7 +59,6 @@ import {
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { Appointment, Doctor, Review, Patient, AppointmentStatus } from '../types';
-import { ConfirmModal } from '../components/common/ConfirmModal';
 import { Toast, ToastMessage } from '../components/common/Toast';
 import { downloadTextAsPdf } from './pdfUtils';
 import { DateRangeFilter } from '../components/admin/DateRangeFilter';
@@ -762,64 +761,53 @@ export const AdminApp: React.FC = () => {
     });
   };
 
-  const handleDeleteSelectedAppts = () => {
+  const handleDeleteSelectedAppts = async () => {
     if (selectedApptIds.length === 0) return;
     const count = selectedApptIds.length;
 
-    setConfirmModal({
-      isOpen: true,
-      title: 'Delete Selected Appointments',
-      message: `Are you sure you want to delete ${count} selected appointment(s)? This will archive them and remove them from the appointments table.`,
-      confirmLabel: `Delete ${count} Appointment(s)`,
-      variant: 'danger',
-      onConfirm: async () => {
-        setConfirmModal((prev) => ({ ...prev, isLoading: true }));
-        setDeletingAppts(true);
-        setDeleteErrorMsg('');
+    setDeletingAppts(true);
+    setDeleteErrorMsg('');
 
-        const results = await Promise.allSettled(
-          selectedApptIds.map(async (id) => {
-            await updateDoc(doc(db, 'appointments', id), { isArchived: true });
-            return id;
-          })
-        );
+    const results = await Promise.allSettled(
+      selectedApptIds.map(async (id) => {
+        await updateDoc(doc(db, 'appointments', id), { isArchived: true });
+        return id;
+      })
+    );
 
-        const succeededIds: string[] = [];
-        const failures: string[] = [];
+    const succeededIds: string[] = [];
+    const failures: string[] = [];
 
-        results.forEach((res, idx) => {
-          const targetId = selectedApptIds[idx];
-          if (res.status === 'fulfilled') {
-            succeededIds.push(res.value);
-          } else {
-            failures.push(targetId);
-            console.error(`Failed to delete appointment ${targetId}:`, res.reason);
-          }
-        });
-
-        if (succeededIds.length > 0) {
-          setAppointments((prev) =>
-            prev.map((a) =>
-              succeededIds.includes(a.id) ? { ...a, isArchived: true } : a
-            )
-          );
-          setSelectedApptIds((prev) => prev.filter((id) => !succeededIds.includes(id)));
-        }
-
-        if (failures.length > 0) {
-          const msg =
-            `${failures.length} of ${count} appointment(s) could not be archived. ` +
-            `This is almost always caused by Firestore Security Rules blocking the update.`;
-          setDeleteErrorMsg(msg);
-          showToast(msg, 'error');
-        } else {
-          showToast(`${succeededIds.length} appointment(s) archived successfully!`, 'success');
-        }
-
-        setDeletingAppts(false);
-        closeConfirmModal();
-      },
+    results.forEach((res, idx) => {
+      const targetId = selectedApptIds[idx];
+      if (res.status === 'fulfilled') {
+        succeededIds.push(res.value);
+      } else {
+        failures.push(targetId);
+        console.error(`Failed to archive appointment ${targetId}:`, res.reason);
+      }
     });
+
+    if (succeededIds.length > 0) {
+      setAppointments((prev) =>
+        prev.map((a) =>
+          succeededIds.includes(a.id) ? { ...a, isArchived: true } : a
+        )
+      );
+      setSelectedApptIds((prev) => prev.filter((id) => !succeededIds.includes(id)));
+    }
+
+    if (failures.length > 0) {
+      const msg =
+        `${failures.length} of ${count} appointment(s) could not be archived. ` +
+        `This is almost always caused by Firestore Security Rules blocking the update.`;
+      setDeleteErrorMsg(msg);
+      showToast(msg, 'error');
+    } else {
+      showToast(`${succeededIds.length} appointment(s) archived successfully!`, 'success');
+    }
+
+    setDeletingAppts(false);
   };
 
   // Seed Initial Demo Data Function
@@ -2260,6 +2248,47 @@ export const AdminApp: React.FC = () => {
         </div>
       )}
 
+      {confirmModal.isOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fade-in">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-emerald-900/10">
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-2">
+                <h3 className="text-lg font-bold text-[#0B6B4E]">{confirmModal.title}</h3>
+                <p className="text-sm text-emerald-900/80 leading-relaxed">{confirmModal.message}</p>
+              </div>
+              <button
+                type="button"
+                onClick={closeConfirmModal}
+                className="text-emerald-900/70 hover:text-emerald-900 p-2 rounded-lg"
+                aria-label="Close confirmation dialog"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3 justify-end">
+              <button
+                type="button"
+                onClick={closeConfirmModal}
+                className="px-4 py-2 rounded-xl border border-emerald-900/10 bg-[#F5F1E8] text-[#0B6B4E] hover:bg-[#e6f4ea] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => confirmModal.onConfirm()}
+                disabled={confirmModal.isLoading}
+                className={`px-4 py-2 rounded-xl text-white font-bold transition-colors ${
+                  confirmModal.variant === 'danger'
+                    ? 'bg-red-600 hover:bg-red-700'
+                    : 'bg-[#0B6B4E] hover:bg-[#08523c]'
+                } ${confirmModal.isLoading ? 'opacity-60 cursor-not-allowed' : ''}`}
+              >
+                {confirmModal.confirmLabel || 'Confirm'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Toast toast={toast} onClose={() => setToast(null)} />
     </div>
   );
