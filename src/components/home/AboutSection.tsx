@@ -23,6 +23,7 @@ export const AboutSection: React.FC = () => {
                 src={facilityTreatmentImg}
                 alt="Rafah-E-Aam Medical Centre Treatment Facility"
                 referrerPolicy="no-referrer"
+                loading="lazy"
                 className="w-full h-[320px] sm:h-[400px] lg:h-[440px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -36,17 +37,6 @@ export const AboutSection: React.FC = () => {
                   <p className="text-xs font-bold text-[#032d20]">St-10, Block 13, Gulberg Town</p>
                   <p className="text-[11px] font-medium text-emerald-800/80">Karachi, Sindh, Pakistan</p>
                 </div>
-              </div>
-            </div>
-
-            {/* Accent Card */}
-            <div className="hidden sm:flex absolute -top-4 -right-4 bg-white p-4 rounded-2xl border border-emerald-900/10 shadow-lg items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
-                <Award className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs font-extrabold text-[#032d20]">Trusted Institution</p>
-                <p className="text-[11px] text-emerald-900/70 font-medium">Community Healthcare</p>
               </div>
             </div>
           </motion.div>

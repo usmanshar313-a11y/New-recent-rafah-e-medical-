@@ -48,38 +48,43 @@ export const HowItWorksSection: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* 3 Steps Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {STEPS.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-[#FAF8F3] p-6 sm:p-7 rounded-3xl border border-emerald-900/10 shadow-2xs hover:shadow-md transition-all space-y-4 relative"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="w-12 h-12 rounded-2xl bg-[#0B6B4E] text-white flex items-center justify-center font-bold">
-                    <Icon className="w-6 h-6 text-amber-400" />
+        {/* 3 Steps Cards Grid */}
+        <div className="relative">
+          {/* Subtle connecting line for desktop */}
+          <div className="hidden md:block absolute top-1/2 left-[15%] right-[15%] -translate-y-6 h-0.5 border-t-2 border-dashed border-[#0B6B4E]/20 pointer-events-none z-0" />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 relative z-10">
+            {STEPS.map((step, idx) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  className="bg-[#FAF8F3] p-6 sm:p-7 rounded-3xl border border-emerald-900/10 shadow-2xs hover:shadow-md transition-all space-y-4 relative"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="w-12 h-12 rounded-2xl bg-[#0B6B4E] text-white flex items-center justify-center font-bold shadow-xs">
+                      <Icon className="w-6 h-6 text-amber-400" />
+                    </div>
+                    <span className="text-2xl font-black text-[#0B6B4E]/25 font-mono">
+                      {step.number}
+                    </span>
                   </div>
-                  <span className="text-2xl font-black text-[#0B6B4E]/25 font-mono">
-                    {step.number}
-                  </span>
-                </div>
 
-                <h3 className="font-heading font-extrabold text-lg text-[#032d20]">
-                  {step.title}
-                </h3>
+                  <h3 className="font-heading font-extrabold text-lg text-[#032d20]">
+                    {step.title}
+                  </h3>
 
-                <p className="text-xs sm:text-sm text-emerald-950/75 leading-relaxed font-medium">
-                  {step.desc}
-                </p>
-              </motion.div>
-            );
-          })}
+                  <p className="text-xs sm:text-sm text-emerald-950/75 leading-relaxed font-medium">
+                    {step.desc}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
       </div>

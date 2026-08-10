@@ -157,7 +157,7 @@ export const TestimonialsSection: React.FC = () => {
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-emerald-950/90 leading-relaxed font-medium italic">
+                <p className="text-sm sm:text-base text-[#032d20] leading-relaxed font-medium italic">
                   "{rev.comment}"
                 </p>
               </div>

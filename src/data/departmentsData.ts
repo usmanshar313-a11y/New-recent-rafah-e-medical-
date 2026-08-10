@@ -62,7 +62,7 @@ export const DEPARTMENTS_DATA: Department[] = [
         timing: '06:00 PM - 09:00 PM',
         fee: 'Rs. 1,500',
         roomNumber: 'Cardio-1',
-        photoURL: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80',
+        photoURL: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80',
         bio: 'Consultant Cardiologist specializing in ischemic heart disease, hypertension management, and non-invasive cardiac diagnostics.'
       },
       {
@@ -106,7 +106,7 @@ export const DEPARTMENTS_DATA: Department[] = [
         timing: '06:00 PM - 09:00 PM',
         fee: 'Rs. 1,500',
         roomNumber: 'Ortho-1',
-        photoURL: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80',
+        photoURL: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=400&q=80',
         bio: 'Renowned Orthopedic consultant with deep expertise in bone fractures, joint arthritis, back pain, and spinal alignment.'
       }
     ]
