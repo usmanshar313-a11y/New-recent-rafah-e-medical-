@@ -1,7 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Hero } from '../components/home/Hero';
+import { TrustBar } from '../components/home/TrustBar';
 import { AboutSection } from '../components/home/AboutSection';
 import { DepartmentsSection } from '../components/home/DepartmentsSection';
+import { WhyChooseSection } from '../components/home/WhyChooseSection';
+import { DoctorsPreviewSection } from '../components/home/DoctorsPreviewSection';
+import { HowItWorksSection } from '../components/home/HowItWorksSection';
 import { TestimonialsSection } from '../components/home/TestimonialsSection';
 import { LocationSection } from '../components/home/LocationSection';
 import { BookingModal } from '../components/booking/BookingModal';
@@ -24,10 +28,14 @@ export const HomePage: React.FC = () => {
   return (
     <div ref={containerRef} className="space-y-0">
       <Hero onOpenBooking={handleOpenGeneralBooking} />
+      <TrustBar />
       <AboutSection />
       <DepartmentsSection onOpenBooking={handleOpenGeneralBooking} />
+      <WhyChooseSection />
+      <DoctorsPreviewSection onOpenBooking={handleOpenGeneralBooking} />
+      <HowItWorksSection />
       <TestimonialsSection />
-      <LocationSection />
+      <LocationSection onOpenBooking={handleOpenGeneralBooking} />
 
       <BookingModal
         isOpen={bookingModalOpen}
@@ -38,4 +46,3 @@ export const HomePage: React.FC = () => {
     </div>
   );
 };
-

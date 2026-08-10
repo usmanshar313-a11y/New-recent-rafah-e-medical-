@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Star, MessageSquarePlus, CheckCircle2, X } from 'lucide-react';
+import { Star, MessageSquarePlus, CheckCircle2, X, Heart } from 'lucide-react';
 import { collection, getDocs, addDoc, query, where } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { Review } from '../../types';
@@ -25,7 +25,7 @@ const SAMPLE_REVIEWS: Review[] = [
   {
     id: 'rev-3',
     patientName: 'Dr. Tariq Mahmood (Resident)',
-    rating: 4,
+    rating: 5,
     comment: 'Clean hospital premises, accessible wheelchair ramps, and well-organized OPD services. Highly recommended for family healthcare in Karachi.',
     approved: true,
     createdAt: '2026-07-10',
@@ -86,25 +86,27 @@ export const TestimonialsSection: React.FC = () => {
   };
 
   return (
-    <section id="reviews" className="py-20 bg-[#e8e2d5] text-[#0B6B4E] gsap-reveal">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <section id="reviews" className="py-16 sm:py-24 bg-[#FAF8F3] text-[#0B6B4E] relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 relative z-10">
         
+        {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6"
         >
-          <div className="space-y-2">
-            <span className="bg-emerald-900/10 text-[#0B6B4E] text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
-              Patient Experiences
+          <div className="space-y-3">
+            <span className="bg-[#0B6B4E]/10 text-[#0B6B4E] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider border border-[#0B6B4E]/15 inline-flex items-center gap-1.5">
+              <Heart className="w-3.5 h-3.5 text-[#0B6B4E]" />
+              PATIENT EXPERIENCES
             </span>
-            <h2 className="font-heading font-extrabold text-2xl sm:text-3xl lg:text-4xl text-[#0B6B4E]">
-              Trusted by 200+ Patients in Karachi
+            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#032d20]">
+              Trusted by Patients in Karachi
             </h2>
-            <p className="text-xs sm:text-sm text-emerald-950/80 max-w-xl">
-              Read authentic feedback from families and patients treated at Rafah-E-Aam Medical Center.
+            <p className="text-xs sm:text-sm text-emerald-950/80 max-w-xl font-medium leading-relaxed">
+              Read authentic feedback from patients and families treated at Rafah-E-Aam Medical Centre.
             </p>
           </div>
 
@@ -113,10 +115,10 @@ export const TestimonialsSection: React.FC = () => {
               href="https://www.google.com/maps?q=Rafah-E-Aam+Medical+Center+Karachi"
               target="_blank"
               rel="noreferrer"
-              className="bg-white border border-emerald-900/20 text-[#0B6B4E] hover:bg-emerald-50 px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-2"
+              className="bg-white border border-emerald-900/15 text-[#032d20] hover:bg-emerald-50 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all shadow-2xs flex items-center gap-2"
             >
               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-              <span>See Reviews on Google (3.8★)</span>
+              <span>Google Rating (3.8★)</span>
             </a>
 
             <button
@@ -124,7 +126,7 @@ export const TestimonialsSection: React.FC = () => {
                 setModalOpen(true);
                 setSubmitted(false);
               }}
-              className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow flex items-center gap-2 transition-colors cursor-pointer"
+              className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-5 py-2.5 rounded-2xl text-xs font-bold shadow-md flex items-center gap-2 transition-colors cursor-pointer"
             >
               <MessageSquarePlus className="w-4 h-4" />
               <span>Write a Review</span>
@@ -134,14 +136,14 @@ export const TestimonialsSection: React.FC = () => {
 
         {/* Reviews Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {reviews.map((rev, idx) => (
+          {reviews.slice(0, 3).map((rev, idx) => (
             <motion.div
               key={rev.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
+              viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-[#F5F1E8] p-6 rounded-3xl border border-emerald-900/10 shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-shadow"
+              className="bg-white p-6 rounded-3xl border border-emerald-900/10 shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -155,7 +157,7 @@ export const TestimonialsSection: React.FC = () => {
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-emerald-950/90 leading-relaxed italic">
+                <p className="text-xs sm:text-sm text-emerald-950/90 leading-relaxed font-medium italic">
                   "{rev.comment}"
                 </p>
               </div>
@@ -165,8 +167,8 @@ export const TestimonialsSection: React.FC = () => {
                   {rev.patientName.charAt(0)}
                 </div>
                 <div>
-                  <div className="font-bold text-xs sm:text-sm text-[#0B6B4E]">{rev.patientName}</div>
-                  <div className="text-[10px] text-emerald-800/70 font-medium">Verified Patient</div>
+                  <div className="font-bold text-xs sm:text-sm text-[#032d20]">{rev.patientName}</div>
+                  <div className="text-[10px] text-emerald-800/80 font-bold uppercase tracking-wider">Verified Patient</div>
                 </div>
               </div>
             </motion.div>
@@ -178,10 +180,10 @@ export const TestimonialsSection: React.FC = () => {
       {/* Review Submission Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#F5F1E8] text-[#0B6B4E] w-full max-w-md rounded-2xl shadow-2xl p-6 border border-emerald-900/10 space-y-4">
+          <div className="bg-white text-[#032d20] w-full max-w-md rounded-3xl shadow-2xl p-6 border border-emerald-900/10 space-y-4">
             <div className="flex items-center justify-between border-b border-emerald-900/10 pb-3">
-              <h3 className="font-heading font-bold text-base">Write a Patient Review</h3>
-              <button onClick={() => setModalOpen(false)} className="text-emerald-800 hover:text-black">
+              <h3 className="font-heading font-bold text-base text-[#032d20]">Write a Patient Review</h3>
+              <button onClick={() => setModalOpen(false)} className="text-emerald-800 hover:text-black cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -189,13 +191,13 @@ export const TestimonialsSection: React.FC = () => {
             {submitted ? (
               <div className="text-center py-6 space-y-3">
                 <CheckCircle2 className="w-12 h-12 text-[#0B6B4E] mx-auto" />
-                <h4 className="font-bold text-base">Thank you for your feedback!</h4>
+                <h4 className="font-bold text-base text-[#032d20]">Thank you for your feedback!</h4>
                 <p className="text-xs text-emerald-900/80">
                   Your review has been submitted for verification and will appear shortly.
                 </p>
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="bg-[#0B6B4E] text-white px-5 py-2 rounded-xl text-xs font-bold"
+                  className="bg-[#0B6B4E] text-white px-5 py-2.5 rounded-xl text-xs font-bold cursor-pointer"
                 >
                   Close
                 </button>
@@ -210,7 +212,7 @@ export const TestimonialsSection: React.FC = () => {
                     value={patientName}
                     onChange={(e) => setPatientName(e.target.value)}
                     placeholder="e.g. Tariq Ahmed"
-                    className="w-full bg-white border border-emerald-900/20 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-[#FAF8F3] border border-emerald-900/20 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
                   />
                 </div>
 
@@ -242,7 +244,7 @@ export const TestimonialsSection: React.FC = () => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder="Describe your visit or experience with doctors..."
-                    className="w-full bg-white border border-emerald-900/20 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-[#FAF8F3] border border-emerald-900/20 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
                   />
                 </div>
 
