@@ -4,24 +4,47 @@ import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { FloatingWhatsApp } from './components/common/FloatingWhatsApp';
-import { HomePage } from './pages/HomePage';
-import { DepartmentsPage } from './pages/DepartmentsPage';
-import { AboutPage } from './pages/AboutPage';
-import { ContactPage } from './pages/ContactPage';
-import { TermsPage } from './pages/TermsPage';
-import { PrivacyPage } from './pages/PrivacyPage';
-import { NotFoundPage } from './pages/NotFoundPage';
 import { BookingModal } from './components/booking/BookingModal';
+import {
+  HomeSkeleton,
+  ServicesSkeleton,
+  AboutSkeleton,
+  DoctorsSkeleton,
+  ContactSkeleton,
+  PortalSkeleton,
+  PageSkeleton,
+} from './components/skeletons';
 
-// Code-split lazy loaded PortalPage, AdminApp, and DepartmentDetailPage
+// Code-split lazy loaded pages for optimal performance and instant skeleton feedback
+const HomePage = lazy(() =>
+  import('./pages/HomePage').then((m) => ({ default: m.HomePage }))
+);
+const DepartmentsPage = lazy(() =>
+  import('./pages/DepartmentsPage').then((m) => ({ default: m.DepartmentsPage }))
+);
+const DepartmentDetailPage = lazy(() =>
+  import('./pages/DepartmentDetailPage').then((m) => ({ default: m.DepartmentDetailPage }))
+);
+const AboutPage = lazy(() =>
+  import('./pages/AboutPage').then((m) => ({ default: m.AboutPage }))
+);
+const ContactPage = lazy(() =>
+  import('./pages/ContactPage').then((m) => ({ default: m.ContactPage }))
+);
 const PortalPage = lazy(() =>
   import('./pages/PortalPage').then((m) => ({ default: m.PortalPage }))
 );
 const AdminApp = lazy(() =>
   import('./admin/AdminApp').then((m) => ({ default: m.AdminApp }))
 );
-const DepartmentDetailPage = lazy(() =>
-  import('./pages/DepartmentDetailPage').then((m) => ({ default: m.DepartmentDetailPage }))
+const TermsPage = lazy(() =>
+  import('./pages/TermsPage').then((m) => ({ default: m.TermsPage }))
+);
+const PrivacyPage = lazy(() =>
+  import('./pages/PrivacyPage').then((m) => ({ default: m.PrivacyPage }))
+);
+const NotFoundPage = lazy(() =>
+  import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage }))
 );
 
 const AppContent: React.FC = () => {
@@ -54,37 +77,152 @@ const AppContent: React.FC = () => {
       <Navbar onOpenBooking={() => setGlobalBookingOpen(true)} />
 
       <main className="flex-1">
-        <Suspense
-          fallback={
-            <div className="min-h-[50vh] flex items-center justify-center p-8">
-              <div className="text-center space-y-3">
-                <div className="w-10 h-10 border-4 border-[#0B6B4E] border-t-transparent rounded-full animate-spin mx-auto" />
-                <div className="text-xs font-bold text-[#0B6B4E]">Loading Page...</div>
-              </div>
-            </div>
-          }
-        >
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/departments" element={<DepartmentsPage />} />
-            <Route path="/departments/:departmentId" element={<DepartmentDetailPage />} />
-            <Route path="/departments.html" element={<DepartmentsPage />} />
-            <Route path="/services" element={<DepartmentsPage />} />
-            <Route path="/services.html" element={<DepartmentsPage />} />
-            <Route path="/doctors" element={<DepartmentsPage />} />
-            <Route path="/doctors.html" element={<DepartmentsPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/about.html" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/contact.html" element={<ContactPage />} />
-            <Route path="/portal/*" element={<PortalPage />} />
-            <Route path="/admin/*" element={<AdminApp />} />
-            <Route path="/admin.html" element={<AdminApp />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<HomeSkeleton />}>
+                <HomePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/departments"
+            element={
+              <Suspense fallback={<ServicesSkeleton />}>
+                <DepartmentsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/departments/:departmentId"
+            element={
+              <Suspense fallback={<DoctorsSkeleton />}>
+                <DepartmentDetailPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/departments.html"
+            element={
+              <Suspense fallback={<ServicesSkeleton />}>
+                <DepartmentsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/services"
+            element={
+              <Suspense fallback={<ServicesSkeleton />}>
+                <DepartmentsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/services.html"
+            element={
+              <Suspense fallback={<ServicesSkeleton />}>
+                <DepartmentsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/doctors"
+            element={
+              <Suspense fallback={<ServicesSkeleton />}>
+                <DepartmentsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/doctors.html"
+            element={
+              <Suspense fallback={<ServicesSkeleton />}>
+                <DepartmentsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <Suspense fallback={<AboutSkeleton />}>
+                <AboutPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/about.html"
+            element={
+              <Suspense fallback={<AboutSkeleton />}>
+                <AboutPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <Suspense fallback={<ContactSkeleton />}>
+                <ContactPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/contact.html"
+            element={
+              <Suspense fallback={<ContactSkeleton />}>
+                <ContactPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/portal/*"
+            element={
+              <Suspense fallback={<PortalSkeleton />}>
+                <PortalPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin/*"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <AdminApp />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin.html"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <AdminApp />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/terms"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <TermsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/privacy"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <PrivacyPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <NotFoundPage />
+              </Suspense>
+            }
+          />
+        </Routes>
       </main>
 
       <Footer />
@@ -104,6 +242,7 @@ const AppContent: React.FC = () => {
     </div>
   );
 };
+
 
 export default function App() {
   return (
