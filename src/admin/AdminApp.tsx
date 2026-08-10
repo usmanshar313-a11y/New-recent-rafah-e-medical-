@@ -1534,10 +1534,7 @@ export const AdminApp: React.FC = () => {
 
                 <button
                   type="button"
-                  onClick={() => {
-                    setExportScope('current_view');
-                    setShowExportModal(true);
-                  }}
+                  onClick={() => executeCSVDownload('current_view')}
                   className="bg-[#0B6B4E] hover:bg-[#08523c] text-white text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer shrink-0"
                 >
                   <FileSpreadsheet className="w-4 h-4 text-emerald-300" />
