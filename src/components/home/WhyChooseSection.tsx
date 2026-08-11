@@ -29,7 +29,7 @@ export const WhyChooseSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-white text-[#0B6B4E] relative overflow-hidden">
+    <section className="py-16 sm:py-24 bg-[#F1E9D8] text-[#3A362E] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10 space-y-12">
         
         {/* Section Heading */}
@@ -40,14 +40,14 @@ export const WhyChooseSection: React.FC = () => {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-2xl mx-auto space-y-3.5"
         >
-          <span className="bg-[#0B6B4E]/10 text-[#0B6B4E] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#0B6B4E]/15">
-            <HeartHandshake className="w-4 h-4 text-[#0B6B4E]" />
+          <span className="bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#8DAA91]/40">
+            <HeartHandshake className="w-4 h-4 text-[#3D6B4A]" />
             WHY FAMILIES CHOOSE US
           </span>
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#032d20]">
+          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#4A7C59]">
             Trusted Healthcare in Gulberg Town
           </h2>
-          <p className="text-xs sm:text-sm text-emerald-950/80 leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-[#3A362E]/80 leading-relaxed font-medium">
             Rafah-E-Aam Medical Centre combines expert medical consultants, 24/7 emergency readiness, and patient-centered care.
           </p>
         </motion.div>
@@ -63,7 +63,7 @@ export const WhyChooseSection: React.FC = () => {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-5"
           >
-            <div className="relative rounded-3xl overflow-hidden border-4 border-[#FAF8F3] shadow-lg bg-emerald-900/5 group">
+            <div className="relative rounded-3xl overflow-hidden border-4 border-[#F1E9D8] shadow-lg bg-[#4A7C59]/5 group">
               <img
                 src={facilityRoomImg}
                 alt="Rafah-E-Aam Patient Care Room"
@@ -73,9 +73,9 @@ export const WhyChooseSection: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
-              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-emerald-900/10 shadow-md flex items-center gap-3">
-                <ShieldCheck className="w-6 h-6 text-[#0B6B4E] shrink-0" />
-                <p className="text-xs font-extrabold text-[#032d20] leading-snug">
+              <div className="absolute bottom-4 left-4 right-4 bg-[#F1E9D8]/95 backdrop-blur-md p-4 rounded-2xl border border-[#8DAA91]/40 shadow-md flex items-center gap-3">
+                <ShieldCheck className="w-6 h-6 text-[#4A7C59] shrink-0" />
+                <p className="text-xs font-extrabold text-[#4A7C59] leading-snug">
                   Compassionate care, clean facilities, and affordable fees.
                 </p>
               </div>
@@ -93,15 +93,15 @@ export const WhyChooseSection: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  className="bg-[#FAF8F3] p-5 sm:p-6 rounded-3xl border border-emerald-900/10 shadow-2xs hover:border-emerald-600/30 transition-all space-y-3"
+                  className="bg-white p-5 sm:p-6 rounded-3xl border border-[#8DAA91]/30 shadow-2xs hover:border-[#8DAA91]/60 transition-all space-y-3"
                 >
-                  <div className="w-10 h-10 rounded-2xl bg-[#0B6B4E] text-white flex items-center justify-center font-bold shrink-0">
-                    <Icon className="w-5 h-5 text-amber-400" />
+                  <div className="w-10 h-10 rounded-2xl bg-[#4A7C59] text-white flex items-center justify-center font-bold shrink-0">
+                    <Icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="font-heading font-extrabold text-base text-[#032d20] leading-snug">
+                  <h3 className="font-heading font-extrabold text-base text-[#4A7C59] leading-snug">
                     {pillar.title}
                   </h3>
-                  <p className="text-xs text-emerald-950/75 leading-relaxed font-medium">
+                  <p className="text-xs text-[#3A362E]/80 leading-relaxed font-medium">
                     {pillar.desc}
                   </p>
                 </motion.div>

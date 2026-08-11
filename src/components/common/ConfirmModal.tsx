@@ -31,25 +31,25 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
       ? 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white'
       : variant === 'warning'
       ? 'bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white'
-      : 'bg-[#0B6B4E] hover:bg-[#08523c] active:bg-[#063d2d] text-white';
+      : 'bg-[#3D6B4A] hover:bg-[#32583d] active:bg-[#2a4a33] text-white';
 
   const iconBg =
     variant === 'danger'
       ? 'bg-red-100 text-red-600 border border-red-200'
       : variant === 'warning'
       ? 'bg-amber-100 text-amber-600 border border-amber-200'
-      : 'bg-emerald-100 text-[#0B6B4E] border border-emerald-200';
+      : 'bg-[#C9DABF] text-[#3D6B4A] border border-[#8DAA91]';
 
   const IconComponent = variant === 'info' ? Info : AlertTriangle;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs animate-fadeIn">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full border border-emerald-900/10 p-6 space-y-5 relative transform transition-all">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full border border-[#8DAA91]/30 p-6 space-y-5 relative transform transition-all">
         <button
           type="button"
           onClick={onClose}
           disabled={isLoading}
-          className="absolute right-4 top-4 text-emerald-800/60 hover:text-emerald-950 p-1.5 rounded-xl hover:bg-emerald-50 transition-colors cursor-pointer disabled:opacity-50"
+          className="absolute right-4 top-4 text-[#3A362E]/60 hover:text-[#3A362E] p-1.5 rounded-xl hover:bg-[#F1E9D8] transition-colors cursor-pointer disabled:opacity-50"
           aria-label="Close dialog"
         >
           <X className="w-5 h-5" />
@@ -60,8 +60,8 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
             <IconComponent className="w-6 h-6" />
           </div>
           <div className="space-y-1.5 pr-4">
-            <h3 className="font-heading font-bold text-base text-gray-900 leading-snug">{title}</h3>
-            <p className="text-xs text-gray-600 leading-relaxed font-medium">{message}</p>
+            <h3 className="font-heading font-bold text-base text-[#3A362E] leading-snug">{title}</h3>
+            <p className="text-xs text-[#3A362E]/80 leading-relaxed font-medium">{message}</p>
           </div>
         </div>
 

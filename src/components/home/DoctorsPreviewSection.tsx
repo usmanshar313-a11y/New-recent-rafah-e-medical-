@@ -14,7 +14,7 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
   const featuredDoctors = ALL_DOCTORS.filter((d) => FEATURED_DOCTOR_IDS.includes(d.id));
 
   return (
-    <section className="py-16 sm:py-24 bg-[#F5F1E8] text-[#0B6B4E] relative overflow-hidden">
+    <section className="py-16 sm:py-24 bg-[#F1E9D8] text-[#3A362E] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12 relative z-10">
         
         {/* Section Header */}
@@ -25,14 +25,14 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-2xl mx-auto space-y-3.5"
         >
-          <span className="bg-[#0B6B4E]/10 text-[#0B6B4E] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#0B6B4E]/15">
-            <UserCheck className="w-4 h-4 text-[#0B6B4E]" />
+          <span className="bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#8DAA91]/40">
+            <UserCheck className="w-4 h-4 text-[#3D6B4A]" />
             SENIOR CONSULTANT PANEL
           </span>
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#032d20]">
+          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#4A7C59]">
             Meet Our Specialists
           </h2>
-          <p className="text-xs sm:text-sm text-emerald-950/80 leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-[#3A362E]/80 leading-relaxed font-medium">
             Experienced consultants across multiple specialties, here to care for you and your family.
           </p>
         </motion.div>
@@ -46,45 +46,45 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-white rounded-3xl p-5 border border-emerald-900/10 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
+              className="bg-white rounded-3xl p-5 border border-[#8DAA91]/30 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
             >
               <div className="space-y-4">
                 {/* Doctor Photo Frame */}
-                <div className="relative w-full h-48 sm:h-52 rounded-2xl overflow-hidden bg-emerald-900/5 border border-emerald-900/10">
+                <div className="relative w-full h-48 sm:h-52 rounded-2xl overflow-hidden bg-[#C9DABF]/30 border border-[#8DAA91]/30">
                   <img
                     src={doc.photoURL}
                     alt={doc.name}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-xs text-[#0B6B4E] text-[11px] font-extrabold px-2.5 py-1 rounded-full border border-emerald-900/10 shadow-2xs">
+                  <div className="absolute top-2.5 right-2.5 bg-[#4A7C59] text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-2xs">
                     {doc.roomNumber}
                   </div>
                 </div>
 
                 {/* Doctor Details */}
                 <div className="space-y-1.5">
-                  <h3 className="font-heading font-extrabold text-base text-[#032d20] leading-snug group-hover:text-[#0B6B4E] transition-colors">
+                  <h3 className="font-heading font-extrabold text-base text-[#4A7C59] leading-snug group-hover:text-[#3D6B4A] transition-colors">
                     {doc.name}
                   </h3>
-                  <p className="text-xs font-bold text-amber-700 flex items-center gap-1.5">
-                    <Stethoscope className="w-3.5 h-3.5" />
+                  <p className="text-xs font-bold text-[#3D6B4A] flex items-center gap-1.5">
+                    <Stethoscope className="w-3.5 h-3.5 text-[#3D6B4A]" />
                     <span>{doc.specialty}</span>
                   </p>
                 </div>
 
-                <div className="bg-[#FAF8F3] p-3 rounded-2xl border border-emerald-900/5 space-y-1 text-xs">
-                  <div className="flex items-center justify-between text-emerald-900/85">
-                    <span className="font-medium flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-emerald-600" /> Days:
+                <div className="bg-[#F1E9D8] p-3 rounded-2xl border border-[#8DAA91]/30 space-y-1 text-xs">
+                  <div className="flex items-center justify-between text-[#3A362E]">
+                    <span className="font-medium flex items-center gap-1 text-[#3A362E]/80">
+                      <Calendar className="w-3 h-3 text-[#4A7C59]" /> Days:
                     </span>
-                    <span className="font-bold text-[#032d20]">{doc.availableDays}</span>
+                    <span className="font-bold text-[#4A7C59]">{doc.availableDays}</span>
                   </div>
-                  <div className="flex items-center justify-between text-emerald-900/85">
-                    <span className="font-medium flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-emerald-600" /> Timing:
+                  <div className="flex items-center justify-between text-[#3A362E]">
+                    <span className="font-medium flex items-center gap-1 text-[#3A362E]/80">
+                      <Clock className="w-3 h-3 text-[#4A7C59]" /> Timing:
                     </span>
-                    <span className="font-bold text-[#032d20]">{doc.timing}</span>
+                    <span className="font-bold text-[#4A7C59]">{doc.timing}</span>
                   </div>
                 </div>
               </div>
@@ -92,7 +92,7 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
               {/* Action Button */}
               <button
                 onClick={onOpenBooking}
-                className="w-full bg-[#FAF8F3] hover:bg-[#0B6B4E] text-[#0B6B4E] hover:text-white border border-emerald-900/15 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2"
+                className="w-full bg-[#3D6B4A] hover:bg-[#32583d] text-white py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2"
               >
                 <span>Book Consultation</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -105,7 +105,7 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
         <div className="text-center pt-2">
           <Link
             to="/departments"
-            className="inline-flex items-center gap-2.5 bg-[#0B6B4E] hover:bg-[#08523c] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all cursor-pointer hover:gap-3.5"
+            className="inline-flex items-center gap-2.5 bg-[#3D6B4A] hover:bg-[#32583d] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all cursor-pointer hover:gap-3.5"
           >
             <span>View All 34+ Doctors & Schedules</span>
             <ArrowRight className="w-4 h-4" />

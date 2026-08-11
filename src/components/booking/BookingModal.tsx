@@ -290,19 +290,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200">
       
       {/* Container */}
-      <div className="bg-[#F5F1E8] text-[#0B6B4E] w-full max-w-2xl rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col border border-emerald-900/10">
+      <div className="bg-[#F6F1E7] text-[#087A5A] w-full max-w-2xl rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col border border-[#087A5A]/10">
         
         {/* Modal Header */}
-        <div className="bg-[#0B6B4E] text-white px-6 py-4 flex items-center justify-between shrink-0">
+        <div className="bg-[#087A5A] text-white px-6 py-4 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-red-300" />
+            <Calendar className="w-5 h-5 text-[#D86A1F]" />
             <h2 className="font-heading font-bold text-base sm:text-lg">
               Book Appointment — Rafah-E-Aam
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-emerald-200 hover:text-white hover:bg-emerald-800 transition-colors"
+            className="p-1 rounded-lg text-white/80 hover:text-white hover:bg-[#066349] transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
@@ -313,15 +313,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           
           {submitted ? (
             <div className="text-center py-8 space-y-4 animate-in zoom-in-95 duration-200">
-              <div className="w-16 h-16 bg-emerald-100 text-[#0B6B4E] rounded-full flex items-center justify-center mx-auto shadow-inner">
-                <CheckCircle2 className="w-10 h-10 text-[#0B6B4E]" />
+              <div className="w-16 h-16 bg-[#087A5A]/10 text-[#087A5A] rounded-full flex items-center justify-center mx-auto shadow-inner">
+                <CheckCircle2 className="w-10 h-10 text-[#087A5A]" />
               </div>
 
-              <h3 className="font-heading text-xl font-bold text-[#0B6B4E]">
+              <h3 className="font-heading text-xl font-bold text-[#087A5A]">
                 Appointment Request Received!
               </h3>
 
-              <p className="text-sm text-emerald-900/80 max-w-md mx-auto leading-relaxed">
+              <p className="text-sm text-[#087A5A]/80 max-w-md mx-auto leading-relaxed">
                 Thank you <span className="font-semibold">{name}</span>. Your request for{' '}
                 <span className="font-semibold">{preferredDate}</span> has been logged. Our reception team will call you at <span className="font-semibold">{phone}</span> to confirm.
               </p>
@@ -339,7 +339,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
                 <button
                   onClick={onClose}
-                  className="w-full sm:w-auto bg-[#0B6B4E] hover:bg-[#08523c] text-white font-bold px-5 py-3 rounded-xl text-sm"
+                  className="w-full sm:w-auto bg-[#087A5A] hover:bg-[#066349] text-white font-bold px-5 py-3 rounded-xl text-sm"
                 >
                   Done
                 </button>
@@ -363,19 +363,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                           (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80';
                         }}
                       />
-                      <span className="absolute bottom-1 right-1 bg-[#0B6B4E] text-white p-1 rounded-full shadow-sm">
+                      <span className="absolute bottom-1 right-1 bg-[#087A5A] text-white p-1 rounded-full shadow-sm">
                         <CheckCircle2 className="w-4 h-4" />
                       </span>
                     </div>
                     <div>
                       <div className="text-[10px] font-extrabold text-emerald-800 uppercase tracking-wider">Appointment Selected With</div>
-                      <h4 className="font-heading font-extrabold text-lg sm:text-xl text-[#0B6B4E]">{activeDoc.name}</h4>
-                      <span className="text-xs sm:text-sm font-bold text-[#D64545] bg-red-50 border border-red-200/60 px-2.5 py-0.5 rounded-md inline-block mt-1">
+                      <h4 className="font-heading font-extrabold text-lg sm:text-xl text-[#087A5A]">{activeDoc.name}</h4>
+                      <span className="text-xs sm:text-sm font-bold text-[#D86A1F] bg-amber-50 border border-amber-200/60 px-2.5 py-0.5 rounded-md inline-block mt-1">
                         {activeDoc.specialty}
                       </span>
                       {activeDoc.roomNumber && (
                         <div className="text-xs text-emerald-800 font-semibold mt-1">
-                          Location: <span className="font-bold text-[#0B6B4E]">{activeDoc.roomNumber}</span>
+                          Location: <span className="font-bold text-[#087A5A]">{activeDoc.roomNumber}</span>
                         </div>
                       )}
                     </div>
@@ -387,7 +387,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {!user ? (
                 <div className="bg-amber-50 border border-amber-300 p-4 rounded-2xl space-y-2">
                   <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
-                    <Lock className="w-4 h-4 text-[#D64545]" />
+                    <Lock className="w-4 h-4 text-[#D86A1F]" />
                     <span>Authentication Required to Book</span>
                   </div>
                   <p className="text-xs text-amber-800 leading-relaxed">
@@ -400,7 +400,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       navigate('/portal');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="w-full bg-[#0B6B4E] hover:bg-[#08523c] text-white py-2.5 px-4 rounded-xl text-xs font-bold shadow flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                    className="w-full bg-[#087A5A] hover:bg-[#066349] text-white py-2.5 px-4 rounded-xl text-xs font-bold shadow flex items-center justify-center gap-2 cursor-pointer transition-colors"
                   >
                     <LogIn className="w-4 h-4" />
                     <span>Log In / Sign Up to Continue</span>
@@ -424,7 +424,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {/* Patient Name & Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs sm:text-sm font-bold text-[#0B6B4E] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-bold text-[#087A5A] mb-1.5">
                     Full Name *
                   </label>
                   <div className="relative">
@@ -435,13 +435,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="e.g. Muhammad Ali"
-                      className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                      className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#087A5A]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm font-bold text-[#0B6B4E] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-bold text-[#087A5A] mb-1.5">
                     Phone Number *
                   </label>
                   <div className="relative">
@@ -457,7 +457,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         }
                       }}
                       placeholder="03XX-XXXXXXX"
-                      className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                      className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#087A5A]"
                     />
                   </div>
                   <p className={`mt-2 text-xs ${isPhoneValid ? 'text-emerald-900' : 'text-red-700'}`}>
@@ -469,7 +469,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {/* Email & Gender */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs sm:text-sm font-bold text-[#0B6B4E] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-bold text-[#087A5A] mb-1.5">
                     Email Address
                   </label>
                   <div className="relative">
@@ -479,13 +479,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="patient@example.com"
-                      className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                      className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#087A5A]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm font-bold text-[#0B6B4E] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-bold text-[#087A5A] mb-1.5">
                     Gender *
                   </label>
                   <div className="flex items-center gap-6 bg-white p-2.5 sm:p-3 rounded-xl border border-emerald-900/20 text-sm font-semibold">
@@ -496,7 +496,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         value="Male"
                         checked={gender === 'Male'}
                         onChange={() => setGender('Male')}
-                        className="w-4 h-4 accent-[#0B6B4E] cursor-pointer"
+                        className="w-4 h-4 accent-[#087A5A] cursor-pointer"
                       />
                       <span>Male</span>
                     </label>
@@ -507,7 +507,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         value="Female"
                         checked={gender === 'Female'}
                         onChange={() => setGender('Female')}
-                        className="w-4 h-4 accent-[#0B6B4E] cursor-pointer"
+                        className="w-4 h-4 accent-[#087A5A] cursor-pointer"
                       />
                       <span>Female</span>
                     </label>
@@ -517,7 +517,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
               {/* Address Field */}
               <div>
-                <label className="block text-xs sm:text-sm font-bold text-[#0B6B4E] mb-1.5">
+                <label className="block text-xs sm:text-sm font-bold text-[#087A5A] mb-1.5">
                   Residential Address
                 </label>
                 <div className="relative">
@@ -527,14 +527,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="e.g. House #123, Block 13, Gulberg Town, Karachi"
-                    className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#087A5A]"
                   />
                 </div>
               </div>
 
               {/* Service / Department */}
               <div>
-                <label className="block text-xs sm:text-sm font-bold text-[#0B6B4E] mb-1.5">
+                <label className="block text-xs sm:text-sm font-bold text-[#087A5A] mb-1.5">
                   Select Department / Care *
                 </label>
                 <div className="relative">
@@ -542,7 +542,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <select
                     value={service}
                     onChange={(e) => setService(e.target.value)}
-                    className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-white border border-emerald-900/20 rounded-xl pl-10 pr-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#087A5A]"
                   >
                     <option value="">-- Choose Department / Care --</option>
                     {services.map((s) => (
@@ -557,13 +557,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {/* Preferred Doctor & Date */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs sm:text-sm font-bold text-[#0B6B4E] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-bold text-[#087A5A] mb-1.5">
                     Select Doctor (Optional)
                   </label>
                   <select
                     value={doctorId}
                     onChange={(e) => setDoctorId(e.target.value)}
-                    className="w-full bg-white border border-emerald-900/20 rounded-xl px-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-white border border-emerald-900/20 rounded-xl px-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#087A5A]"
                   >
                     <option value="">-- Any Available Specialist ({filteredDoctors.length} available) --</option>
                     {filteredDoctors.map((d) => (
@@ -575,7 +575,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm font-bold text-[#0B6B4E] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-bold text-[#087A5A] mb-1.5">
                     Preferred Date *
                   </label>
                   <input
@@ -584,14 +584,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     min={new Date().toISOString().split('T')[0]}
                     value={preferredDate}
                     onChange={(e) => setPreferredDate(e.target.value)}
-                    className="w-full bg-white border border-emerald-900/20 rounded-xl px-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-white border border-[#087A5A]/20 rounded-xl px-3.5 py-2.5 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#087A5A]"
                   />
                 </div>
               </div>
 
               {/* Reason */}
               <div>
-                <label className="block text-xs font-bold text-[#0B6B4E] mb-1">
+                <label className="block text-xs font-bold text-[#087A5A] mb-1">
                   Reason for Visit / Symptoms
                 </label>
                 <textarea
@@ -599,20 +599,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="Briefly describe symptoms or checkup type..."
-                  className="w-full bg-white border border-emerald-900/20 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                  className="w-full bg-white border border-[#087A5A]/20 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#087A5A]"
                 />
               </div>
 
               {/* Mandatory Confirmation Checkbox */}
-              <div className="p-3 bg-[#F5F1E8] rounded-xl border border-emerald-900/15 flex items-start gap-3">
+              <div className="p-3 bg-[#F6F1E7] rounded-xl border border-[#087A5A]/15 flex items-start gap-3">
                 <input
                   type="checkbox"
                   id="confirmDetailsCheckbox"
                   checked={confirmedDetails}
                   onChange={handleCheckboxChange}
-                  className="w-4 h-4 mt-0.5 accent-[#0B6B4E] rounded cursor-pointer shrink-0"
+                  className="w-4 h-4 mt-0.5 accent-[#087A5A] rounded cursor-pointer shrink-0"
                 />
-                <label htmlFor="confirmDetailsCheckbox" className="text-xs text-emerald-950 font-medium cursor-pointer">
+                <label htmlFor="confirmDetailsCheckbox" className="text-xs text-[#087A5A] font-medium cursor-pointer">
                   I confirm my details (Phone/WhatsApp number & email) are correct.
                 </label>
               </div>
@@ -621,7 +621,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <button
                 type="submit"
                 disabled={submitting || !user || !confirmedDetails || !isPhoneValid}
-                className="w-full bg-[#D64545] hover:bg-[#c23737] text-white py-3 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                className="w-full bg-[#087A5A] hover:bg-[#066349] text-white py-3 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed mt-2"
               >
                 {submitting ? (
                   <span>Submitting Request...</span>
@@ -633,7 +633,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <span>Put the correct phone number</span>
                 ) : (
                   <>
-                    <Calendar className="w-4 h-4" />
+                    <Calendar className="w-4 h-4 text-white" />
                     <span>Confirm Appointment</span>
                   </>
                 )}

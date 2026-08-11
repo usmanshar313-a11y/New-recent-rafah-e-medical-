@@ -59,17 +59,17 @@ export const DoctorsSection: React.FC<DoctorsSectionProps> = ({ onSelectDoctor }
   }, []);
 
   return (
-    <section id="doctors" className="py-16 bg-[#F5F1E8] text-[#0B6B4E]">
+    <section id="doctors" className="py-16 bg-[#F1E9D8] text-[#3A362E]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <span className="bg-emerald-900/10 text-[#0B6B4E] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          <span className="bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-[#8DAA91]/40">
             Featured Specialist Panel
           </span>
-          <h2 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#0B6B4E]">
+          <h2 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#4A7C59]">
             Meet Our Top Medical Consultants
           </h2>
-          <p className="text-xs sm:text-sm text-emerald-950/80">
+          <p className="text-xs sm:text-sm text-[#3A362E]/80">
             A preview of our senior consultants and surgical specialists. View our full doctor panel to search all 34+ specialists.
           </p>
         </div>
@@ -79,10 +79,10 @@ export const DoctorsSection: React.FC<DoctorsSectionProps> = ({ onSelectDoctor }
           {featuredDoctors.map((doc) => (
             <div
               key={doc.id}
-              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-emerald-900/10 overflow-hidden flex flex-col justify-between"
+              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-[#8DAA91]/30 overflow-hidden flex flex-col justify-between"
             >
               <div>
-                <div className="h-48 bg-emerald-100 relative overflow-hidden">
+                <div className="h-48 bg-[#C9DABF]/30 relative overflow-hidden">
                   <img
                     src={doc.photoURL || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80'}
                     alt={doc.name}
@@ -90,28 +90,28 @@ export const DoctorsSection: React.FC<DoctorsSectionProps> = ({ onSelectDoctor }
                     className="w-full h-full object-cover object-top"
                   />
                   {doc.roomNumber && (
-                    <span className="absolute bottom-2 right-2 bg-[#0B6B4E] text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow">
+                    <span className="absolute bottom-2 right-2 bg-[#4A7C59] text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow">
                       {doc.roomNumber}
                     </span>
                   )}
                 </div>
 
                 <div className="p-4 space-y-2">
-                  <h3 className="font-heading font-bold text-base text-[#0B6B4E]">
+                  <h3 className="font-heading font-bold text-base text-[#4A7C59]">
                     {doc.name}
                   </h3>
-                  <div className="text-xs font-bold text-[#D64545] bg-red-50 px-2 py-0.5 rounded-md inline-block">
+                  <div className="text-xs font-bold text-[#3D6B4A] bg-[#C9DABF]/60 border border-[#8DAA91]/40 px-2 py-0.5 rounded-md inline-block">
                     {doc.specialty}
                   </div>
                   {doc.bio && (
-                    <p className="text-xs text-emerald-900/70 line-clamp-2 leading-relaxed pt-1">
+                    <p className="text-xs text-[#3A362E]/70 line-clamp-2 leading-relaxed pt-1">
                       {doc.bio}
                     </p>
                   )}
 
                   {doc.timing && (
-                    <div className="flex items-center gap-1.5 text-[11px] text-emerald-800 font-medium pt-1">
-                      <Clock className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <div className="flex items-center gap-1.5 text-[11px] text-[#3A362E] font-medium pt-1">
+                      <Clock className="w-3.5 h-3.5 text-[#4A7C59] shrink-0" />
                       <span>Timing: {doc.timing}</span>
                     </div>
                   )}
@@ -121,7 +121,7 @@ export const DoctorsSection: React.FC<DoctorsSectionProps> = ({ onSelectDoctor }
               <div className="p-4 pt-0">
                 <button
                   onClick={() => onSelectDoctor(doc.id)}
-                  className="w-full bg-[#D64545] hover:bg-[#c23737] text-white py-2 rounded-xl text-xs font-bold shadow flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  className="w-full bg-[#3D6B4A] hover:bg-[#32583d] text-white py-2 rounded-xl text-xs font-bold shadow flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <Calendar className="w-3.5 h-3.5" />
                   <span>Book Appointment</span>
@@ -135,7 +135,7 @@ export const DoctorsSection: React.FC<DoctorsSectionProps> = ({ onSelectDoctor }
         <div className="mt-10 text-center">
           <Link
             to="/doctors"
-            className="inline-flex items-center gap-2 bg-[#0B6B4E] hover:bg-[#08523c] text-white px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 bg-[#3D6B4A] hover:bg-[#32583d] text-white px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all cursor-pointer"
           >
             <span>View All Doctors (34+ Panel)</span>
             <ArrowRight className="w-4 h-4" />

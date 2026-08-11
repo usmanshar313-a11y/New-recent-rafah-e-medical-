@@ -28,7 +28,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
       days: 'Mon – Sat',
       fee: 'Rs. 1,000',
       icon: Stethoscope,
-      bg: 'bg-emerald-100 text-[#0B6B4E]',
+      bg: 'bg-[#C9DABF] text-[#3D6B4A]',
       desc: 'Adult outpatient care, hypertension, fever, diabetes screening, and routine health evaluations.'
     },
     {
@@ -39,7 +39,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
       days: 'Mon – Sat',
       fee: 'Rs. 1,500',
       icon: Heart,
-      bg: 'bg-red-50 text-[#D64545]',
+      bg: 'bg-[#C9DABF] text-[#3D6B4A]',
       desc: 'Expert cardiac consultations, ECG diagnostics, BP regulation, and heart wellness.'
     },
     {
@@ -50,7 +50,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
       days: 'Mon – Sat',
       fee: 'Rs. 1,500',
       icon: Activity,
-      bg: 'bg-emerald-100 text-[#0B6B4E]',
+      bg: 'bg-[#C9DABF] text-[#3D6B4A]',
       desc: 'Fracture alignment, joint arthritis, back pain management, and spinal disorder consultations.'
     },
     {
@@ -61,13 +61,13 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
       days: 'Mon – Sat',
       fee: 'Rs. 1,000',
       icon: Baby,
-      bg: 'bg-amber-100 text-amber-800',
+      bg: 'bg-[#C9DABF] text-[#3D6B4A]',
       desc: 'Childhood healthcare, growth monitoring, infant nutrition, and vaccination programs.'
     }
   ];
 
   return (
-    <section id="departments" className="py-16 sm:py-24 bg-[#F5F1E8] text-[#0B6B4E] relative overflow-hidden">
+    <section id="departments" className="py-16 sm:py-24 bg-[#F1E9D8] text-[#3A362E] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12 relative z-10">
         
         {/* Section Header */}
@@ -78,14 +78,14 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-2xl mx-auto space-y-3.5"
         >
-          <span className="bg-[#0B6B4E]/10 text-[#0B6B4E] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#0B6B4E]/15">
-            <Building2 className="w-4 h-4 text-[#0B6B4E]" />
+          <span className="bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#8DAA91]/40">
+            <Building2 className="w-4 h-4 text-[#3D6B4A]" />
             FEATURED MEDICAL SERVICES
           </span>
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#032d20]">
+          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#4A7C59]">
             Specialized Departments & OPDs
           </h2>
-          <p className="text-xs sm:text-sm text-emerald-950/80 leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-[#3A362E]/80 leading-relaxed font-medium">
             Rafah-E-Aam Medical Centre features 15+ specialized medical departments and 34+ senior consultant doctors. Explore featured specialties or view our full OPD schedule.
           </p>
         </motion.div>
@@ -101,44 +101,44 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white p-6 rounded-3xl border border-emerald-900/10 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
+                className="bg-white p-6 rounded-3xl border border-[#8DAA91]/30 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
               >
                 <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
                     <div className={`p-3 rounded-2xl ${dept.bg} group-hover:scale-105 transition-transform`}>
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-5 h-5 text-[#3D6B4A]" />
                     </div>
-                    <span className="text-xs font-extrabold text-[#0B6B4E] bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+                    <span className="text-xs font-extrabold text-[#3D6B4A] bg-[#C9DABF]/60 border border-[#8DAA91]/40 px-2.5 py-1 rounded-full">
                       Fee: {dept.fee}
                     </span>
                   </div>
 
-                  <h3 className="font-heading font-extrabold text-base sm:text-lg text-[#032d20] leading-snug group-hover:text-[#0B6B4E] transition-colors">
+                  <h3 className="font-heading font-extrabold text-base sm:text-lg text-[#4A7C59] leading-snug group-hover:text-[#3D6B4A] transition-colors">
                     {dept.name}
                   </h3>
 
-                  <p className="text-xs text-emerald-950/75 leading-relaxed font-medium">
+                  <p className="text-xs text-[#3A362E]/80 leading-relaxed font-medium">
                     {dept.desc}
                   </p>
 
-                  <div className="bg-[#FAF8F3] p-3 rounded-2xl border border-emerald-900/5 text-xs text-emerald-950/85">
-                    <span className="font-bold text-[#0B6B4E]">Consultants: </span>
+                  <div className="bg-[#F1E9D8] p-3 rounded-2xl border border-[#8DAA91]/30 text-xs text-[#3A362E]">
+                    <span className="font-bold text-[#4A7C59]">Consultants: </span>
                     {dept.doctors}
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-emerald-900/10 space-y-2 text-xs">
-                  <div className="flex items-center justify-between text-emerald-900">
-                    <span className="text-emerald-900/80 font-medium flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Days:
+                <div className="pt-3 border-t border-[#8DAA91]/30 space-y-2 text-xs">
+                  <div className="flex items-center justify-between text-[#3A362E]">
+                    <span className="text-[#3A362E]/80 font-medium flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-[#4A7C59] shrink-0" /> Days:
                     </span>
-                    <span className="font-bold text-[#032d20]">{dept.days}</span>
+                    <span className="font-bold text-[#4A7C59]">{dept.days}</span>
                   </div>
-                  <div className="flex items-center justify-between text-emerald-900">
-                    <span className="text-emerald-900/80 font-medium flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Timing:
+                  <div className="flex items-center justify-between text-[#3A362E]">
+                    <span className="text-[#3A362E]/80 font-medium flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-[#4A7C59] shrink-0" /> Timing:
                     </span>
-                    <span className="font-bold text-[#032d20]">{dept.timing}</span>
+                    <span className="font-bold text-[#4A7C59]">{dept.timing}</span>
                   </div>
                 </div>
               </motion.div>
@@ -152,16 +152,16 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white rounded-3xl p-6 sm:p-8 border border-emerald-900/10 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6"
+          className="bg-white rounded-3xl p-6 sm:p-8 border border-[#8DAA91]/30 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6"
         >
-          <div className="flex items-center gap-3.5 text-xs sm:text-sm text-emerald-950 font-medium text-center sm:text-left">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+          <div className="flex items-center gap-3.5 text-xs sm:text-sm text-[#3A362E] font-medium text-center sm:text-left">
+            <CheckCircle2 className="w-5 h-5 text-[#4A7C59] shrink-0" />
             <span>Discover all 15+ departments, 34+ senior doctor profiles, OPD room numbers, and timings.</span>
           </div>
 
           <Link
             to="/departments"
-            className="w-full sm:w-auto bg-[#0B6B4E] hover:bg-[#08523c] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer hover:gap-3 shrink-0"
+            className="w-full sm:w-auto bg-[#3D6B4A] hover:bg-[#32583d] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer hover:gap-3 shrink-0"
           >
             <span>View All Departments & Doctors</span>
             <ArrowRight className="w-4 h-4" />

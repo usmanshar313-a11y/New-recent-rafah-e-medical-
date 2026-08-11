@@ -44,66 +44,66 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#0B6B4E] text-white shadow-md">
+    <header className="sticky top-0 z-40 bg-[#4A7C59]/95 backdrop-blur-[14px] border-b border-white/20 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-6">
           
           {/* Logo -> Far Left */}
           <Link to="/" className="flex items-center gap-3 shrink-0 group">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-[#0B6B4E] flex items-center justify-center font-bold shadow-md group-hover:scale-105 transition-transform">
-              <HeartPulse className="w-6 h-6 sm:w-7 sm:h-7 text-[#0B6B4E]" />
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-[#4A7C59] flex items-center justify-center font-bold shadow-md group-hover:scale-105 transition-transform">
+              <HeartPulse className="w-6 h-6 sm:w-7 sm:h-7 text-[#4A7C59]" />
             </div>
             <div>
               <div className="font-heading font-bold text-base sm:text-lg leading-tight text-white tracking-wide">
                 Rafah-E-Aam
               </div>
-              <div className="text-[11px] text-emerald-100 font-medium tracking-normal leading-none">
-                Medical Centre — <span className="text-amber-200 font-semibold">General & Orthopedic</span>
+              <div className="text-[11px] text-white/90 font-medium tracking-normal leading-none">
+                Medical Centre — <span className="text-[#C9DABF] font-semibold">General & Orthopedic</span>
               </div>
             </div>
           </Link>
 
           {/* Navigation Links -> Middle with equal breathing room */}
-          <nav className="hidden lg:flex items-center gap-8 xl:gap-10 text-sm font-semibold text-emerald-50">
+          <nav className="hidden lg:flex items-center gap-8 xl:gap-10 text-sm font-semibold text-white/90">
             <button 
               onClick={() => handleNavClick('home')} 
-              className={`hover:text-amber-200 transition-colors cursor-pointer py-1 ${
-                location.pathname === '/' ? 'text-white border-b-2 border-amber-300' : ''
+              className={`hover:text-[#C9DABF] transition-colors cursor-pointer py-1 ${
+                location.pathname === '/' ? 'text-white border-b-2 border-[#C9DABF]' : ''
               }`}
             >
               Home
             </button>
             <button 
               onClick={() => handleNavClick('departments')} 
-              className={`hover:text-amber-200 transition-colors cursor-pointer py-1 ${
-                location.pathname.startsWith('/departments') ? 'text-white border-b-2 border-amber-300' : ''
+              className={`hover:text-[#C9DABF] transition-colors cursor-pointer py-1 ${
+                location.pathname.startsWith('/departments') ? 'text-white border-b-2 border-[#C9DABF]' : ''
               }`}
             >
               Departments & Doctors
             </button>
             <button 
               onClick={() => handleNavClick('about')} 
-              className={`hover:text-amber-200 transition-colors cursor-pointer py-1 ${
-                location.pathname.startsWith('/about') ? 'text-white border-b-2 border-amber-300' : ''
+              className={`hover:text-[#C9DABF] transition-colors cursor-pointer py-1 ${
+                location.pathname.startsWith('/about') ? 'text-white border-b-2 border-[#C9DABF]' : ''
               }`}
             >
               About Us
             </button>
             <button 
               onClick={() => handleNavClick('contact')} 
-              className={`hover:text-amber-200 transition-colors cursor-pointer py-1 ${
-                location.pathname.startsWith('/contact') ? 'text-white border-b-2 border-amber-300' : ''
+              className={`hover:text-[#C9DABF] transition-colors cursor-pointer py-1 ${
+                location.pathname.startsWith('/contact') ? 'text-white border-b-2 border-[#C9DABF]' : ''
               }`}
             >
               Contact
             </button>
             <button 
               onClick={() => handleNavClick('admin')} 
-              className={`hover:text-amber-200 transition-colors cursor-pointer py-1 flex items-center gap-1.5 ${
-                location.pathname.startsWith('/admin') ? 'text-white border-b-2 border-amber-300' : ''
+              className={`hover:text-[#C9DABF] transition-colors cursor-pointer py-1 flex items-center gap-1.5 ${
+                location.pathname.startsWith('/admin') ? 'text-white border-b-2 border-[#C9DABF]' : ''
               }`}
             >
-              <ShieldCheck className="w-4 h-4 text-amber-300" />
+              <ShieldCheck className="w-4 h-4 text-[#C9DABF]" />
               <span>Admin</span>
             </button>
           </nav>
@@ -114,7 +114,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
               <div className="relative">
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center gap-2 bg-emerald-800/80 hover:bg-emerald-800 px-3.5 py-2 rounded-xl text-xs font-semibold text-white transition-colors border border-emerald-400/30 cursor-pointer"
+                  className="flex items-center gap-2 bg-[#3D6B4A] hover:bg-[#32583d] px-3.5 py-2 rounded-xl text-xs font-semibold text-white transition-colors border border-white/20 cursor-pointer"
                 >
                   {user.photoURL ? (
                     <img
@@ -123,7 +123,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
                       className="w-6 h-6 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">
+                    <div className="w-6 h-6 rounded-full bg-[#4A7C59] flex items-center justify-center text-white text-xs font-bold">
                       {user.displayName?.charAt(0) || 'P'}
                     </div>
                   )}
@@ -134,13 +134,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
                 </button>
 
                 {userDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 z-50 border border-emerald-100 text-[#0B6B4E]">
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 z-50 border border-[#8DAA91]/30 text-[#3A362E]">
                     <Link
                       to="/portal"
                       onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-xs font-semibold hover:bg-[#F5F1E8] transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-xs font-semibold hover:bg-[#F1E9D8] transition-colors"
                     >
-                      <UserIcon className="w-4 h-4 text-[#0B6B4E]" />
+                      <UserIcon className="w-4 h-4 text-[#4A7C59]" />
                       Patient Portal
                     </Link>
                     <button
@@ -163,20 +163,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
                   navigate('/portal');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-emerald-300/60 text-white hover:bg-white hover:text-[#0B6B4E] text-xs font-semibold transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-white/40 text-white hover:bg-white hover:text-[#4A7C59] text-xs font-semibold transition-all cursor-pointer"
               >
                 <UserIcon className="w-4 h-4" />
                 <span>Sign In</span>
               </button>
             )}
 
-            {/* Red Primary CTA -> Navigates to Departments & Doctors */}
+            {/* Primary CTA */}
             <button
               onClick={() => {
                 navigate('/departments');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="bg-[#D64545] hover:bg-[#c23737] active:bg-[#b02e2e] text-white px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              className="bg-[#3D6B4A] hover:bg-[#32583d] active:bg-[#2a4a33] text-white px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0"
             >
               <Calendar className="w-4 h-4" />
               <span>Book Appointment</span>
@@ -187,7 +187,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
           <div className="flex lg:hidden items-center gap-2">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-emerald-100 hover:text-white"
+              className="p-2 text-white/80 hover:text-white"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -197,40 +197,40 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#09573f] border-t border-emerald-700 px-4 pt-3 pb-6 space-y-4">
+        <div className="lg:hidden bg-[#4A7C59] border-t border-[#3D6B4A] px-4 pt-3 pb-6 space-y-4">
           
           {/* Mobile Nav Items */}
-          <nav className="flex flex-col space-y-3 text-sm font-medium text-emerald-100 pb-4 border-b border-emerald-700/60">
+          <nav className="flex flex-col space-y-3 text-sm font-medium text-white/90 pb-4 border-b border-white/20">
             <button
               onClick={() => handleNavClick('home')}
-              className="text-left py-1 hover:text-white font-bold flex items-center justify-between"
+              className="text-left py-1 hover:text-[#C9DABF] font-bold flex items-center justify-between"
             >
               <span>Home</span>
             </button>
             <button
               onClick={() => handleNavClick('departments')}
-              className="text-left py-1 hover:text-white font-bold flex items-center justify-between"
+              className="text-left py-1 hover:text-[#C9DABF] font-bold flex items-center justify-between"
             >
               <span>Departments & Doctors</span>
             </button>
             <button
               onClick={() => handleNavClick('about')}
-              className="text-left py-1 hover:text-white font-bold flex items-center justify-between"
+              className="text-left py-1 hover:text-[#C9DABF] font-bold flex items-center justify-between"
             >
               <span>About Us</span>
             </button>
             <button
               onClick={() => handleNavClick('contact')}
-              className="text-left py-1 hover:text-white font-bold flex items-center justify-between"
+              className="text-left py-1 hover:text-[#C9DABF] font-bold flex items-center justify-between"
             >
               <span>Contact</span>
             </button>
             <button
               onClick={() => handleNavClick('admin')}
-              className="text-left py-1 hover:text-white font-bold flex items-center justify-between text-amber-200"
+              className="text-left py-1 hover:text-[#C9DABF] font-bold flex items-center justify-between text-[#C9DABF]"
             >
               <span className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-amber-300" />
+                <ShieldCheck className="w-4 h-4 text-[#C9DABF]" />
                 Admin Portal
               </span>
             </button>
@@ -242,7 +242,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
                 <Link
                   to="/portal"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 bg-emerald-800 text-white px-4 py-2.5 rounded-xl text-sm font-semibold"
+                  className="flex items-center gap-2 bg-[#3D6B4A] text-white px-4 py-2.5 rounded-xl text-sm font-semibold"
                 >
                   <UserIcon className="w-4 h-4" />
                   Patient Portal ({patientProfile?.name || user.displayName})
@@ -266,7 +266,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
                   navigate('/portal');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="w-full flex items-center justify-center gap-2 bg-emerald-800 text-white py-2.5 rounded-xl text-sm font-semibold border border-emerald-600"
+                className="w-full flex items-center justify-center gap-2 bg-[#3D6B4A] text-white py-2.5 rounded-xl text-sm font-semibold border border-white/20"
               >
                 <UserIcon className="w-4 h-4" />
                 <span>Sign In</span>
@@ -279,7 +279,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
                 navigate('/departments');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="w-full bg-[#D64545] hover:bg-[#c23737] text-white py-3 rounded-xl text-sm font-bold shadow flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-[#3D6B4A] hover:bg-[#32583d] text-white py-3 rounded-xl text-sm font-bold shadow flex items-center justify-center gap-2 mt-2"
             >
               <Calendar className="w-4 h-4" />
               Book Appointment

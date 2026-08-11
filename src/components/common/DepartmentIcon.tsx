@@ -31,134 +31,134 @@ export interface DepartmentTheme {
 
 export const DEPARTMENT_THEMES: Record<string, DepartmentTheme> = {
   'cardiology': {
-    bgTint: 'bg-rose-50/90',
-    borderTint: 'border-rose-200/70',
-    textTint: 'text-rose-900',
-    iconColor: 'text-rose-600',
-    badgeBg: 'bg-rose-100',
-    badgeText: 'text-rose-800'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'orthopedics': {
-    bgTint: 'bg-amber-50/90',
-    borderTint: 'border-amber-200/70',
-    textTint: 'text-amber-950',
-    iconColor: 'text-amber-600',
-    badgeBg: 'bg-amber-100',
-    badgeText: 'text-amber-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'pediatrics': {
-    bgTint: 'bg-sky-50/90',
-    borderTint: 'border-sky-200/70',
-    textTint: 'text-sky-950',
-    iconColor: 'text-sky-600',
-    badgeBg: 'bg-sky-100',
-    badgeText: 'text-sky-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'obs-gyn': {
-    bgTint: 'bg-purple-50/90',
-    borderTint: 'border-purple-200/70',
-    textTint: 'text-purple-950',
-    iconColor: 'text-purple-600',
-    badgeBg: 'bg-purple-100',
-    badgeText: 'text-purple-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'radiology-sonology': {
-    bgTint: 'bg-indigo-50/90',
-    borderTint: 'border-indigo-200/70',
-    textTint: 'text-indigo-950',
-    iconColor: 'text-indigo-600',
-    badgeBg: 'bg-indigo-100',
-    badgeText: 'text-indigo-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'diabetology': {
-    bgTint: 'bg-orange-50/90',
-    borderTint: 'border-orange-200/70',
-    textTint: 'text-orange-950',
-    iconColor: 'text-orange-600',
-    badgeBg: 'bg-orange-100',
-    badgeText: 'text-orange-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'chest-pulmonology': {
-    bgTint: 'bg-teal-50/90',
-    borderTint: 'border-teal-200/70',
-    textTint: 'text-teal-950',
-    iconColor: 'text-teal-600',
-    badgeBg: 'bg-teal-100',
-    badgeText: 'text-teal-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'gastroenterology': {
-    bgTint: 'bg-amber-100/60',
-    borderTint: 'border-amber-300/60',
-    textTint: 'text-amber-950',
-    iconColor: 'text-amber-700',
-    badgeBg: 'bg-amber-200/70',
-    badgeText: 'text-amber-950'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'family-medicine': {
-    bgTint: 'bg-emerald-50/90',
-    borderTint: 'border-emerald-200/70',
-    textTint: 'text-emerald-950',
-    iconColor: 'text-emerald-600',
-    badgeBg: 'bg-emerald-100',
-    badgeText: 'text-emerald-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'dialysis': {
-    bgTint: 'bg-cyan-50/90',
-    borderTint: 'border-cyan-200/70',
-    textTint: 'text-cyan-950',
-    iconColor: 'text-cyan-600',
-    badgeBg: 'bg-cyan-100',
-    badgeText: 'text-cyan-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'ent': {
-    bgTint: 'bg-violet-50/90',
-    borderTint: 'border-violet-200/70',
-    textTint: 'text-violet-950',
-    iconColor: 'text-violet-600',
-    badgeBg: 'bg-violet-100',
-    badgeText: 'text-violet-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'dental': {
-    bgTint: 'bg-emerald-50/90',
-    borderTint: 'border-emerald-200/70',
-    textTint: 'text-emerald-950',
-    iconColor: 'text-emerald-600',
-    badgeBg: 'bg-emerald-100',
-    badgeText: 'text-emerald-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'emergency-247': {
-    bgTint: 'bg-red-50/90',
-    borderTint: 'border-red-200/80',
-    textTint: 'text-red-950',
-    iconColor: 'text-red-600',
-    badgeBg: 'bg-red-100',
-    badgeText: 'text-red-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'gen-physician': {
-    bgTint: 'bg-emerald-50/90',
-    borderTint: 'border-emerald-200/70',
-    textTint: 'text-emerald-950',
-    iconColor: 'text-emerald-600',
-    badgeBg: 'bg-emerald-100',
-    badgeText: 'text-emerald-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   },
   'gen-lap-surgery': {
-    bgTint: 'bg-slate-100/90',
-    borderTint: 'border-slate-300/70',
-    textTint: 'text-slate-900',
-    iconColor: 'text-slate-700',
-    badgeBg: 'bg-slate-200/80',
-    badgeText: 'text-slate-900'
+    bgTint: 'bg-[#C9DABF]/30',
+    borderTint: 'border-[#8DAA91]/40',
+    textTint: 'text-[#3A362E]',
+    iconColor: 'text-[#4A7C59]',
+    badgeBg: 'bg-[#C9DABF]',
+    badgeText: 'text-[#3D6B4A]'
   }
 };
 
 export const DEFAULT_DEPARTMENT_THEME: DepartmentTheme = {
-  bgTint: 'bg-emerald-50/90',
-  borderTint: 'border-emerald-200/70',
-  textTint: 'text-emerald-950',
-  iconColor: 'text-emerald-600',
-  badgeBg: 'bg-emerald-100',
-  badgeText: 'text-emerald-900'
+  bgTint: 'bg-[#C9DABF]/30',
+  borderTint: 'border-[#8DAA91]/40',
+  textTint: 'text-[#3A362E]',
+  iconColor: 'text-[#4A7C59]',
+  badgeBg: 'bg-[#C9DABF]',
+  badgeText: 'text-[#3D6B4A]'
 };
 
 export function getDepartmentTheme(deptId: string): DepartmentTheme {
