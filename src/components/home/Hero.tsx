@@ -21,10 +21,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
   };
 
   return (
-    <section id="home" className="relative bg-[#F6F1E7] pt-[clamp(1px,3vw,5px)] pb-[clamp(55px,6vw,70px)] overflow-hidden">
+    <section id="home" className="relative bg-white pt-[clamp(1px,3vw,5px)] pb-[clamp(55px,6vw,70px)] overflow-hidden">
       {/* Subtle Ambient Background Accents */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#4A7C59]/10 rounded-full blur-3xl pointer-events-none -z-0" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#E4EDE2]/60 rounded-full blur-3xl pointer-events-none -z-0" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#22A25A]/5 rounded-full blur-3xl pointer-events-none -z-0" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#7A9B57]/5 rounded-full blur-3xl pointer-events-none -z-0" />
 
       <div className="max-w-[1240px] mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-10 lg:gap-12 xl:gap-14 items-center">
@@ -38,15 +38,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
           >
             {/* Eyebrow */}
             <div>
-              <span className="inline-block text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#3D6B4A] bg-[#E4EDE2] px-4 py-1.5 rounded-full border border-[#8DAA91]/40">
+              <span className="inline-block text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#22A25A] bg-[#E8F7EE] px-4 py-1.5 rounded-full border border-[#22A25A]/20">
                 GENERAL & ORTHOPAEDIC CARE
               </span>
             </div>
 
             {/* Heading */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[clamp(40px,4.5vw,60px)] font-extrabold text-[#4A7C59] leading-[1.15] tracking-tight max-w-[540px]">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[clamp(40px,4.5vw,60px)] font-extrabold text-[#1F2937] leading-[1.15] tracking-tight max-w-[540px]">
               Trusted care for{' '}
-              <span className="text-[#D9704F] font-black relative inline-block text-4xl sm:text-5xl lg:text-6xl"
+              <span className="text-[#D9691F] font-black relative inline-block text-4xl sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: '"Segoe Script", "Brush Script MT", "Comic Sans MS", cursive' }}
               >
                 every
@@ -55,7 +55,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
             </h1>
 
             {/* Short Description */}
-            <p className="text-[#3A362E] text-base sm:text-lg font-medium leading-relaxed max-w-[500px]">
+            <p className="text-[#6B7280] text-base sm:text-lg font-medium leading-relaxed max-w-[500px]">
               Compassionate healthcare, modern diagnostics, and expert medical care for you and your family.
             </p>
 
@@ -63,7 +63,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
             <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4">
               <button
                 onClick={handleBookClick}
-                className="bg-[#3D6B4A] hover:bg-[#32583d] text-white px-7 py-3.5 rounded-full text-sm sm:text-base font-bold shadow-lg shadow-[#3D6B4A]/20 hover:-translate-y-0.5 active:scale-95 transition-all inline-flex items-center justify-center gap-2.5 cursor-pointer"
+                className="bg-[#22A25A] hover:bg-[#1E834B] text-white px-7 py-3.5 rounded-full text-sm sm:text-base font-bold shadow-md shadow-[#22A25A]/20 hover:-translate-y-0.5 active:scale-95 transition-all inline-flex items-center justify-center gap-2.5 cursor-pointer"
               >
                 <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 <span>Book an Appointment</span>
@@ -71,9 +71,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
 
               <a
                 href="tel:+922136342011"
-                className="bg-white hover:bg-[#D9704F]/10 text-[#D9704F] border-2 border-[#D9704F] px-6 py-3.5 rounded-full text-sm sm:text-base font-bold shadow-xs hover:-translate-y-0.5 active:scale-95 transition-all inline-flex items-center justify-center gap-2.5 cursor-pointer"
+                className="bg-white hover:bg-[#FBEAE0] text-[#D9691F] border-2 border-[#D9691F] px-6 py-3.5 rounded-full text-sm sm:text-base font-bold shadow-xs hover:-translate-y-0.5 active:scale-95 transition-all inline-flex items-center justify-center gap-2.5 cursor-pointer"
               >
-                <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-[#D9704F]" />
+                <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-[#D9691F]" />
                 <span>Call Now</span>
               </a>
             </div>
@@ -89,13 +89,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
             <div className="relative">
               
               {/* Soft Ambient Radial Glow Behind Circle */}
-              <div className="absolute -inset-8 bg-gradient-to-tr from-[#4A7C59]/15 via-[#8DAA91]/10 to-transparent rounded-full blur-2xl -z-10 pointer-events-none" />
+              <div className="absolute -inset-8 bg-gradient-to-tr from-[#22A25A]/10 via-[#7A9B57]/10 to-transparent rounded-full blur-2xl -z-10 pointer-events-none" />
 
               {/* Subtle Dotted Circular Orbit Border with Gentle Rotation */}
-              <div className="absolute -inset-4 sm:-inset-6 rounded-full border-2 border-dashed border-[#4A7C59]/25 pointer-events-none animate-[spin_90s_linear_infinite]" />
+              <div className="absolute -inset-4 sm:-inset-6 rounded-full border-2 border-dashed border-[#22A25A]/20 pointer-events-none animate-[spin_90s_linear_infinite]" />
 
               {/* Circular Image Container */}
-              <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] xl:w-[500px] xl:h-[500px] rounded-full overflow-hidden border-4 sm:border-8 border-white shadow-2xl shadow-[#4A7C59]/15 bg-white shrink-0">
+              <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] xl:w-[500px] xl:h-[500px] rounded-full overflow-hidden border-4 sm:border-8 border-white shadow-xl shadow-gray-200 bg-white shrink-0">
                 <img
                   src={heroReceptionImg}
                   alt="Rafah-E-Aam Medical Centre Hospital Reception"
@@ -106,13 +106,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
               </div>
 
               {/* Single Floating Info Badge */}
-              <div className="absolute -bottom-2 -left-2 sm:bottom-4 sm:-left-4 bg-white/95 backdrop-blur-md px-4 py-3 rounded-2xl border border-[#8DAA91]/30 shadow-xl shadow-[#4A7C59]/10 flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#E4EDE2] text-[#4A7C59] flex items-center justify-center font-bold shrink-0">
-                  <ShieldCheck className="w-5 h-5 text-[#4A7C59]" />
+              <div className="absolute -bottom-2 -left-2 sm:bottom-4 sm:-left-4 bg-white/95 backdrop-blur-md px-4 py-3 rounded-2xl border border-gray-100 shadow-xl shadow-gray-300/50 flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-[#E8F7EE] text-[#22A25A] flex items-center justify-center font-bold shrink-0">
+                  <ShieldCheck className="w-5 h-5 text-[#22A25A]" />
                 </div>
                 <div>
-                  <p className="text-xs sm:text-sm font-bold text-[#4A7C59]">Expert Medical Care</p>
-                  <p className="text-[11px] sm:text-xs font-medium text-[#3A362E]/80">Trusted Healthcare Facility</p>
+                  <p className="text-xs sm:text-sm font-bold text-[#1F2937]">Expert Medical Care</p>
+                  <p className="text-[11px] sm:text-xs font-medium text-[#6B7280]">Trusted Healthcare Facility</p>
                 </div>
               </div>
 

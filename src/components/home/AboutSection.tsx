@@ -6,7 +6,7 @@ import facilityTreatmentImg from '../../assets/images/facility_treatment_1785393
 
 export const AboutSection: React.FC = () => {
   return (
-    <section id="about" className="py-16 sm:py-24 bg-[#F6F1E7] text-[#3A362E] relative overflow-hidden">
+    <section id="about" className="py-16 sm:py-24 bg-white text-[#1F2937] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
@@ -18,7 +18,7 @@ export const AboutSection: React.FC = () => {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-5 relative"
           >
-            <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-xl shadow-[#4A7C59]/10 bg-white group">
+            <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-xl shadow-gray-200 bg-white group">
               <img
                 src={facilityTreatmentImg}
                 alt="Rafah-E-Aam Medical Centre Treatment Facility"
@@ -29,13 +29,13 @@ export const AboutSection: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
               {/* Floating Location Badge */}
-              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-[#8DAA91]/30 shadow-lg flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#4A7C59] text-white flex items-center justify-center shrink-0">
+              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-gray-100 shadow-lg flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#22A25A] text-white flex items-center justify-center shrink-0">
                   <MapPin className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-[#4A7C59]">St-10, Block 13, Gulberg Town</p>
-                  <p className="text-[11px] font-medium text-[#3A362E]/80">Karachi, Sindh, Pakistan</p>
+                  <p className="text-xs font-bold text-[#1F2937]">St-10, Block 13, Gulberg Town</p>
+                  <p className="text-[11px] font-medium text-[#6B7280]">Karachi, Sindh, Pakistan</p>
                 </div>
               </div>
             </div>
@@ -51,37 +51,37 @@ export const AboutSection: React.FC = () => {
           >
             {/* Badges */}
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 text-[#3D6B4A] font-extrabold text-xs tracking-wider uppercase bg-[#E4EDE2] px-4 py-1.5 rounded-full border border-[#8DAA91]/40">
-                <Building2 className="w-4 h-4 text-[#3D6B4A]" />
+              <span className="inline-flex items-center gap-1.5 text-[#22A25A] font-extrabold text-xs tracking-wider uppercase bg-[#E8F7EE] px-4 py-1.5 rounded-full border border-[#22A25A]/20">
+                <Building2 className="w-4 h-4 text-[#22A25A]" />
                 ABOUT OUR CENTRE
               </span>
 
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D9704F] bg-[#D9704F]/10 px-3.5 py-1.5 rounded-full border border-[#D9704F]/30 shadow-2xs">
-                <Clock className="w-3.5 h-3.5 text-[#D9704F]" />
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D9691F] bg-[#FBEAE0] px-3.5 py-1.5 rounded-full border border-[#D9691F]/20 shadow-2xs">
+                <Clock className="w-3.5 h-3.5 text-[#D9691F]" />
                 <span>Open 24/7 in Gulberg Town</span>
               </span>
             </div>
 
             {/* Heading */}
-            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-4xl text-[#4A7C59] leading-tight">
+            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-4xl text-[#1F2937] leading-tight">
               Rafah-E-Aam Medical Centre
             </h2>
 
             {/* Description Paragraph */}
-            <p className="text-[#3A362E] text-base sm:text-lg leading-relaxed font-medium">
+            <p className="text-[#6B7280] text-base sm:text-lg leading-relaxed font-medium">
               Located in Block 13, Gulberg Town, Karachi, Rafah-E-Aam Medical Centre is a premier community healthcare institution providing 24/7 emergency triage, orthopedic care, maternal health, and specialist OPD consultations across 15+ medical departments.
             </p>
 
             {/* Key Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-              <div className="flex items-center gap-3 bg-white p-3.5 rounded-2xl border border-[#8DAA91]/30 shadow-2xs">
-                <CheckCircle2 className="w-5 h-5 text-[#4A7C59] shrink-0" />
-                <span className="text-xs sm:text-sm font-bold text-[#3A362E]">34+ Specialist Doctors Panel</span>
+              <div className="flex items-center gap-3 bg-white p-3.5 rounded-2xl border border-gray-200 shadow-2xs">
+                <CheckCircle2 className="w-5 h-5 text-[#22A25A] shrink-0" />
+                <span className="text-xs sm:text-sm font-bold text-[#1F2937]">34+ Specialist Doctors Panel</span>
               </div>
 
-              <div className="flex items-center gap-3 bg-white p-3.5 rounded-2xl border border-[#8DAA91]/30 shadow-2xs">
-                <Accessibility className="w-5 h-5 text-[#4A7C59] shrink-0" />
-                <span className="text-xs sm:text-sm font-bold text-[#3A362E]">Full Wheelchair Accessibility</span>
+              <div className="flex items-center gap-3 bg-white p-3.5 rounded-2xl border border-gray-200 shadow-2xs">
+                <Accessibility className="w-5 h-5 text-[#22A25A] shrink-0" />
+                <span className="text-xs sm:text-sm font-bold text-[#1F2937]">Full Wheelchair Accessibility</span>
               </div>
             </div>
 
@@ -89,7 +89,7 @@ export const AboutSection: React.FC = () => {
             <div className="pt-2">
               <Link
                 to="/about"
-                className="inline-flex items-center gap-2.5 bg-[#3D6B4A] hover:bg-[#32583d] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all cursor-pointer hover:gap-3.5"
+                className="inline-flex items-center gap-2.5 bg-[#22A25A] hover:bg-[#1E834B] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all cursor-pointer hover:gap-3.5"
               >
                 <span>Learn More About Us</span>
                 <ArrowRight className="w-4 h-4" />

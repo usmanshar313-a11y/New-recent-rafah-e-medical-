@@ -27,11 +27,12 @@ export const TrustBar: React.FC = () => {
   ];
 
   return (
-    <section className="bg-[#F6F1E7] border-y border-[#8DAA91]/30 py-6 relative z-20">
+    <section className="bg-white border-y border-gray-100 py-6 relative z-20">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 items-center">
           {TRUST_ITEMS.map((item, idx) => {
             const Icon = item.icon;
+            const isOrangeChip = idx % 2 === 1;
             return (
               <motion.div
                 key={idx}
@@ -41,14 +42,20 @@ export const TrustBar: React.FC = () => {
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
                 className="flex items-center gap-3.5 group"
               >
-                <div className="w-11 h-11 rounded-2xl bg-[#E4EDE2] text-[#4A7C59] flex items-center justify-center shrink-0 group-hover:bg-[#4A7C59] group-hover:text-white transition-colors duration-300">
+                <div
+                  className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 transition-colors duration-300 ${
+                    isOrangeChip
+                      ? 'bg-[#FBEAE0] text-[#D9691F] group-hover:bg-[#D9691F] group-hover:text-white'
+                      : 'bg-[#E8F7EE] text-[#22A25A] group-hover:bg-[#22A25A] group-hover:text-white'
+                  }`}
+                >
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs sm:text-sm font-extrabold text-[#4A7C59] leading-tight">
+                  <h4 className="text-xs sm:text-sm font-extrabold text-[#1F2937] leading-tight">
                     {item.label}
                   </h4>
-                  <p className="text-[11px] sm:text-xs font-medium text-[#3A362E]/80 leading-tight mt-0.5">
+                  <p className="text-[11px] sm:text-xs font-medium text-[#6B7280] leading-tight mt-0.5">
                     {item.detail}
                   </p>
                 </div>

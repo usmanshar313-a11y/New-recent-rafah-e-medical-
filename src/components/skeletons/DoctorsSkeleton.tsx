@@ -3,13 +3,13 @@ import { Skeleton, SkeletonText, SkeletonCircle } from './SkeletonBase';
 
 export const DoctorsSkeleton: React.FC = () => {
   return (
-    <div className="bg-[#F5F1E8] min-h-screen py-6 sm:py-8 text-[#0B6B4E] animate-in fade-in duration-300">
+    <div className="bg-white min-h-screen py-6 sm:py-8 text-[#1F2937] animate-in fade-in duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         
         {/* Navigation & Header Section Skeleton */}
         <div className="space-y-4">
           <Skeleton className="h-9 w-44 rounded-xl" />
-          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-emerald-900/15 flex items-center gap-4">
+          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200 flex items-center gap-4">
             <SkeletonCircle className="w-12 h-12 rounded-xl" />
             <div className="flex-1 space-y-2">
               <Skeleton className="h-6 w-1/3" />
@@ -28,7 +28,7 @@ export const DoctorsSkeleton: React.FC = () => {
           {Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl border border-emerald-900/15 p-6 sm:p-7 space-y-6"
+              className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-7 space-y-6"
             >
               <div className="flex items-start gap-4">
                 <SkeletonCircle className="w-20 h-20 sm:w-22 sm:h-22 rounded-xl" />
@@ -39,11 +39,11 @@ export const DoctorsSkeleton: React.FC = () => {
                 </div>
               </div>
 
-              <div className="space-y-2 pt-3 border-t border-emerald-900/10">
+              <div className="space-y-2 pt-3 border-t border-gray-100">
                 <SkeletonText lines={2} />
               </div>
 
-              <div className="pt-3 border-t border-emerald-900/10 flex gap-3">
+              <div className="pt-3 border-t border-gray-100 flex gap-3">
                 <Skeleton className="h-10 flex-1 rounded-xl" />
                 <Skeleton className="h-10 flex-1 rounded-xl" />
               </div>

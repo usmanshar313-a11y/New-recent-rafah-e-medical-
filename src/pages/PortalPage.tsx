@@ -591,7 +591,7 @@ export const PortalPage: React.FC = () => {
     switch (normalizedStatus) {
       case 'confirmed':
         return (
-          <span className="inline-flex items-center gap-1 bg-emerald-100 text-[#0B6B4E] px-2.5 py-0.5 rounded-full text-xs font-bold border border-emerald-300">
+          <span className="inline-flex items-center gap-1 bg-[#EAF6F0] text-[#22A25A] px-2.5 py-0.5 rounded-full text-xs font-bold border border-[#22A25A]/20">
             <CheckCircle2 className="w-3.5 h-3.5" /> Confirmed
           </span>
         );
@@ -647,10 +647,10 @@ export const PortalPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center p-6">
+      <div className="min-h-screen bg-white flex items-center justify-center p-6">
         <div className="text-center space-y-3">
-          <div className="w-12 h-12 border-4 border-[#0B6B4E] border-t-transparent rounded-full animate-spin mx-auto" />
-          <div className="text-sm font-bold text-[#0B6B4E]">Loading Patient Portal...</div>
+          <div className="w-12 h-12 border-4 border-[#22A25A] border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="text-sm font-bold text-[#1F2937]">Loading Patient Portal...</div>
         </div>
       </div>
     );
@@ -659,16 +659,16 @@ export const PortalPage: React.FC = () => {
   // Render Login / Sign Up UI if not authenticated
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#F5F1E8] py-12 px-4 flex items-center justify-center text-[#0B6B4E]">
-        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-md w-full border border-emerald-900/10 space-y-6">
+      <div className="min-h-screen bg-white py-12 px-4 flex items-center justify-center text-[#1F2937]">
+        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-md w-full border border-gray-200 space-y-6">
           <div className="text-center space-y-2">
-            <div className="w-14 h-14 bg-[#0B6B4E] text-white rounded-full flex items-center justify-center mx-auto shadow">
+            <div className="w-14 h-14 bg-[#22A25A] text-white rounded-full flex items-center justify-center mx-auto shadow-sm">
               {authMode === 'login' ? <LogIn className="w-7 h-7" /> : <UserPlus className="w-7 h-7" />}
             </div>
-            <h2 className="font-heading font-extrabold text-2xl text-[#0B6B4E]">
+            <h2 className="font-heading font-extrabold text-2xl text-[#1F2937]">
               {authMode === 'login' ? 'Patient Portal Login' : 'Create Patient Account'}
             </h2>
-            <p className="text-xs sm:text-sm text-emerald-900/80">
+            <p className="text-xs sm:text-sm text-[#6B7280]">
               {authMode === 'login'
                 ? 'Sign in with your registered email & Secret Portal Key to view appointments.'
                 : 'Register your details to schedule medical appointments and access your records.'}
@@ -676,7 +676,7 @@ export const PortalPage: React.FC = () => {
           </div>
 
           {/* Form switch tab pills */}
-          <div className="bg-emerald-900/5 p-1 rounded-xl flex gap-1">
+          <div className="bg-gray-100 p-1 rounded-xl flex gap-1">
             <button
               type="button"
               onClick={() => {
@@ -688,7 +688,7 @@ export const PortalPage: React.FC = () => {
                 setSignupAlreadyExists(false);
               }}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                authMode === 'login' ? 'bg-[#0B6B4E] text-white shadow-xs' : 'text-emerald-900 hover:bg-emerald-900/10'
+                authMode === 'login' ? 'bg-[#22A25A] text-white shadow-xs' : 'text-[#6B7280] hover:bg-gray-200'
               }`}
             >
               Log In
@@ -704,7 +704,7 @@ export const PortalPage: React.FC = () => {
                 setSignupAlreadyExists(false);
               }}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                authMode === 'signup' ? 'bg-[#0B6B4E] text-white shadow-xs' : 'text-emerald-900 hover:bg-emerald-900/10'
+                authMode === 'signup' ? 'bg-[#22A25A] text-white shadow-xs' : 'text-[#6B7280] hover:bg-gray-200'
               }`}
             >
               Sign Up
@@ -715,7 +715,7 @@ export const PortalPage: React.FC = () => {
           {authMode === 'login' && (
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               {loginError && (
-                <div className="bg-red-50 border border-red-300 p-3.5 rounded-xl text-xs text-red-800 font-medium space-y-2.5">
+                <div className="bg-red-50 border border-red-200 p-3.5 rounded-xl text-xs text-red-800 font-medium space-y-2.5">
                   <div className="flex items-center gap-2 font-semibold">
                     <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
                     <span>{loginError}</span>
@@ -735,7 +735,7 @@ export const PortalPage: React.FC = () => {
                         setLoginNoAccount(false);
                         setAuthMode('signup');
                       }}
-                      className="w-full bg-[#0B6B4E] hover:bg-[#08523c] text-white font-bold py-2 px-3 rounded-lg shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer text-xs mt-1"
+                      className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-2 px-3 rounded-lg shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer text-xs mt-1"
                     >
                       <UserPlus className="w-4 h-4" />
                       <span>Go to Sign Up (Email Pre-filled)</span>
@@ -745,40 +745,40 @@ export const PortalPage: React.FC = () => {
               )}
 
               <div>
-                <label className="block text-xs font-bold text-emerald-900 mb-1">
+                <label className="block text-xs font-bold text-[#1F2937] mb-1">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-emerald-800/50 absolute left-3 top-3" />
+                  <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
                   <input
                     type="email"
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                     placeholder="patient@example.com"
                     required
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#F5F1E8]/40 border border-emerald-900/20 rounded-xl text-xs font-medium text-[#0B6B4E] focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-emerald-900 mb-1">
+                <label className="block text-xs font-bold text-[#1F2937] mb-1">
                   Secret Portal Key
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-emerald-800/50 absolute left-3 top-3" />
+                  <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
                   <input
                     type={showLoginPassword ? 'text' : 'password'}
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     placeholder="Enter your Secret Portal Key"
                     required
-                    className="w-full pl-9 pr-11 py-2.5 bg-[#F5F1E8]/40 border border-emerald-900/20 rounded-xl text-xs font-medium text-[#0B6B4E] focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full pl-9 pr-11 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowLoginPassword((prev) => !prev)}
-                    className="absolute right-3 top-3 text-emerald-700 hover:text-emerald-900"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
                   >
                     {showLoginPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -792,7 +792,7 @@ export const PortalPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={loginSubmitting}
-                className="w-full bg-[#0B6B4E] hover:bg-[#08523c] text-white font-bold py-3 px-4 rounded-xl shadow transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm mt-2"
+                className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-3 px-4 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm mt-2"
               >
                 <LogIn className="w-4 h-4" />
                 <span>{loginSubmitting ? 'Verifying Key...' : 'Log In to Patient Portal'}</span>
@@ -802,7 +802,7 @@ export const PortalPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowResetPassword(true)}
-                  className="text-xs text-[#0B6B4E] font-bold hover:underline cursor-pointer"
+                  className="text-xs text-[#22A25A] font-bold hover:underline cursor-pointer"
                 >
                   Forgot Password?
                 </button>
@@ -816,38 +816,38 @@ export const PortalPage: React.FC = () => {
                     setSignupAlreadyExists(false);
                     setAuthMode('signup');
                   }}
-                  className="text-xs text-[#0B6B4E] font-bold hover:underline cursor-pointer"
+                  className="text-xs text-[#22A25A] font-bold hover:underline cursor-pointer"
                 >
                   Don't have an account? Sign Up
                 </button>
               </div>
 
               {showResetPassword && (
-                <div className="mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-[#0B6B4E]">
-                  <h4 className="text-sm font-bold">Reset Password</h4>
-                  <p className="text-xs text-emerald-900/80 mt-1 mb-3">
+                <div className="mt-4 p-4 bg-[#EAF6F0] border border-[#22A25A]/20 rounded-2xl text-[#1F2937]">
+                  <h4 className="text-sm font-bold text-[#1F2937]">Reset Password</h4>
+                  <p className="text-xs text-[#6B7280] mt-1 mb-3">
                     Enter the email address used for your patient account.
                   </p>
                   {resetMessage ? (
-                    <div className="p-3 bg-emerald-100 text-emerald-900 text-xs rounded-xl mb-3">
+                    <div className="p-3 bg-[#22A25A]/10 text-[#22A25A] text-xs font-semibold rounded-xl mb-3">
                       {resetMessage}
                     </div>
                   ) : null}
                   <div className="relative">
-                    <Mail className="w-4 h-4 text-emerald-700 absolute left-3 top-3" />
+                    <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
                     <input
                       type="email"
                       value={resetEmail}
                       onChange={(e) => setResetEmail(e.target.value)}
                       placeholder="Enter your email"
-                      className="w-full pl-9 pr-3 py-2.5 bg-white border border-emerald-900/20 rounded-xl text-xs font-medium text-[#0B6B4E] focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                      className="w-full pl-9 pr-3 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                     />
                   </div>
                   <div className="flex items-center justify-between gap-2 mt-3">
                     <button
                       type="button"
                       onClick={() => setShowResetPassword(false)}
-                      className="flex-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-xl py-2 text-xs font-bold hover:bg-emerald-100 transition-colors"
+                      className="flex-1 bg-gray-100 text-[#1F2937] border border-gray-200 rounded-xl py-2 text-xs font-bold hover:bg-gray-200 transition-colors"
                     >
                       Cancel
                     </button>
@@ -855,7 +855,7 @@ export const PortalPage: React.FC = () => {
                       type="button"
                       onClick={handlePasswordResetSubmit}
                       disabled={resetSubmitting}
-                      className="flex-1 bg-[#0B6B4E] text-white rounded-xl py-2 text-xs font-bold hover:bg-[#08523c] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                      className="flex-1 bg-[#22A25A] text-white rounded-xl py-2 text-xs font-bold hover:bg-[#1E834B] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
                     >
                       {resetSubmitting ? 'Sending...' : 'Send Reset Link'}
                     </button>
@@ -869,7 +869,7 @@ export const PortalPage: React.FC = () => {
           {authMode === 'signup' && (
             <form onSubmit={handleSignupSubmit} className="space-y-4">
               {signupError && (
-                <div className="bg-red-50 border border-red-300 p-3.5 rounded-xl text-xs text-red-800 font-medium space-y-2.5">
+                <div className="bg-red-50 border border-red-200 p-3.5 rounded-xl text-xs text-red-800 font-medium space-y-2.5">
                   <div className="flex items-center gap-2 font-semibold">
                     <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
                     <span>{signupError}</span>
@@ -886,7 +886,7 @@ export const PortalPage: React.FC = () => {
                         setSignupAlreadyExists(false);
                         setAuthMode('login');
                       }}
-                      className="w-full bg-[#0B6B4E] hover:bg-[#08523c] text-white font-bold py-2 px-3 rounded-lg shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer text-xs mt-1"
+                      className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-2 px-3 rounded-lg shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer text-xs mt-1"
                     >
                       <LogIn className="w-4 h-4" />
                       <span>Go to Login (Email Pre-filled)</span>
@@ -896,57 +896,57 @@ export const PortalPage: React.FC = () => {
               )}
 
               <div>
-                <label className="block text-xs font-bold text-emerald-900 mb-1">
+                <label className="block text-xs font-bold text-[#1F2937] mb-1">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="w-4 h-4 text-emerald-800/50 absolute left-3 top-3" />
+                  <User className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
                   <input
                     type="text"
                     value={signupName}
                     onChange={(e) => setSignupName(e.target.value)}
                     placeholder="e.g. Fatima Ali"
                     required
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#F5F1E8]/40 border border-emerald-900/20 rounded-xl text-xs font-medium text-[#0B6B4E] focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-emerald-900 mb-1">
+                <label className="block text-xs font-bold text-[#1F2937] mb-1">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-emerald-800/50 absolute left-3 top-3" />
+                  <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
                   <input
                     type="email"
                     value={signupEmail}
                     onChange={(e) => setSignupEmail(e.target.value)}
                     placeholder="fatima@example.com"
                     required
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#F5F1E8]/40 border border-emerald-900/20 rounded-xl text-xs font-medium text-[#0B6B4E] focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-emerald-900 mb-1">
+                <label className="block text-xs font-bold text-[#1F2937] mb-1">
                   Secret Portal Key
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-emerald-800/50 absolute left-3 top-3" />
+                  <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
                   <input
                     type={showSignupPassword ? 'text' : 'password'}
                     value={signupPassword}
                     onChange={(e) => setSignupPassword(e.target.value)}
                     placeholder="Create your Secret Portal Key"
                     required
-                    className="w-full pl-9 pr-11 py-2.5 bg-[#F5F1E8]/40 border border-emerald-900/20 rounded-xl text-xs font-medium text-[#0B6B4E] focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full pl-9 pr-11 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowSignupPassword((prev) => !prev)}
-                    className="absolute right-3 top-3 text-emerald-700 hover:text-emerald-900"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
                   >
                     {showSignupPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -956,65 +956,65 @@ export const PortalPage: React.FC = () => {
                   </button>
                 </div>
                 {/* Password strength checklist */}
-                <div className="mt-2 text-xs text-emerald-900/90">
+                <div className="mt-2 text-xs text-[#6B7280]">
                   <div className="flex flex-col gap-1 pl-1">
                     <div className="flex items-center gap-2">
                       {hasLength ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+                        <CheckCircle2 className="w-4 h-4 text-[#22A25A]" />
                       ) : (
-                        <XCircle className="w-4 h-4 text-emerald-400" />
+                        <XCircle className="w-4 h-4 text-gray-300" />
                       )}
-                      <span className={hasLength ? 'text-emerald-900 font-semibold' : 'text-emerald-700'}>At least 8 characters</span>
+                      <span className={hasLength ? 'text-[#1F2937] font-semibold' : 'text-[#6B7280]'}>At least 8 characters</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       {hasNumber ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+                        <CheckCircle2 className="w-4 h-4 text-[#22A25A]" />
                       ) : (
-                        <XCircle className="w-4 h-4 text-emerald-400" />
+                        <XCircle className="w-4 h-4 text-gray-300" />
                       )}
-                      <span className={hasNumber ? 'text-emerald-900 font-semibold' : 'text-emerald-700'}>Includes a number</span>
+                      <span className={hasNumber ? 'text-[#1F2937] font-semibold' : 'text-[#6B7280]'}>Includes a number</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       {hasUpper ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+                        <CheckCircle2 className="w-4 h-4 text-[#22A25A]" />
                       ) : (
-                        <XCircle className="w-4 h-4 text-emerald-400" />
+                        <XCircle className="w-4 h-4 text-gray-300" />
                       )}
-                      <span className={hasUpper ? 'text-emerald-900 font-semibold' : 'text-emerald-700'}>Includes an uppercase letter</span>
+                      <span className={hasUpper ? 'text-[#1F2937] font-semibold' : 'text-[#6B7280]'}>Includes an uppercase letter</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       {hasSymbol ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+                        <CheckCircle2 className="w-4 h-4 text-[#22A25A]" />
                       ) : (
-                        <XCircle className="w-4 h-4 text-emerald-400" />
+                        <XCircle className="w-4 h-4 text-gray-300" />
                       )}
-                      <span className={hasSymbol ? 'text-emerald-900 font-semibold' : 'text-emerald-700'}>Includes a symbol (e.g. !@#$%)</span>
+                      <span className={hasSymbol ? 'text-[#1F2937] font-semibold' : 'text-[#6B7280]'}>Includes a symbol (e.g. !@#$%)</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-emerald-900 mb-1">
+                <label className="block text-xs font-bold text-[#1F2937] mb-1">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-emerald-800/50 absolute left-3 top-3" />
+                  <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
                   <input
                     type={showSignupConfirmPassword ? 'text' : 'password'}
                     value={signupConfirmPassword}
                     onChange={(e) => setSignupConfirmPassword(e.target.value)}
                     placeholder="Re-enter your Secret Portal Key"
                     required
-                    className="w-full pl-9 pr-11 py-2.5 bg-[#F5F1E8]/40 border border-emerald-900/20 rounded-xl text-xs font-medium text-[#0B6B4E] focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full pl-9 pr-11 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowSignupConfirmPassword((prev) => !prev)}
-                    className="absolute right-3 top-3 text-emerald-700 hover:text-emerald-900"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
                   >
                     {showSignupConfirmPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -1026,13 +1026,13 @@ export const PortalPage: React.FC = () => {
               </div>
 
               <div className="pt-1">
-                <label className="flex items-start gap-2.5 text-xs text-emerald-900/90 cursor-pointer select-none">
+                <label className="flex items-start gap-2.5 text-xs text-[#6B7280] cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={signupConfirmEmailChecked}
                     onChange={(e) => setSignupConfirmEmailChecked(e.target.checked)}
                     required
-                    className="mt-0.5 rounded text-[#0B6B4E] focus:ring-[#0B6B4E]"
+                    className="mt-0.5 rounded text-[#22A25A] focus:ring-[#22A25A]"
                   />
                   <span className="font-semibold leading-snug">
                     I confirm my email address is correct
@@ -1043,7 +1043,7 @@ export const PortalPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={signupSubmitting || !isPasswordStrong}
-                className="w-full bg-[#0B6B4E] hover:bg-[#08523c] text-white font-bold py-3 px-4 rounded-xl shadow transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm mt-2"
+                className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-3 px-4 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm mt-2"
                 title={!isPasswordStrong ? 'Password must be 8+ chars and include number, uppercase and symbol' : undefined}
               >
                 <UserPlus className="w-4 h-4" />
@@ -1061,7 +1061,7 @@ export const PortalPage: React.FC = () => {
                     setSignupAlreadyExists(false);
                     setAuthMode('login');
                   }}
-                  className="text-xs text-[#0B6B4E] font-bold hover:underline cursor-pointer"
+                  className="text-xs text-[#22A25A] font-bold hover:underline cursor-pointer"
                 >
                   Already have an account? Log In
                 </button>
@@ -1072,22 +1072,22 @@ export const PortalPage: React.FC = () => {
 
         {resetSentModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-            <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-emerald-900/10 overflow-hidden">
+            <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
               <div className="p-6">
                 <div className="flex items-center gap-4">
-                  <div className="rounded-3xl bg-emerald-100 p-3 text-emerald-700">
+                  <div className="rounded-3xl bg-[#EAF6F0] p-3 text-[#22A25A]">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-[#0B6B4E]">Reset Link Sent</h3>
-                    <p className="mt-2 text-sm text-emerald-900/80">
-                      If an account exists for <span className="font-semibold">{resetSentEmail || 'this email'}</span>, a password reset link was sent.
+                    <h3 className="text-lg font-bold text-[#1F2937]">Reset Link Sent</h3>
+                    <p className="mt-2 text-sm text-[#6B7280]">
+                      If an account exists for <span className="font-semibold text-[#1F2937]">{resetSentEmail || 'this email'}</span>, a password reset link was sent.
                       Please check your inbox and spam folders.
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-6 rounded-3xl bg-[#F7FBEF] border border-emerald-200 p-4 text-sm text-emerald-900">
+                <div className="mt-6 rounded-3xl bg-[#EAF6F0] border border-[#22A25A]/20 p-4 text-sm text-[#1F2937]">
                   <p className="font-semibold">Important:</p>
                   <p className="mt-2">
                     The reset email may appear in Gmail <span className="font-semibold">Spam</span> or <span className="font-semibold">Promotions</span>, and the sender may show as <span className="font-semibold">"noreply"</span>.
@@ -1101,7 +1101,7 @@ export const PortalPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setResetSentModalOpen(false)}
-                    className="inline-flex items-center justify-center rounded-2xl bg-[#0B6B4E] px-5 py-3 text-sm font-semibold text-white hover:bg-[#08523c] transition-colors"
+                    className="inline-flex items-center justify-center rounded-2xl bg-[#22A25A] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1E834B] transition-colors"
                   >
                     Got it
                   </button>
@@ -1118,20 +1118,20 @@ export const PortalPage: React.FC = () => {
   const confirmedCount = appointments.filter((a) => a.status === 'confirmed').length;
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] text-[#0B6B4E] pb-20">
+    <div className="min-h-screen bg-white text-[#1F2937] pb-20">
       
       {/* Portal Header */}
-      <div className="bg-[#0B6B4E] text-white py-8 px-4 sm:px-6 lg:px-8 shadow-md">
+      <div className="bg-[#22A25A] text-white py-8 px-4 sm:px-6 lg:px-8 shadow-xs">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-emerald-800 text-white font-bold text-xl flex items-center justify-center border-2 border-white shadow">
+            <div className="w-14 h-14 rounded-full bg-white/20 text-white font-bold text-xl flex items-center justify-center border-2 border-white/40 shadow-xs">
               {(patientProfile?.name || auth.currentUser?.displayName || 'P').charAt(0).toUpperCase()}
             </div>
             <div>
               <h1 className="font-heading font-extrabold text-xl sm:text-2xl text-white">
                 Welcome, {patientProfile?.name || auth.currentUser?.displayName || 'Patient'}
               </h1>
-              <p className="text-xs text-emerald-100 flex flex-wrap items-center gap-2 mt-0.5">
+              <p className="text-xs text-white/90 flex flex-wrap items-center gap-2 mt-0.5">
                 <span>Patient ID: {(auth.currentUser?.uid || user.uid).slice(0, 8)}</span>
                 <span>•</span>
                 <span>Email: {auth.currentUser?.email || user.email}</span>
@@ -1143,7 +1143,7 @@ export const PortalPage: React.FC = () => {
 
           <button
             onClick={handleLogout}
-            className="bg-emerald-800/80 hover:bg-emerald-800 text-emerald-100 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors border border-emerald-600 cursor-pointer"
+            className="bg-white/10 hover:bg-white/20 text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors border border-white/30 cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             <span>Logout</span>
@@ -1155,7 +1155,7 @@ export const PortalPage: React.FC = () => {
         
         {/* Confirmed Banner Notification */}
         {confirmedCount > 0 && (
-          <div className="bg-emerald-900 text-white p-4 rounded-2xl shadow-sm border border-emerald-700 flex items-center justify-between gap-3 animate-in fade-in">
+          <div className="bg-[#22A25A] text-white p-4 rounded-2xl shadow-xs border border-[#1E834B] flex items-center justify-between gap-3 animate-in fade-in">
             <div className="flex items-center gap-3">
               <Bell className="w-5 h-5 text-amber-300 animate-bounce" />
               <div className="text-xs sm:text-sm">
@@ -1165,7 +1165,7 @@ export const PortalPage: React.FC = () => {
             </div>
             <button
               onClick={() => setActiveTab('appointments')}
-              className="bg-white text-[#0B6B4E] font-bold text-xs px-3 py-1.5 rounded-lg shrink-0 shadow-xs cursor-pointer"
+              className="bg-white text-[#22A25A] font-bold text-xs px-3 py-1.5 rounded-lg shrink-0 shadow-xs cursor-pointer"
             >
               View Details
             </button>
@@ -1173,13 +1173,13 @@ export const PortalPage: React.FC = () => {
         )}
 
         {/* Portal Tabs Bar */}
-        <div className="bg-white p-1.5 rounded-2xl shadow-sm border border-emerald-900/10 flex flex-wrap gap-1">
+        <div className="bg-white p-1.5 rounded-2xl shadow-xs border border-gray-200 flex flex-wrap gap-1">
           <button
             onClick={() => setActiveTab('appointments')}
             className={`flex-1 min-w-[120px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer ${
               activeTab === 'appointments'
-                ? 'bg-[#0B6B4E] text-white shadow-xs'
-                : 'text-emerald-900 hover:bg-[#F5F1E8]'
+                ? 'bg-[#22A25A] text-white shadow-xs'
+                : 'text-[#6B7280] hover:bg-gray-100'
             }`}
           >
             <Calendar className="w-4 h-4" />
@@ -1193,8 +1193,8 @@ export const PortalPage: React.FC = () => {
             }}
             className={`flex-1 min-w-[120px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer ${
               activeTab === 'reports'
-                ? 'bg-[#0B6B4E] text-white shadow-xs'
-                : 'text-emerald-900 hover:bg-[#F5F1E8]'
+                ? 'bg-[#22A25A] text-white shadow-xs'
+                : 'text-[#6B7280] hover:bg-gray-100'
             }`}
           >
             <FileText className="w-4 h-4" />
@@ -1205,8 +1205,8 @@ export const PortalPage: React.FC = () => {
             onClick={() => setActiveTab('profile')}
             className={`flex-1 min-w-[120px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer ${
               activeTab === 'profile'
-                ? 'bg-[#0B6B4E] text-white shadow-xs'
-                : 'text-emerald-900 hover:bg-[#F5F1E8]'
+                ? 'bg-[#22A25A] text-white shadow-xs'
+                : 'text-[#6B7280] hover:bg-gray-100'
             }`}
           >
             <Settings className="w-4 h-4" />
@@ -1218,7 +1218,7 @@ export const PortalPage: React.FC = () => {
         {activeTab === 'appointments' && (
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <h2 className="font-heading font-bold text-xl text-[#0B6B4E]">
+              <h2 className="font-heading font-bold text-xl text-[#1F2937]">
                 Scheduled Appointments
               </h2>
               <button
@@ -1226,7 +1226,7 @@ export const PortalPage: React.FC = () => {
                   navigate('/doctors');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="bg-[#D64545] hover:bg-[#c23737] text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition-colors cursor-pointer flex items-center gap-1.5 self-start sm:self-auto"
+                className="bg-[#D9691F] hover:bg-[#C25B18] text-white font-bold px-4 py-2 rounded-xl text-xs shadow-xs transition-colors cursor-pointer flex items-center gap-1.5 self-start sm:self-auto"
               >
                 <Calendar className="w-3.5 h-3.5" />
                 <span>Book New Appointment</span>
@@ -1234,14 +1234,14 @@ export const PortalPage: React.FC = () => {
             </div>
 
             {loadingData ? (
-              <div className="bg-white p-8 rounded-2xl text-center text-sm font-medium">
+              <div className="bg-white p-8 rounded-2xl text-center text-sm font-medium text-[#6B7280] border border-gray-200">
                 Loading appointments...
               </div>
             ) : appointments.length === 0 ? (
-              <div className="bg-white p-12 rounded-2xl shadow-sm border border-emerald-900/10 text-center space-y-4">
-                <Calendar className="w-12 h-12 text-emerald-700/40 mx-auto" />
-                <h3 className="font-bold text-base text-[#0B6B4E]">No appointments found</h3>
-                <p className="text-xs text-emerald-900/70 max-w-sm mx-auto">
+              <div className="bg-white p-12 rounded-2xl shadow-2xs border border-gray-200 text-center space-y-4">
+                <Calendar className="w-12 h-12 text-[#22A25A]/40 mx-auto" />
+                <h3 className="font-bold text-base text-[#1F2937]">No appointments found</h3>
+                <p className="text-xs text-[#6B7280] max-w-sm mx-auto">
                   You haven't requested any medical appointments yet. Click below to browse departments, select your specialist, and schedule a visit.
                 </p>
                 <button
@@ -1249,7 +1249,7 @@ export const PortalPage: React.FC = () => {
                     navigate('/doctors');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="bg-[#D64545] hover:bg-[#c23737] text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow transition-colors cursor-pointer"
+                  className="bg-[#D9691F] hover:bg-[#C25B18] text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-xs transition-colors cursor-pointer"
                 >
                   Book Your First Appointment
                 </button>
@@ -1261,46 +1261,46 @@ export const PortalPage: React.FC = () => {
                   return (
                     <div
                       key={appt.id}
-                      className="bg-white p-6 rounded-2xl shadow-sm border border-emerald-900/10 flex flex-col justify-between space-y-4 relative"
+                      className="bg-white p-6 rounded-2xl shadow-2xs border border-gray-200 flex flex-col justify-between space-y-4 relative"
                     >
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
                           {getStatusBadge(appt.status)}
 
                           {countdown && appt.status !== 'cancelled' && (
-                            <span className="text-[11px] font-bold text-[#D64545] bg-red-50 px-2 py-0.5 rounded-md border border-red-200">
+                            <span className="text-[11px] font-bold text-[#D9691F] bg-[#FBEAE0] px-2 py-0.5 rounded-md border border-[#D9691F]/20">
                               {countdown}
                             </span>
                           )}
                         </div>
 
                         <div>
-                          <h3 className="font-heading font-bold text-base text-[#0B6B4E]">
+                          <h3 className="font-heading font-bold text-base text-[#1F2937]">
                             {appt.service}
                           </h3>
-                          <div className="text-xs text-emerald-900 font-medium">
+                          <div className="text-xs text-[#6B7280] font-medium">
                             Doctor: {appt.doctorName || 'Duty Specialist'}
                           </div>
                         </div>
 
-                        <div className="p-3 bg-[#F5F1E8] rounded-xl space-y-1 text-xs">
-                          <div className="flex items-center gap-2 text-emerald-950 font-semibold">
-                            <Calendar className="w-3.5 h-3.5 text-[#0B6B4E]" />
+                        <div className="p-3 bg-gray-50 rounded-xl space-y-1 text-xs border border-gray-100">
+                          <div className="flex items-center gap-2 text-[#1F2937] font-semibold">
+                            <Calendar className="w-3.5 h-3.5 text-[#22A25A]" />
                             <span>Date: {appt.preferredDate}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-emerald-950 font-semibold">
-                            <Clock className="w-3.5 h-3.5 text-[#0B6B4E]" />
+                          <div className="flex items-center gap-2 text-[#1F2937] font-semibold">
+                            <Clock className="w-3.5 h-3.5 text-[#22A25A]" />
                             <span>Time Slot: {appt.preferredTime}</span>
                           </div>
                           {appt.reason && (
-                            <div className="text-emerald-800/80 pt-1 text-[11px]">
+                            <div className="text-[#6B7280] pt-1 text-[11px]">
                               Reason: {appt.reason}
                             </div>
                           )}
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-end pt-3 border-t border-emerald-900/10">
+                      <div className="flex items-center justify-end pt-3 border-t border-gray-100">
                         <button
                           onClick={() =>
                             shouldUseDeleteAction(appt.status)
@@ -1323,13 +1323,13 @@ export const PortalPage: React.FC = () => {
         {/* Tab 2: Medical Reports */}
         {activeTab === 'reports' && (
           <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-2xl shadow-sm border border-emerald-900/10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-2xl shadow-2xs border border-gray-200">
               <div>
-                <h2 className="font-heading font-bold text-xl text-[#0B6B4E] flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-[#0B6B4E]" />
+                <h2 className="font-heading font-bold text-xl text-[#1F2937] flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-[#22A25A]" />
                   <span>My Patient Medical Reports</span>
                 </h2>
-                <p className="text-xs text-emerald-800/70 mt-0.5">
+                <p className="text-xs text-[#6B7280] mt-0.5">
                   View and download lab test results, diagnostic scans, and medical documents uploaded by Rafah-E-Aam Medical Center.
                 </p>
               </div>
@@ -1338,7 +1338,7 @@ export const PortalPage: React.FC = () => {
                 type="button"
                 onClick={fetchPatientReports}
                 disabled={loadingReports}
-                className="bg-[#F5F1E8] hover:bg-emerald-100 text-[#0B6B4E] px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer border border-emerald-900/15 transition-colors shrink-0"
+                className="bg-gray-100 hover:bg-gray-200 text-[#1F2937] px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer border border-gray-200 transition-colors shrink-0"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${loadingReports ? 'animate-spin' : ''}`} />
                 <span>Refresh Reports</span>
@@ -1346,15 +1346,15 @@ export const PortalPage: React.FC = () => {
             </div>
 
             {loadingReports ? (
-              <div className="py-12 text-center bg-white rounded-2xl border border-emerald-900/10 space-y-2">
-                <RefreshCw className="w-6 h-6 animate-spin mx-auto text-[#0B6B4E]" />
-                <div className="text-xs font-bold text-emerald-900">Retrieving your secure medical reports...</div>
+              <div className="py-12 text-center bg-white rounded-2xl border border-gray-200 space-y-2">
+                <RefreshCw className="w-6 h-6 animate-spin mx-auto text-[#22A25A]" />
+                <div className="text-xs font-bold text-[#6B7280]">Retrieving your secure medical reports...</div>
               </div>
             ) : reports.length === 0 ? (
-              <div className="p-10 text-center bg-white rounded-2xl border border-dashed border-emerald-900/20 space-y-3">
-                <FileText className="w-12 h-12 text-emerald-700/40 mx-auto" />
-                <div className="text-base font-bold text-[#0B6B4E]">No Medical Reports On File</div>
-                <p className="text-xs text-emerald-800/70 max-w-md mx-auto leading-relaxed">
+              <div className="p-10 text-center bg-white rounded-2xl border border-dashed border-gray-300 space-y-3">
+                <FileText className="w-12 h-12 text-[#22A25A]/40 mx-auto" />
+                <div className="text-base font-bold text-[#1F2937]">No Medical Reports On File</div>
+                <p className="text-xs text-[#6B7280] max-w-md mx-auto leading-relaxed">
                   You currently have no medical reports uploaded. When our pathology lab or medical team uploads your diagnostic test results, they will appear here securely.
                 </p>
               </div>
@@ -1363,7 +1363,7 @@ export const PortalPage: React.FC = () => {
                 {reports.map((report) => (
                   <div
                     key={report.id}
-                    className="bg-white p-5 rounded-2xl border border-emerald-900/10 hover:border-emerald-900/20 transition-all shadow-xs flex flex-col justify-between space-y-4"
+                    className="bg-white p-5 rounded-2xl border border-gray-200 hover:border-[#22A25A]/40 transition-all shadow-2xs flex flex-col justify-between space-y-4"
                   >
                     <div className="space-y-2">
                       <div className="flex items-start justify-between gap-3">
@@ -1372,11 +1372,11 @@ export const PortalPage: React.FC = () => {
                             <FileText className="w-5 h-5" />
                           </div>
                           <div>
-                            <h3 className="font-bold text-sm text-[#0B6B4E] line-clamp-1">
+                            <h3 className="font-bold text-sm text-[#1F2937] line-clamp-1">
                               {report.reportName || report.fileName}
                             </h3>
-                            <div className="text-[11px] text-emerald-800/70 flex items-center gap-1">
-                              <Clock className="w-3 h-3 text-emerald-700" />
+                            <div className="text-[11px] text-[#6B7280] flex items-center gap-1">
+                              <Clock className="w-3 h-3 text-[#22A25A]" />
                               <span>
                                 Uploaded on {report.uploadedAt ? new Date(report.uploadedAt).toLocaleDateString() : 'N/A'}
                               </span>
@@ -1385,22 +1385,22 @@ export const PortalPage: React.FC = () => {
                         </div>
 
                         {report.fileSize && (
-                          <span className="text-[10px] font-bold text-emerald-800 bg-[#F5F1E8] px-2 py-0.5 rounded-md border border-emerald-900/10 shrink-0">
+                          <span className="text-[10px] font-bold text-[#22A25A] bg-[#EAF6F0] px-2 py-0.5 rounded-md border border-[#22A25A]/20 shrink-0">
                             {report.fileSize}
                           </span>
                         )}
                       </div>
 
                       {report.description && (
-                        <div className="bg-[#F5F1E8]/60 p-3 rounded-xl text-xs text-emerald-900/80 border border-emerald-900/5 leading-relaxed">
-                          <span className="font-bold text-[#0B6B4E]">Lab Notes: </span>
+                        <div className="bg-gray-50 p-3 rounded-xl text-xs text-[#6B7280] border border-gray-100 leading-relaxed">
+                          <span className="font-bold text-[#1F2937]">Lab Notes: </span>
                           {report.description}
                         </div>
                       )}
                     </div>
 
-                    <div className="pt-3 border-t border-emerald-900/10 flex items-center justify-between gap-2">
-                      <span className="text-[10px] text-emerald-700 font-semibold truncate max-w-[150px]">
+                    <div className="pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
+                      <span className="text-[10px] text-[#6B7280] font-semibold truncate max-w-[150px]">
                         {report.fileName}
                       </span>
 
@@ -1409,7 +1409,7 @@ export const PortalPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleOpenReportWithZipCheck(report)}
-                            className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
+                            className="bg-[#22A25A] hover:bg-[#1E834B] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
                           >
                             <ExternalLink className="w-3.5 h-3.5" />
                             <span>Open PDF Link</span>
@@ -1420,7 +1420,7 @@ export const PortalPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleOpenReportWithZipCheck(report)}
-                            className="bg-[#F5F1E8] hover:bg-emerald-100 text-[#0B6B4E] p-1.5 rounded-xl text-xs font-bold border border-emerald-900/15 cursor-pointer transition-colors"
+                            className="bg-gray-100 hover:bg-gray-200 text-[#1F2937] p-1.5 rounded-xl text-xs font-bold border border-gray-200 cursor-pointer transition-colors"
                             title="Download PDF"
                           >
                             <Download className="w-4 h-4" />
@@ -1437,59 +1437,59 @@ export const PortalPage: React.FC = () => {
 
         {/* Tab 3: My Profile */}
         {activeTab === 'profile' && (
-          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-emerald-900/10 space-y-6 max-w-2xl mx-auto">
-            <h2 className="font-heading font-bold text-xl text-[#0B6B4E]">
+          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-2xs border border-gray-200 space-y-6 max-w-2xl mx-auto">
+            <h2 className="font-heading font-bold text-xl text-[#1F2937]">
               Edit Patient Profile
             </h2>
 
             {profileSuccessMsg && (
-              <div className="p-3 bg-emerald-100 text-[#0B6B4E] text-xs font-bold rounded-xl">
+              <div className="p-3 bg-[#EAF6F0] text-[#22A25A] text-xs font-bold rounded-xl border border-[#22A25A]/20">
                 {profileSuccessMsg}
               </div>
             )}
 
             <form onSubmit={handleSaveProfile} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold mb-1">Full Name</label>
+                <label className="block text-xs font-bold mb-1 text-[#1F2937]">Full Name</label>
                 <input
                   type="text"
                   required
                   value={profileName}
                   onChange={(e) => setProfileName(e.target.value)}
-                  className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold mb-1">Phone Number</label>
+                  <label className="block text-xs font-bold mb-1 text-[#1F2937]">Phone Number</label>
                   <input
                     type="tel"
                     required
                     value={profilePhone}
                     onChange={(e) => setProfilePhone(e.target.value)}
-                    className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold mb-1">Date of Birth</label>
+                  <label className="block text-xs font-bold mb-1 text-[#1F2937]">Date of Birth</label>
                   <input
                     type="date"
                     value={profileDob}
                     onChange={(e) => setProfileDob(e.target.value)}
-                    className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold mb-1">Blood Group</label>
+                  <label className="block text-xs font-bold mb-1 text-[#1F2937]">Blood Group</label>
                   <select
                     value={profileBloodGroup}
                     onChange={(e) => setProfileBloodGroup(e.target.value)}
-                    className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   >
                     <option value="A+">A+</option>
                     <option value="A-">A-</option>
@@ -1503,32 +1503,32 @@ export const PortalPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold mb-1">Emergency Contact Phone</label>
+                  <label className="block text-xs font-bold mb-1 text-[#1F2937]">Emergency Contact Phone</label>
                   <input
                     type="tel"
                     value={profileEmergencyContact}
                     onChange={(e) => setProfileEmergencyContact(e.target.value)}
                     placeholder="+92 300 0000000"
-                    className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold mb-1">ZIP Code / Postal Code (For Medical Report Security)</label>
+                <label className="block text-xs font-bold mb-1 text-[#1F2937]">ZIP Code / Postal Code (For Medical Report Security)</label>
                 <input
                   type="text"
                   value={profileZipCode}
                   onChange={(e) => setProfileZipCode(e.target.value)}
                   placeholder="e.g. 75210"
-                  className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={profileSaving}
-                className="w-full bg-[#D64545] hover:bg-[#c23737] text-white py-3 rounded-xl font-bold text-sm shadow cursor-pointer disabled:opacity-50"
+                className="w-full bg-[#D9691F] hover:bg-[#C25B18] text-white py-3 rounded-xl font-bold text-sm shadow-xs cursor-pointer disabled:opacity-50 transition-colors"
               >
                 {profileSaving ? 'Saving...' : 'Save Profile Changes'}
               </button>
@@ -1541,16 +1541,16 @@ export const PortalPage: React.FC = () => {
       {/* ZIP Code Security Verification Modal */}
       {zipModalOpen && selectedReportForView && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-fadeIn">
-          <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-emerald-900/10 overflow-hidden">
+          <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
             <div className="p-6 sm:p-7 space-y-5">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-emerald-100 text-[#0B6B4E] rounded-2xl shrink-0">
+                  <div className="p-3 bg-[#EAF6F0] text-[#22A25A] rounded-2xl shrink-0">
                     <Lock className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-[#0B6B4E]">Verify Identity</h3>
-                    <p className="text-xs text-emerald-800/70 mt-0.5">
+                    <h3 className="text-lg font-bold text-[#1F2937]">Verify Identity</h3>
+                    <p className="text-xs text-[#6B7280] mt-0.5">
                       Please enter your ZIP code to securely view your report.
                     </p>
                   </div>
@@ -1558,7 +1558,7 @@ export const PortalPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={closeZipModal}
-                  className="text-emerald-900/50 hover:text-emerald-900 p-1 rounded-lg transition-colors cursor-pointer"
+                  className="text-gray-400 hover:text-gray-600 p-1 rounded-lg transition-colors cursor-pointer"
                 >
                   ✕
                 </button>
@@ -1566,7 +1566,7 @@ export const PortalPage: React.FC = () => {
 
               <form onSubmit={handleVerifyZipAndOpenReport} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-emerald-900 mb-1.5">
+                  <label className="block text-xs font-bold text-[#1F2937] mb-1.5">
                     ZIP Code / Postal Code
                   </label>
                   <input
@@ -1579,7 +1579,7 @@ export const PortalPage: React.FC = () => {
                       if (zipError) setZipError('');
                     }}
                     placeholder="Enter your ZIP code"
-                    className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3.5 py-2.5 text-sm font-medium text-emerald-950 focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
 
@@ -1594,14 +1594,14 @@ export const PortalPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={closeZipModal}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                    className="bg-gray-100 hover:bg-gray-200 text-[#1F2937] px-4 py-2.5 rounded-xl text-xs font-bold transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isVerifyingZip}
-                    className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-colors shadow-xs cursor-pointer disabled:opacity-50"
+                    className="bg-[#22A25A] hover:bg-[#1E834B] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-colors shadow-xs cursor-pointer disabled:opacity-50"
                   >
                     {isVerifyingZip ? 'Verifying...' : 'Submit'}
                   </button>
@@ -1614,27 +1614,27 @@ export const PortalPage: React.FC = () => {
 
       {confirmModal.isOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-emerald-900/10 overflow-hidden">
+          <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
             <div className="p-5 sm:p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h3 className="text-lg font-bold text-[#0B6B4E]">{confirmModal.title}</h3>
-                  <p className="mt-2 text-sm text-emerald-900/80">{confirmModal.message}</p>
+                  <h3 className="text-lg font-bold text-[#1F2937]">{confirmModal.title}</h3>
+                  <p className="mt-2 text-sm text-[#6B7280]">{confirmModal.message}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
-                  className="text-emerald-900 hover:text-emerald-700 font-semibold"
+                  className="text-gray-400 hover:text-gray-600 font-semibold"
                 >
                   ✕
                 </button>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 border-t border-emerald-900/10 p-4 sm:p-5">
+            <div className="flex flex-col sm:flex-row gap-3 border-t border-gray-100 p-4 sm:p-5">
               <button
                 type="button"
                 onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
-                className="w-full sm:w-auto flex-1 rounded-xl border border-emerald-900/20 bg-emerald-50 text-emerald-900 py-3 text-sm font-semibold hover:bg-emerald-100 transition-colors"
+                className="w-full sm:w-auto flex-1 rounded-xl border border-gray-200 bg-gray-50 text-[#1F2937] py-3 text-sm font-semibold hover:bg-gray-100 transition-colors"
               >
                 Cancel
               </button>

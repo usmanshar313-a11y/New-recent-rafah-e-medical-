@@ -353,7 +353,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 const activeDoc = doctors.find((d) => d.id === doctorId);
                 if (!activeDoc) return null;
                 return (
-                  <div className="bg-gradient-to-br from-emerald-50 via-[#F5F1E8] to-emerald-100/60 p-4 rounded-2xl border border-emerald-300/60 text-center space-y-2 mb-2 shadow-xs">
+                  <div className="bg-[#EAF6F0] p-4 rounded-2xl border border-[#22A25A]/20 text-center space-y-2 mb-2 shadow-2xs">
                     <div className="relative inline-block">
                       <img
                         src={activeDoc.photoURL || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80'}

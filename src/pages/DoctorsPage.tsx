@@ -177,45 +177,45 @@ export const DoctorsPage: React.FC = () => {
   };
 
   return (
-    <div ref={containerRef} className="bg-[#F6F1E7] min-h-screen py-10 text-[#087A5A]">
+    <div ref={containerRef} className="bg-white min-h-screen py-10 text-[#1F2937]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
         {/* Header */}
-        <div className="doc-hero-banner bg-[#087A5A] text-white p-8 rounded-3xl shadow-lg border border-emerald-800 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="doc-hero-banner bg-[#22A25A] text-white p-8 rounded-3xl shadow-lg border border-[#1E834B] flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl text-center md:text-left">
-            <span className="bg-emerald-800 text-[#D86A1F] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block">
+            <span className="bg-[#1E834B] text-[#D9691F] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block">
               Specialist Medical Panel
             </span>
             <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-white">
               Consultant & Medical Doctors
             </h1>
-            <p className="text-xs sm:text-sm text-emerald-100 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#E8F7EE] leading-relaxed">
               Find and consult with experienced consultants, surgeons, pediatricians, cardiologists, and specialists at Rafah-E-Aam Medical Center.
             </p>
           </div>
 
-          <div className="text-center md:text-right bg-emerald-800/80 p-4 rounded-2xl border border-emerald-600/50">
-            <div className="text-2xl font-extrabold text-[#D86A1F]">{doctors.length}+</div>
-            <div className="text-xs text-emerald-100 font-semibold">Authorized Specialists</div>
+          <div className="text-center md:text-right bg-[#1E834B]/80 p-4 rounded-2xl border border-white/20">
+            <div className="text-2xl font-extrabold text-[#D9691F]">{doctors.length}+</div>
+            <div className="text-xs text-[#E8F7EE] font-semibold">Authorized Specialists</div>
           </div>
         </div>
 
         {/* Doctor Search Bar & Specialty Filter */}
-        <div className="doc-search-bar bg-white p-5 rounded-2xl shadow-sm border border-[#087A5A]/10 space-y-4">
+        <div className="doc-search-bar bg-white p-5 rounded-2xl shadow-2xs border border-gray-200 space-y-4">
           <div className="flex flex-col md:flex-row items-center gap-4">
             <div className="relative flex-1 w-full">
-              <Search className="w-5 h-5 text-[#087A5A] absolute left-3.5 top-3.5" />
+              <Search className="w-5 h-5 text-[#22A25A] absolute left-3.5 top-3.5" />
               <input
                 type="text"
                 placeholder="Search doctors by name or medical specialty (e.g. Cardiology, Orthopedics)..."
                 value={searchTerm}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                className="w-full bg-[#F6F1E7] border border-[#087A5A]/20 rounded-xl pl-11 pr-4 py-3 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#087A5A]"
+                className="w-full bg-gray-50 border border-gray-200 text-[#1F2937] placeholder:text-gray-400 rounded-xl pl-11 pr-4 py-3 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
               />
               {searchTerm && (
                 <button
                   onClick={() => handleSearchChange('')}
-                  className="absolute right-3 top-3 text-xs bg-emerald-100 text-[#087A5A] px-2 py-1 rounded-lg font-bold hover:bg-emerald-200"
+                  className="absolute right-3 top-3 text-xs bg-[#E8F7EE] text-[#22A25A] px-2 py-1 rounded-lg font-bold hover:bg-[#d5f0e1]"
                 >
                   Clear
                 </button>
@@ -223,7 +223,7 @@ export const DoctorsPage: React.FC = () => {
             </div>
 
             {searchTerm && (
-              <div className="text-xs font-bold bg-emerald-100 text-[#087A5A] px-3 py-2 rounded-xl border border-emerald-300/60 whitespace-nowrap">
+              <div className="text-xs font-bold bg-[#E8F7EE] text-[#22A25A] px-3 py-2 rounded-xl border border-[#22A25A]/20 whitespace-nowrap">
                 Found {filteredDoctors.length} doctor{filteredDoctors.length === 1 ? '' : 's'} matching "{searchTerm}"
               </div>
             )}
@@ -231,7 +231,7 @@ export const DoctorsPage: React.FC = () => {
 
           {/* Filter Pills */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-            <span className="text-xs font-bold text-emerald-900 mr-2 flex items-center gap-1 shrink-0">
+            <span className="text-xs font-bold text-[#1F2937] mr-2 flex items-center gap-1 shrink-0">
               <Filter className="w-3.5 h-3.5" /> Specialty:
             </span>
             {specialtyFilters.map((spec) => (
@@ -240,8 +240,8 @@ export const DoctorsPage: React.FC = () => {
                 onClick={() => setSelectedSpecialty(spec)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                   selectedSpecialty === spec
-                    ? 'bg-[#087A5A] text-white shadow-xs'
-                    : 'bg-[#F6F1E7] text-[#087A5A] hover:bg-[#087A5A]/10'
+                    ? 'bg-[#22A25A] text-white shadow-2xs'
+                    : 'bg-gray-50 text-[#1F2937] hover:bg-gray-100 border border-gray-200'
                 }`}
               >
                 {spec}
@@ -252,15 +252,15 @@ export const DoctorsPage: React.FC = () => {
 
         {/* Doctors Grid */}
         {filteredDoctors.length === 0 ? (
-          <div className="bg-white p-12 rounded-2xl text-center space-y-3 border border-[#087A5A]/10">
-            <UserCheck className="w-12 h-12 text-[#087A5A] mx-auto" />
-            <h3 className="font-heading font-bold text-lg text-emerald-950">No Doctors Found</h3>
-            <p className="text-xs text-emerald-800">
+          <div className="bg-white p-12 rounded-2xl text-center space-y-3 border border-gray-200">
+            <UserCheck className="w-12 h-12 text-[#22A25A] mx-auto" />
+            <h3 className="font-heading font-bold text-lg text-[#1F2937]">No Doctors Found</h3>
+            <p className="text-xs text-[#6B7280]">
               No medical specialist matched your search "{searchTerm}". Try searching for another specialty (e.g., "Cardiology", "Surgeon", "Child").
             </p>
             <button
               onClick={() => { handleSearchChange(''); setSelectedSpecialty('All'); }}
-              className="bg-[#087A5A] text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-[#066349]"
+              className="bg-[#22A25A] text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-[#1E834B]"
             >
               Reset Search Filter
             </button>
@@ -270,10 +270,10 @@ export const DoctorsPage: React.FC = () => {
             {filteredDoctors.map((doc) => (
               <div
                 key={doc.id}
-                className="doc-card bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-[#087A5A]/10 overflow-hidden flex flex-col justify-between"
+                className="doc-card bg-white rounded-2xl shadow-2xs hover:shadow-md transition-all border border-gray-200 overflow-hidden flex flex-col justify-between"
               >
                 <div>
-                  <div className="h-48 bg-emerald-100 relative overflow-hidden">
+                  <div className="h-48 bg-[#E8F7EE] relative overflow-hidden">
                     <img
                       src={doc.photoURL || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80'}
                       alt={doc.name}
@@ -281,41 +281,41 @@ export const DoctorsPage: React.FC = () => {
                       className="w-full h-full object-cover object-top"
                     />
                     {doc.roomNumber && (
-                      <span className="absolute bottom-2 right-2 bg-[#087A5A] text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow">
+                      <span className="absolute bottom-2 right-2 bg-[#22A25A] text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
                         {doc.roomNumber}
                       </span>
                     )}
                     {doc.isAvailable === false && (
-                      <span className="absolute top-2 right-2 bg-[#D86A1F] text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow border border-amber-400">
+                      <span className="absolute top-2 right-2 bg-[#D9691F] text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow-xs">
                         On Leave
                       </span>
                     )}
                   </div>
 
                   <div className="p-4 space-y-2">
-                    <h3 className="font-heading font-bold text-base text-[#087A5A]">
+                    <h3 className="font-heading font-bold text-base text-[#1F2937]">
                       {doc.name}
                     </h3>
-                    <div className="text-xs font-bold text-[#D86A1F] bg-amber-50 px-2 py-0.5 rounded-md inline-block">
+                    <div className="text-xs font-bold text-[#D9691F] bg-[#FBEAE0] px-2 py-0.5 rounded-md inline-block">
                       {doc.specialty}
                     </div>
 
                     {doc.bio && (
-                      <div className="bg-[#F6F1E7] p-2.5 rounded-xl border border-[#087A5A]/10 text-xs text-emerald-900/90 leading-relaxed break-words mt-1">
+                      <div className="bg-gray-50 p-2.5 rounded-xl border border-gray-100 text-xs text-[#6B7280] leading-relaxed break-words mt-1">
                         {doc.bio}
                       </div>
                     )}
 
                     {doc.availableDays && (Array.isArray(doc.availableDays) ? doc.availableDays.length > 0 : Boolean(doc.availableDays)) && (
-                      <div className="flex items-center gap-2 text-xs text-emerald-800 font-medium pt-1.5 min-w-0">
-                        <Calendar className="w-4 h-4 text-[#087A5A] shrink-0" />
+                      <div className="flex items-center gap-2 text-xs text-[#6B7280] font-medium pt-1.5 min-w-0">
+                        <Calendar className="w-4 h-4 text-[#22A25A] shrink-0" />
                         <span className="truncate">Days: {Array.isArray(doc.availableDays) ? doc.availableDays.join(', ') : doc.availableDays}</span>
                       </div>
                     )}
 
                     {doc.timing && (
-                      <div className="flex items-center gap-2 text-xs text-emerald-800 font-medium pt-0.5 min-w-0">
-                        <Clock className="w-4 h-4 text-[#087A5A] shrink-0" />
+                      <div className="flex items-center gap-2 text-xs text-[#6B7280] font-medium pt-0.5 min-w-0">
+                        <Clock className="w-4 h-4 text-[#22A25A] shrink-0" />
                         <span className="truncate">Timing: {doc.timing}</span>
                       </div>
                     )}
@@ -326,7 +326,7 @@ export const DoctorsPage: React.FC = () => {
                   {doc.isAvailable !== false ? (
                     <button
                       onClick={() => handleOpenBooking(doc.id)}
-                      className="w-full bg-[#087A5A] hover:bg-[#066349] text-white py-2.5 rounded-xl text-xs font-bold shadow flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white py-2.5 rounded-xl text-xs font-bold shadow-2xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <Calendar className="w-3.5 h-3.5" />
                       <span>Book Visit with Doctor</span>
@@ -334,7 +334,7 @@ export const DoctorsPage: React.FC = () => {
                   ) : (
                     <button
                       disabled
-                      className="w-full bg-amber-100 text-amber-800 border border-amber-300 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-not-allowed opacity-80"
+                      className="w-full bg-[#FBEAE0] text-[#D9691F] border border-[#D9691F]/30 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-not-allowed opacity-80"
                     >
                       <Calendar className="w-3.5 h-3.5" />
                       <span>Currently On Leave</span>
