@@ -86,7 +86,7 @@ export const TestimonialsSection: React.FC = () => {
   };
 
   return (
-    <section id="reviews" className="py-16 sm:py-24 bg-[#F1E9D8] text-[#3A362E] relative overflow-hidden">
+    <section id="reviews" className="py-16 sm:py-24 bg-[#F6F1E7] text-[#3A362E] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 relative z-10">
         
         {/* Header */}
@@ -98,7 +98,7 @@ export const TestimonialsSection: React.FC = () => {
           className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6"
         >
           <div className="space-y-3">
-            <span className="bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider border border-[#8DAA91]/40 inline-flex items-center gap-1.5">
+            <span className="bg-[#E4EDE2] text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider border border-[#8DAA91]/40 inline-flex items-center gap-1.5">
               <Heart className="w-3.5 h-3.5 text-[#3D6B4A]" />
               PATIENT EXPERIENCES
             </span>
@@ -115,9 +115,9 @@ export const TestimonialsSection: React.FC = () => {
               href="https://www.google.com/maps?q=Rafah-E-Aam+Medical+Center+Karachi"
               target="_blank"
               rel="noreferrer"
-              className="bg-white border border-[#8DAA91]/40 text-[#3A362E] hover:bg-[#F1E9D8] px-4 py-2.5 rounded-2xl text-xs font-bold transition-all shadow-2xs flex items-center gap-2"
+              className="bg-white border border-[#8DAA91]/40 text-[#3A362E] hover:bg-[#E4EDE2]/50 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all shadow-2xs flex items-center gap-2"
             >
-              <Star className="w-4 h-4 fill-[#4A7C59] text-[#4A7C59]" />
+              <Star className="w-4 h-4 fill-[#D9704F] text-[#D9704F]" />
               <span>Google Rating (3.8★)</span>
             </a>
 
@@ -143,13 +143,13 @@ export const TestimonialsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-white/80 p-6 rounded-3xl border border-[#8DAA91]/30 shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all"
+              className="bg-white p-6 rounded-3xl border border-[#8DAA91]/30 shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-[#4A7C59]">
+                  <div className="flex items-center gap-1 text-[#D9704F]">
                     {[...Array(rev.rating || 5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#4A7C59] text-[#4A7C59]" />
+                      <Star key={i} className="w-4 h-4 fill-[#D9704F] text-[#D9704F]" />
                     ))}
                   </div>
                   <span className="text-[11px] text-[#3A362E]/70 font-medium">
@@ -180,7 +180,7 @@ export const TestimonialsSection: React.FC = () => {
       {/* Review Submission Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#F1E9D8] text-[#3A362E] w-full max-w-md rounded-3xl shadow-2xl p-6 border border-[#8DAA91]/40 space-y-4">
+          <div className="bg-[#F6F1E7] text-[#3A362E] w-full max-w-md rounded-3xl shadow-2xl p-6 border border-[#8DAA91]/40 space-y-4">
             <div className="flex items-center justify-between border-b border-[#8DAA91]/30 pb-3">
               <h3 className="font-heading font-bold text-base text-[#4A7C59]">Write a Patient Review</h3>
               <button onClick={() => setModalOpen(false)} className="text-[#3A362E]/70 hover:text-[#3A362E] cursor-pointer">

@@ -25,7 +25,7 @@ export const HowItWorksSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-[#F1E9D8] text-[#3A362E] relative overflow-hidden">
+    <section className="py-16 sm:py-20 bg-[#F6F1E7] text-[#3A362E] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 relative z-10">
         
         {/* Section Header */}
@@ -36,7 +36,7 @@ export const HowItWorksSection: React.FC = () => {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-2xl mx-auto space-y-3.5"
         >
-          <span className="bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#8DAA91]/40">
+          <span className="bg-[#E4EDE2] text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#8DAA91]/40">
             <Sparkles className="w-4 h-4 text-[#3D6B4A]" />
             EASY APPOINTMENT PROCESS
           </span>
@@ -63,13 +63,13 @@ export const HowItWorksSection: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="bg-white/80 p-6 sm:p-7 rounded-3xl border border-[#8DAA91]/30 shadow-2xs hover:shadow-md transition-all space-y-4 relative"
+                  className="bg-white p-6 sm:p-7 rounded-3xl border border-[#8DAA91]/30 shadow-2xs hover:shadow-md transition-all space-y-4 relative"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-2xl bg-[#4A7C59] text-white flex items-center justify-center font-bold shadow-xs">
-                      <Icon className="w-6 h-6 text-white" />
+                    <div className="w-12 h-12 rounded-2xl bg-[#E4EDE2] text-[#4A7C59] flex items-center justify-center font-bold shadow-xs">
+                      <Icon className="w-6 h-6 text-[#4A7C59]" />
                     </div>
-                    <span className="text-2xl font-black text-[#8DAA91]/50 font-mono">
+                    <span className="text-2xl font-black text-[#D9704F]/60 font-mono">
                       {step.number}
                     </span>
                   </div>

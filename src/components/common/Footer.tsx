@@ -50,8 +50,8 @@ export const Footer: React.FC = () => {
             {/* Social Proof */}
             <div className="bg-[#3D6B4A]/80 p-3 rounded-xl border border-white/10 flex items-center justify-between gap-3">
               <div>
-                <div className="flex items-center gap-1 text-[#C9DABF] text-sm font-bold">
-                  <Star className="w-4 h-4 fill-[#C9DABF]" /> 3.8 / 5.0
+                <div className="flex items-center gap-1 text-[#D9704F] text-sm font-bold">
+                  <Star className="w-4 h-4 fill-[#D9704F]" /> <span className="text-white">3.8 / 5.0</span>
                 </div>
                 <div className="text-xs text-white/80">Trusted by over 50,000+ patients across Karachi</div>
               </div>
@@ -59,7 +59,7 @@ export const Footer: React.FC = () => {
                 href="https://www.google.com/maps?q=Rafah-E-Aam+Medical+Center+Karachi"
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs text-[#C9DABF] hover:text-white underline font-semibold"
+                className="text-xs text-[#E4EDE2] hover:text-white underline font-semibold"
               >
                 Google Reviews
               </a>

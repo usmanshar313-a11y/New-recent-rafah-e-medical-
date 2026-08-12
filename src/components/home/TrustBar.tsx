@@ -27,7 +27,7 @@ export const TrustBar: React.FC = () => {
   ];
 
   return (
-    <section className="bg-[#F1E9D8] border-y border-[#8DAA91]/30 py-6 relative z-20">
+    <section className="bg-[#F6F1E7] border-y border-[#8DAA91]/30 py-6 relative z-20">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 items-center">
           {TRUST_ITEMS.map((item, idx) => {
@@ -41,7 +41,7 @@ export const TrustBar: React.FC = () => {
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
                 className="flex items-center gap-3.5 group"
               >
-                <div className="w-11 h-11 rounded-2xl bg-[#4A7C59]/10 text-[#4A7C59] flex items-center justify-center shrink-0 group-hover:bg-[#4A7C59] group-hover:text-white transition-colors duration-300">
+                <div className="w-11 h-11 rounded-2xl bg-[#E4EDE2] text-[#4A7C59] flex items-center justify-center shrink-0 group-hover:bg-[#4A7C59] group-hover:text-white transition-colors duration-300">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>

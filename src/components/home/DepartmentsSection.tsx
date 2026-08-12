@@ -67,7 +67,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
   ];
 
   return (
-    <section id="departments" className="py-16 sm:py-24 bg-[#F1E9D8] text-[#3A362E] relative overflow-hidden">
+    <section id="departments" className="py-16 sm:py-24 bg-[#F6F1E7] text-[#3A362E] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12 relative z-10">
         
         {/* Section Header */}
@@ -78,7 +78,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-2xl mx-auto space-y-3.5"
         >
-          <span className="bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#8DAA91]/40">
+          <span className="bg-[#E4EDE2] text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#8DAA91]/40">
             <Building2 className="w-4 h-4 text-[#3D6B4A]" />
             FEATURED MEDICAL SERVICES
           </span>
@@ -101,14 +101,14 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white p-6 rounded-3xl border border-[#8DAA91]/30 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
+                className="bg-white p-6 rounded-3xl border border-[#8DAA91]/30 border-t-4 border-t-[#D9704F] shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
               >
                 <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
-                    <div className={`p-3 rounded-2xl ${dept.bg} group-hover:scale-105 transition-transform`}>
-                      <Icon className="w-5 h-5 text-[#3D6B4A]" />
+                    <div className="p-3 rounded-2xl bg-[#E4EDE2] text-[#4A7C59] group-hover:scale-105 transition-transform">
+                      <Icon className="w-5 h-5 text-[#4A7C59]" />
                     </div>
-                    <span className="text-xs font-extrabold text-[#3D6B4A] bg-[#C9DABF]/60 border border-[#8DAA91]/40 px-2.5 py-1 rounded-full">
+                    <span className="text-xs font-extrabold text-white bg-[#D9704F] px-2.5 py-1 rounded-full shadow-2xs">
                       Fee: {dept.fee}
                     </span>
                   </div>
@@ -121,7 +121,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
                     {dept.desc}
                   </p>
 
-                  <div className="bg-[#F1E9D8] p-3 rounded-2xl border border-[#8DAA91]/30 text-xs text-[#3A362E]">
+                  <div className="bg-[#F6F1E7] p-3 rounded-2xl border border-[#8DAA91]/30 text-xs text-[#3A362E]">
                     <span className="font-bold text-[#4A7C59]">Consultants: </span>
                     {dept.doctors}
                   </div>

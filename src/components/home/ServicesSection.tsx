@@ -16,11 +16,11 @@ interface ServicesSectionProps {
 
 export const ServicesSection: React.FC<ServicesSectionProps> = () => {
   return (
-    <section id="services" className="py-16 bg-[#F1E9D8] text-[#3A362E]">
+    <section id="services" className="py-16 bg-[#F6F1E7] text-[#3A362E]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-2xl mx-auto mb-10 space-y-3">
-          <span className="bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-[#8DAA91]/40">
+          <span className="bg-[#E4EDE2] text-[#3D6B4A] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-[#8DAA91]/40">
             Clinical Care Preview
           </span>
           <h2 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#4A7C59]">
@@ -32,11 +32,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
         </div>
 
         {/* Homepage Summary Card for Services */}
-        <div className="bg-white/80 rounded-3xl p-8 border border-[#8DAA91]/30 shadow-md max-w-4xl mx-auto space-y-8">
+        <div className="bg-white rounded-3xl p-8 border border-[#8DAA91]/30 shadow-md max-w-4xl mx-auto space-y-8">
           
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <div className="bg-white p-4 rounded-2xl border border-[#8DAA91]/30 flex items-center gap-3 shadow-xs">
-              <div className="p-2.5 bg-[#C9DABF]/60 rounded-xl text-[#3D6B4A]">
+              <div className="p-2.5 bg-[#E4EDE2] rounded-xl text-[#4A7C59]">
                 <Stethoscope className="w-5 h-5" />
               </div>
               <div>
@@ -46,17 +46,17 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-[#8DAA91]/30 flex items-center gap-3 shadow-xs">
-              <div className="p-2.5 bg-[#C9DABF]/60 rounded-xl text-[#3D6B4A]">
+              <div className="p-2.5 bg-[#E4EDE2] rounded-xl text-[#4A7C59]">
                 <ShieldAlert className="w-5 h-5" />
               </div>
               <div>
                 <div className="font-heading font-bold text-xs sm:text-sm text-[#4A7C59]">24/7 Emergency</div>
-                <div className="text-[11px] text-[#3D6B4A] font-semibold">Trauma & Casualty</div>
+                <div className="text-[11px] text-[#D9704F] font-semibold">Trauma & Casualty</div>
               </div>
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-[#8DAA91]/30 flex items-center gap-3 shadow-xs">
-              <div className="p-2.5 bg-[#C9DABF]/60 rounded-xl text-[#3D6B4A]">
+              <div className="p-2.5 bg-[#E4EDE2] rounded-xl text-[#4A7C59]">
                 <HeartHandshake className="w-5 h-5" />
               </div>
               <div>
@@ -66,7 +66,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-[#8DAA91]/30 flex items-center gap-3 shadow-xs">
-              <div className="p-2.5 bg-[#C9DABF]/60 rounded-xl text-[#3D6B4A]">
+              <div className="p-2.5 bg-[#E4EDE2] rounded-xl text-[#4A7C59]">
                 <FlaskConical className="w-5 h-5" />
               </div>
               <div>
@@ -76,7 +76,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-[#8DAA91]/30 flex items-center gap-3 shadow-xs">
-              <div className="p-2.5 bg-[#C9DABF]/60 rounded-xl text-[#3D6B4A]">
+              <div className="p-2.5 bg-[#E4EDE2] rounded-xl text-[#4A7C59]">
                 <Baby className="w-5 h-5" />
               </div>
               <div>
@@ -86,7 +86,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
             </div>
 
             <div className="bg-white p-4 rounded-2xl border border-[#8DAA91]/30 flex items-center gap-3 shadow-xs">
-              <div className="p-2.5 bg-[#C9DABF]/60 rounded-xl text-[#3D6B4A]">
+              <div className="p-2.5 bg-[#E4EDE2] rounded-xl text-[#4A7C59]">
                 <Stethoscope className="w-5 h-5" />
               </div>
               <div>

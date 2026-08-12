@@ -31,7 +31,7 @@ export const AboutPage: React.FC = () => {
   useScrollAnimation(containerRef, '.gsap-reveal');
 
   return (
-    <div ref={containerRef} className="bg-[#F1E9D8] min-h-screen py-10 text-[#3A362E]">
+    <div ref={containerRef} className="bg-[#F6F1E7] min-h-screen py-10 text-[#3A362E]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Page Banner Header */}
@@ -43,7 +43,7 @@ export const AboutPage: React.FC = () => {
             <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-white">
               Dedicated to Serving Gulberg Town & Karachi
             </h1>
-            <p className="text-xs sm:text-sm text-[#F1E9D8] leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#F6F1E7] leading-relaxed">
               Providing round-the-clock emergency care, general OPD consultations, orthopedic surgery, maternal healthcare, and diagnostic services with compassionate human touch.
             </p>
           </div>
@@ -63,7 +63,7 @@ export const AboutPage: React.FC = () => {
           
           <div className="lg:col-span-7 space-y-6">
             <div className="bg-white p-8 rounded-3xl shadow-sm border border-[#8DAA91]/30 space-y-5">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#C9DABF]/60 text-xs font-bold uppercase tracking-wider text-[#3D6B4A]">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E4EDE2] text-xs font-bold uppercase tracking-wider text-[#3D6B4A]">
                 <Building2 className="w-4 h-4 text-[#3D6B4A]" /> Community Healthcare Legacy
               </div>
 
@@ -80,15 +80,15 @@ export const AboutPage: React.FC = () => {
               </p>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
-                <div className="p-3.5 bg-[#F1E9D8] rounded-2xl border border-[#8DAA91]/30 text-center">
+                <div className="p-3.5 bg-[#F6F1E7] rounded-2xl border border-[#8DAA91]/30 text-center">
                   <div className="font-extrabold text-xl text-[#4A7C59]">24/7</div>
                   <div className="text-[10px] text-[#3D6B4A] font-bold uppercase">Emergency & Lab</div>
                 </div>
-                <div className="p-3.5 bg-[#F1E9D8] rounded-2xl border border-[#8DAA91]/30 text-center">
+                <div className="p-3.5 bg-[#F6F1E7] rounded-2xl border border-[#8DAA91]/30 text-center">
                   <div className="font-extrabold text-xl text-[#4A7C59]">34+</div>
                   <div className="text-[10px] text-[#3D6B4A] font-bold uppercase">Medical Specialists</div>
                 </div>
-                <div className="p-3.5 bg-[#F1E9D8] rounded-2xl border border-[#8DAA91]/30 text-center col-span-2 sm:col-span-1">
+                <div className="p-3.5 bg-[#F6F1E7] rounded-2xl border border-[#8DAA91]/30 text-center col-span-2 sm:col-span-1">
                   <div className="font-extrabold text-xl text-[#4A7C59]">15+</div>
                   <div className="text-[10px] text-[#3D6B4A] font-bold uppercase">Specialized OPDs</div>
                 </div>
@@ -138,7 +138,7 @@ export const AboutPage: React.FC = () => {
               </ul>
 
               <div className="pt-2">
-                <div className="p-4 bg-[#F1E9D8] rounded-2xl border border-[#8DAA91]/30 flex items-start gap-3">
+                <div className="p-4 bg-[#F6F1E7] rounded-2xl border border-[#8DAA91]/30 flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-[#4A7C59] shrink-0 mt-0.5" />
                   <div className="text-xs">
                     <span className="font-bold block text-[#4A7C59]">Hospital Location:</span>
@@ -169,7 +169,7 @@ export const AboutPage: React.FC = () => {
             </div>
 
             <div className="lg:col-span-7 space-y-4">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3D6B4A] bg-[#C9DABF]/60 px-3.5 py-1 rounded-full uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3D6B4A] bg-[#E4EDE2] px-3.5 py-1 rounded-full uppercase tracking-wider">
                 <GraduationCap className="w-4 h-4 text-[#3D6B4A]" /> Clinical Excellence & Education
               </span>
 
@@ -182,11 +182,11 @@ export const AboutPage: React.FC = () => {
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs font-semibold text-[#3A362E]">
-                <div className="flex items-center gap-2 bg-[#F1E9D8] p-3 rounded-xl border border-[#8DAA91]/30">
+                <div className="flex items-center gap-2 bg-[#F6F1E7] p-3 rounded-xl border border-[#8DAA91]/30">
                   <ShieldCheck className="w-4 h-4 text-[#4A7C59] shrink-0" />
                   <span>Evidence-Based Treatment Guidelines</span>
                 </div>
-                <div className="flex items-center gap-2 bg-[#F1E9D8] p-3 rounded-xl border border-[#8DAA91]/30">
+                <div className="flex items-center gap-2 bg-[#F6F1E7] p-3 rounded-xl border border-[#8DAA91]/30">
                   <Sparkles className="w-4 h-4 text-[#4A7C59] shrink-0" />
                   <span>Continuous Staff Quality Audits</span>
                 </div>
@@ -209,7 +209,7 @@ export const AboutPage: React.FC = () => {
                 24/7 Emergency Response & Ambulance Service
               </h2>
 
-              <p className="text-xs sm:text-sm text-[#F1E9D8] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#F6F1E7] leading-relaxed">
                 Our emergency response unit operates 24 hours a day with certified paramedics and fully equipped life-support ambulances. Whether responding to acute trauma, cardiac distress, or urgent patient transfers in Gulberg Town and surrounding areas, our rapid dispatch team ensures safe and swift arrival.
               </p>
 
@@ -242,7 +242,7 @@ export const AboutPage: React.FC = () => {
         {/* Facility Gallery Section (Requirement #4) */}
         <div className="space-y-6 gsap-reveal">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3D6B4A] bg-[#C9DABF]/60 px-3.5 py-1 rounded-full uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3D6B4A] bg-[#E4EDE2] px-3.5 py-1 rounded-full uppercase tracking-wider">
               <Bed className="w-4 h-4 text-[#3D6B4A]" /> Hospital Tour
             </span>
             <h2 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#4A7C59]">

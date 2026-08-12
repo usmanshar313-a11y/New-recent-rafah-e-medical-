@@ -14,7 +14,7 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
   const featuredDoctors = ALL_DOCTORS.filter((d) => FEATURED_DOCTOR_IDS.includes(d.id));
 
   return (
-    <section className="py-16 sm:py-24 bg-[#F1E9D8] text-[#3A362E] relative overflow-hidden">
+    <section className="py-16 sm:py-24 bg-[#F6F1E7] text-[#3A362E] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12 relative z-10">
         
         {/* Section Header */}
@@ -25,7 +25,7 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-2xl mx-auto space-y-3.5"
         >
-          <span className="bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#8DAA91]/40">
+          <span className="bg-[#E4EDE2] text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#8DAA91]/40">
             <UserCheck className="w-4 h-4 text-[#3D6B4A]" />
             SENIOR CONSULTANT PANEL
           </span>
@@ -50,7 +50,7 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
             >
               <div className="space-y-4">
                 {/* Doctor Photo Frame */}
-                <div className="relative w-full h-48 sm:h-52 rounded-2xl overflow-hidden bg-[#C9DABF]/30 border border-[#8DAA91]/30">
+                <div className="relative w-full h-48 sm:h-52 rounded-2xl overflow-hidden bg-slate-100 border border-[#8DAA91]/30">
                   <img
                     src={doc.photoURL}
                     alt={doc.name}
@@ -73,7 +73,7 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
                   </p>
                 </div>
 
-                <div className="bg-[#F1E9D8] p-3 rounded-2xl border border-[#8DAA91]/30 space-y-1 text-xs">
+                <div className="bg-[#F6F1E7] p-3 rounded-2xl border border-[#8DAA91]/30 space-y-1 text-xs">
                   <div className="flex items-center justify-between text-[#3A362E]">
                     <span className="font-medium flex items-center gap-1 text-[#3A362E]/80">
                       <Calendar className="w-3 h-3 text-[#4A7C59]" /> Days:

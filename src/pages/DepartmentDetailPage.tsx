@@ -198,10 +198,10 @@ export const DepartmentDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F6F1E7] flex items-center justify-center p-6 text-[#087A5A]">
+      <div className="min-h-screen bg-[#F6F1E7] flex items-center justify-center p-6 text-[#4A7C59]">
         <div className="text-center space-y-4">
-          <Loader2 className="w-9 h-9 text-[#087A5A] animate-spin mx-auto" />
-          <p className="text-xs font-bold text-[#087A5A]">Loading Department Specialists...</p>
+          <Loader2 className="w-9 h-9 text-[#4A7C59] animate-spin mx-auto" />
+          <p className="text-xs font-bold text-[#4A7C59]">Loading Department Specialists...</p>
         </div>
       </div>
     );
@@ -209,15 +209,15 @@ export const DepartmentDetailPage: React.FC = () => {
 
   if (!department) {
     return (
-      <div className="min-h-screen bg-[#F6F1E7] py-16 px-4 text-[#087A5A]">
-        <div className="max-w-2xl mx-auto bg-white p-8 sm:p-10 rounded-3xl text-center space-y-6 shadow-2xs border border-[#087A5A]/10">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-[#087A5A]">Department Not Found</h2>
-          <p className="text-xs sm:text-sm text-emerald-800 font-medium">
+      <div className="min-h-screen bg-[#F6F1E7] py-16 px-4 text-[#4A7C59]">
+        <div className="max-w-2xl mx-auto bg-white p-8 sm:p-10 rounded-3xl text-center space-y-6 shadow-2xs border border-[#8DAA91]/30">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-[#4A7C59]">Department Not Found</h2>
+          <p className="text-xs sm:text-sm text-[#3A362E]/80 font-medium">
             The requested medical department could not be located in our OPD directory.
           </p>
           <Link
             to="/departments"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#087A5A] text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-[#066349] transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#3D6B4A] text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-[#32583d] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Departments
           </Link>
@@ -227,31 +227,31 @@ export const DepartmentDetailPage: React.FC = () => {
   }
 
   return (
-    <div ref={containerRef} className="bg-[#F6F1E7] min-h-screen py-6 sm:py-8 text-[#087A5A]">
+    <div ref={containerRef} className="bg-[#F6F1E7] min-h-screen py-6 sm:py-8 text-[#3A362E]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         
         {/* Navigation & Header Section */}
         <div className="space-y-4">
-          {/* ← Back to Departments link (Positioned Top-Left) */}
+          {/* ← Back to Departments link */}
           <div className="gsap-header">
             <Link
               to="/departments"
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#087A5A] hover:text-[#066349] bg-white px-3.5 py-2 rounded-xl border border-[#087A5A]/10 shadow-2xs transition-all hover:-translate-x-0.5"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#4A7C59] hover:text-[#3D6B4A] bg-white px-3.5 py-2 rounded-xl border border-[#8DAA91]/30 shadow-2xs transition-all hover:-translate-x-0.5"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Departments
             </Link>
           </div>
 
-          {/* Simple, Formal, Compact Department Header */}
-          <div className="gsap-header bg-white p-5 sm:p-6 rounded-2xl border border-[#087A5A]/15 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 shrink-0 text-[#087A5A]">
+          {/* Department Header */}
+          <div className="gsap-header bg-white p-5 sm:p-6 rounded-2xl border border-[#8DAA91]/30 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="p-3 bg-[#E4EDE2] rounded-xl border border-[#8DAA91]/40 shrink-0 text-[#3D6B4A]">
               <DepartmentIcon iconType={department.icon} className="w-6 h-6" />
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="font-heading font-extrabold text-xl sm:text-2xl text-[#087A5A] leading-tight">
+              <h1 className="font-heading font-extrabold text-xl sm:text-2xl text-[#4A7C59] leading-tight">
                 {department.name}
               </h1>
-              <p className="text-xs sm:text-sm text-emerald-800/90 font-medium mt-1 line-clamp-2">
+              <p className="text-xs sm:text-sm text-[#3A362E]/80 font-medium mt-1 line-clamp-2">
                 {department.description}
               </p>
             </div>
@@ -260,19 +260,19 @@ export const DepartmentDetailPage: React.FC = () => {
 
         {/* Section Indicator */}
         <div className="gsap-section-title flex items-center justify-between px-1">
-          <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#087A5A]">
-            <UserCheck className="w-4.5 h-4.5 text-[#087A5A]" />
+          <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#4A7C59]">
+            <UserCheck className="w-4.5 h-4.5 text-[#4A7C59]" />
             <span>Consulting Specialists ({department.doctors.length})</span>
           </div>
         </div>
 
-        {/* Doctor Cards Grid (2 Columns Desktop, 1 Column Mobile, Generous Whitespace, Formal Styling) */}
+        {/* Doctor Cards Grid */}
         {department.doctors.length === 0 ? (
-          <div className="bg-white p-8 sm:p-10 rounded-2xl border border-[#087A5A]/10 text-center space-y-3">
-            <p className="text-sm text-emerald-800 font-medium">
+          <div className="bg-white p-8 sm:p-10 rounded-2xl border border-[#8DAA91]/30 text-center space-y-3">
+            <p className="text-sm text-[#3A362E]/80 font-medium">
               No individual consultant listed online for this department at the moment.
             </p>
-            <p className="text-xs text-emerald-600">
+            <p className="text-xs text-[#3A362E]/60">
               Walk-in OPD consultations and emergency support are available at reception 24/7.
             </p>
           </div>
@@ -281,7 +281,7 @@ export const DepartmentDetailPage: React.FC = () => {
             {department.doctors.map((doc) => (
               <div
                 key={doc.id}
-                className="doc-card bg-white rounded-2xl border border-[#087A5A]/15 shadow-2xs hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between space-y-6"
+                className="doc-card bg-white rounded-2xl border border-[#8DAA91]/30 shadow-2xs hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between space-y-6"
               >
                 <div className="space-y-4">
                   {/* Photo, Name, Specialty, Room */}
@@ -292,29 +292,29 @@ export const DepartmentDetailPage: React.FC = () => {
                         'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80'
                       }
                       alt={doc.name}
-                      className="w-20 h-20 sm:w-22 sm:h-22 rounded-xl object-cover object-top border border-[#087A5A]/15 bg-emerald-50 shrink-0 shadow-2xs"
+                      className="w-20 h-20 sm:w-22 sm:h-22 rounded-xl object-cover object-top border border-[#8DAA91]/30 bg-[#F6F1E7] shrink-0 shadow-2xs"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
                           'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80';
                       }}
                     />
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-heading font-extrabold text-base sm:text-lg text-[#087A5A] leading-tight truncate">
+                      <h3 className="font-heading font-extrabold text-base sm:text-lg text-[#4A7C59] leading-tight truncate">
                         {doc.name}
                       </h3>
-                      <p className="text-xs font-bold text-[#D86A1F] mt-1 truncate">
+                      <p className="text-xs font-bold text-[#D9704F] mt-1 truncate">
                         {doc.specialty}
                       </p>
                       {doc.roomNumber && (
-                        <p className="text-xs text-emerald-800 font-medium mt-1.5 flex items-center gap-1.5 truncate">
-                          <MapPin className="w-3.5 h-3.5 text-[#087A5A] shrink-0" />
+                        <p className="text-xs text-[#3A362E]/80 font-medium mt-1.5 flex items-center gap-1.5 truncate">
+                          <MapPin className="w-3.5 h-3.5 text-[#4A7C59] shrink-0" />
                           <span className="truncate">OPD Room: {doc.roomNumber}</span>
                         </p>
                       )}
 
                       {doc.isAvailable === false && (
                         <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300">
-                          <span className="w-2 h-2 rounded-full bg-[#D86A1F]" />
+                          <span className="w-2 h-2 rounded-full bg-[#D9704F]" />
                           <span>Currently Unavailable (On Leave)</span>
                         </div>
                       )}
@@ -322,12 +322,12 @@ export const DepartmentDetailPage: React.FC = () => {
                   </div>
 
                   {/* Schedule & Fee Info */}
-                  <div className="space-y-2 pt-3 border-t border-[#087A5A]/10 text-xs text-emerald-800">
+                  <div className="space-y-2 pt-3 border-t border-[#8DAA91]/30 text-xs text-[#3A362E]/80">
                     <div className="flex items-center justify-between gap-2">
                       <span className="flex items-center gap-1.5 font-medium shrink-0">
-                        <Calendar className="w-3.5 h-3.5 text-[#087A5A]" /> Days:
+                        <Calendar className="w-3.5 h-3.5 text-[#4A7C59]" /> Days:
                       </span>
-                      <span className="font-bold text-[#087A5A] truncate text-right">
+                      <span className="font-bold text-[#4A7C59] truncate text-right">
                         {Array.isArray(doc.availableDays)
                           ? doc.availableDays.join(', ')
                           : doc.availableDays || department.days || 'Mon - Sat'}
@@ -336,29 +336,29 @@ export const DepartmentDetailPage: React.FC = () => {
 
                     <div className="flex items-center justify-between gap-2">
                       <span className="flex items-center gap-1.5 font-medium shrink-0">
-                        <Clock className="w-3.5 h-3.5 text-[#087A5A]" /> Timing:
+                        <Clock className="w-3.5 h-3.5 text-[#4A7C59]" /> Timing:
                       </span>
-                      <span className="font-bold text-[#087A5A] truncate text-right">
+                      <span className="font-bold text-[#4A7C59] truncate text-right">
                         {doc.timing || department.timing || '09:00 AM - 05:00 PM'}
                       </span>
                     </div>
 
                     <div className="flex items-center justify-between gap-2">
                       <span className="flex items-center gap-1.5 font-medium shrink-0">
-                        <Banknote className="w-3.5 h-3.5 text-[#087A5A]" /> Fee:
+                        <Banknote className="w-3.5 h-3.5 text-[#4A7C59]" /> Fee:
                       </span>
-                      <span className="font-extrabold text-[#087A5A] text-xs bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-md">
+                      <span className="font-extrabold text-[#D9704F] text-xs bg-[#D9704F]/10 border border-[#D9704F]/20 px-2.5 py-0.5 rounded-md">
                         {doc.fee || department.fee || 'Rs. 1,000'}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Actions: One Primary CTA ("Book Appointment") + One Secondary Link ("View Detail") */}
-                <div className="pt-3 border-t border-[#087A5A]/10 flex items-center gap-3">
+                {/* Actions */}
+                <div className="pt-3 border-t border-[#8DAA91]/30 flex items-center gap-3">
                   <button
                     onClick={() => setSelectedDoctorForModal(doc)}
-                    className="flex-1 border border-[#087A5A]/15 hover:bg-emerald-50 text-[#087A5A] py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="flex-1 border border-[#8DAA91]/30 hover:bg-[#E4EDE2] text-[#4A7C59] py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <Info className="w-3.5 h-3.5" />
                     <span>View Detail</span>
@@ -367,7 +367,7 @@ export const DepartmentDetailPage: React.FC = () => {
                   {doc.isAvailable !== false ? (
                     <button
                       onClick={() => handleOpenBooking(doc.id)}
-                      className="flex-1 bg-[#087A5A] hover:bg-[#066349] active:bg-[#05523d] text-white py-2.5 px-3 rounded-xl text-xs font-bold shadow-2xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="flex-1 bg-[#3D6B4A] hover:bg-[#32583d] active:bg-[#2a4a33] text-white py-2.5 px-3 rounded-xl text-xs font-bold shadow-2xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <Calendar className="w-3.5 h-3.5" />
                       <span>Book Appointment</span>
@@ -396,18 +396,18 @@ export const DepartmentDetailPage: React.FC = () => {
           onClick={() => setSelectedDoctorForModal(null)}
         >
           <div
-            className="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-[#087A5A]/10 overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95"
+            className="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-[#8DAA91]/30 overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="p-5 border-b border-[#087A5A]/10 flex items-center justify-between bg-[#F6F1E7]">
-              <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#087A5A]">
-                <Sparkles className="w-4 h-4 text-[#D86A1F]" />
+            <div className="p-5 border-b border-[#8DAA91]/30 flex items-center justify-between bg-[#F6F1E7]">
+              <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#4A7C59]">
+                <Sparkles className="w-4 h-4 text-[#D9704F]" />
                 <span>Doctor Details</span>
               </div>
               <button
                 onClick={() => setSelectedDoctorForModal(null)}
-                className="p-1.5 rounded-full hover:bg-emerald-100 text-emerald-900 transition-colors cursor-pointer"
+                className="p-1.5 rounded-full hover:bg-[#E4EDE2] text-[#3A362E] transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -422,17 +422,17 @@ export const DepartmentDetailPage: React.FC = () => {
                     'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80'
                   }
                   alt={selectedDoctorForModal.name}
-                  className="w-20 h-20 rounded-xl object-cover object-top border border-[#087A5A]/15 bg-emerald-50 shrink-0"
+                  className="w-20 h-20 rounded-xl object-cover object-top border border-[#8DAA91]/30 bg-[#F6F1E7] shrink-0"
                 />
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-heading font-extrabold text-lg text-[#087A5A]">
+                  <h3 className="font-heading font-extrabold text-lg text-[#4A7C59]">
                     {selectedDoctorForModal.name}
                   </h3>
-                  <p className="text-xs font-bold text-[#D86A1F] mt-1">
+                  <p className="text-xs font-bold text-[#D9704F] mt-1">
                     {selectedDoctorForModal.specialty}
                   </p>
                   {selectedDoctorForModal.roomNumber && (
-                    <p className="text-xs text-emerald-800 font-medium mt-1">
+                    <p className="text-xs text-[#3A362E]/80 font-medium mt-1">
                       OPD Location: {selectedDoctorForModal.roomNumber}
                     </p>
                   )}
@@ -441,17 +441,17 @@ export const DepartmentDetailPage: React.FC = () => {
 
               {selectedDoctorForModal.bio && (
                 <div className="space-y-1.5">
-                  <h4 className="text-xs font-bold text-[#087A5A] uppercase tracking-wider">Biography & Experience</h4>
-                  <p className="text-xs text-emerald-900/80 leading-relaxed font-medium bg-[#F6F1E7] p-3 rounded-xl border border-[#087A5A]/10">
+                  <h4 className="text-xs font-bold text-[#4A7C59] uppercase tracking-wider">Biography & Experience</h4>
+                  <p className="text-xs text-[#3A362E]/90 leading-relaxed font-medium bg-[#F6F1E7] p-3 rounded-xl border border-[#8DAA91]/30">
                     {selectedDoctorForModal.bio}
                   </p>
                 </div>
               )}
 
-              <div className="space-y-2 pt-2 text-xs text-emerald-800 border-t border-[#087A5A]/10">
+              <div className="space-y-2 pt-2 text-xs text-[#3A362E]/80 border-t border-[#8DAA91]/30">
                 <div className="flex items-center justify-between py-1">
                   <span className="font-medium">Consultation Days:</span>
-                  <span className="font-bold text-[#087A5A]">
+                  <span className="font-bold text-[#4A7C59]">
                     {Array.isArray(selectedDoctorForModal.availableDays)
                       ? selectedDoctorForModal.availableDays.join(', ')
                       : selectedDoctorForModal.availableDays || department.days || 'Mon - Sat'}
@@ -459,13 +459,13 @@ export const DepartmentDetailPage: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-between py-1">
                   <span className="font-medium">Consultation Hours:</span>
-                  <span className="font-bold text-[#087A5A]">
+                  <span className="font-bold text-[#4A7C59]">
                     {selectedDoctorForModal.timing || department.timing || '09:00 AM - 05:00 PM'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between py-1">
                   <span className="font-medium">Consultation Fee:</span>
-                  <span className="font-extrabold text-[#087A5A]">
+                  <span className="font-extrabold text-[#D9704F]">
                     {selectedDoctorForModal.fee || department.fee || 'Rs. 1,000'}
                   </span>
                 </div>
@@ -473,10 +473,10 @@ export const DepartmentDetailPage: React.FC = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-[#087A5A]/10 bg-[#F6F1E7] flex items-center justify-end gap-3">
+            <div className="p-4 border-t border-[#8DAA91]/30 bg-[#F6F1E7] flex items-center justify-end gap-3">
               <button
                 onClick={() => setSelectedDoctorForModal(null)}
-                className="px-4 py-2 text-xs font-bold text-emerald-800 hover:bg-emerald-100 rounded-xl transition-colors cursor-pointer"
+                className="px-4 py-2 text-xs font-bold text-[#3A362E] hover:bg-[#E4EDE2] rounded-xl transition-colors cursor-pointer"
               >
                 Close
               </button>
@@ -486,7 +486,7 @@ export const DepartmentDetailPage: React.FC = () => {
                   setSelectedDoctorForModal(null);
                   handleOpenBooking(docId);
                 }}
-                className="px-5 py-2.5 bg-[#087A5A] text-white text-xs font-bold rounded-xl hover:bg-[#066349] transition-colors cursor-pointer flex items-center gap-1.5"
+                className="px-5 py-2.5 bg-[#3D6B4A] text-white text-xs font-bold rounded-xl hover:bg-[#32583d] transition-colors cursor-pointer flex items-center gap-1.5"
               >
                 <Calendar className="w-3.5 h-3.5" />
                 <span>Book Appointment</span>

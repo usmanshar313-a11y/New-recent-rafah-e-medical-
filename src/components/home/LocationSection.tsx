@@ -9,7 +9,7 @@ interface LocationSectionProps {
 
 export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking }) => {
   return (
-    <section id="location" className="py-16 sm:py-24 bg-[#F1E9D8] text-[#3A362E] relative overflow-hidden">
+    <section id="location" className="py-16 sm:py-24 bg-[#F6F1E7] text-[#3A362E] relative overflow-hidden">
       <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -19,7 +19,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
           className="bg-white rounded-3xl p-8 sm:p-12 border border-[#8DAA91]/30 shadow-sm text-center space-y-6"
         >
           {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-2 bg-[#C9DABF]/60 text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full border border-[#8DAA91]/40">
+          <div className="inline-flex items-center gap-2 bg-[#E4EDE2] text-[#3D6B4A] text-xs font-bold px-4 py-1.5 rounded-full border border-[#8DAA91]/40">
             <MapPin className="w-4 h-4 text-[#3D6B4A]" />
             <span>Rafah-E-Aam Medical Centre — Gulberg Town</span>
           </div>
@@ -46,9 +46,9 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
 
             <a
               href="tel:+922136342011"
-              className="w-full sm:w-auto bg-[#F1E9D8] hover:bg-[#C9DABF]/40 text-[#3A362E] border border-[#8DAA91]/40 py-3.5 px-7 rounded-full text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 cursor-pointer"
+              className="w-full sm:w-auto bg-white hover:bg-[#D9704F]/10 text-[#D9704F] border border-[#D9704F] py-3.5 px-7 rounded-full text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 cursor-pointer"
             >
-              <PhoneCall className="w-4 h-4 text-[#4A7C59]" />
+              <PhoneCall className="w-4 h-4 text-[#D9704F]" />
               <span>Call Now</span>
             </a>
           </div>

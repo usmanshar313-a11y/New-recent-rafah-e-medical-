@@ -19,7 +19,7 @@ export const ContactPage: React.FC = () => {
   }, [hash]);
 
   return (
-    <div className="min-h-screen bg-[#F1E9D8] text-[#3A362E] pb-20">
+    <div className="min-h-screen bg-[#F6F1E7] text-[#3A362E] pb-20">
       {/* Hero Header */}
       <div className="bg-[#4A7C59] text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 shadow-sm">
         <div className="max-w-7xl mx-auto text-center space-y-3">
@@ -30,7 +30,7 @@ export const ContactPage: React.FC = () => {
           <h1 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
             Contact & Visit Us
           </h1>
-          <p className="text-xs sm:text-base text-[#F1E9D8] font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-base text-[#F6F1E7] font-medium max-w-2xl mx-auto leading-relaxed">
             Conveniently located in Block 13, Gulberg Town, Karachi. Accessible round-the-clock for routine checkups, OPD clinics, and emergency care.
           </p>
         </div>
@@ -58,7 +58,7 @@ export const ContactPage: React.FC = () => {
               </div>
 
               <div className="space-y-3.5 text-xs sm:text-sm">
-                <div className="flex items-start gap-3 p-3.5 bg-[#F1E9D8] rounded-2xl border border-[#8DAA91]/30">
+                <div className="flex items-start gap-3 p-3.5 bg-[#F6F1E7] rounded-2xl border border-[#8DAA91]/30">
                   <MapPin className="w-5 h-5 text-[#4A7C59] shrink-0 mt-0.5" />
                   <div>
                     <div className="font-bold text-[#4A7C59]">Full Address</div>
@@ -68,7 +68,7 @@ export const ContactPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3.5 bg-[#F1E9D8] rounded-2xl border border-[#8DAA91]/30">
+                <div className="flex items-start gap-3 p-3.5 bg-[#F6F1E7] rounded-2xl border border-[#8DAA91]/30">
                   <Phone className="w-5 h-5 text-[#4A7C59] shrink-0 mt-0.5" />
                   <div>
                     <div className="font-bold text-[#4A7C59]">24/7 Phone Helpline</div>
@@ -81,7 +81,7 @@ export const ContactPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3.5 bg-[#F1E9D8] rounded-2xl border border-[#8DAA91]/30">
+                <div className="flex items-start gap-3 p-3.5 bg-[#F6F1E7] rounded-2xl border border-[#8DAA91]/30">
                   <Clock className="w-5 h-5 text-[#4A7C59] shrink-0 mt-0.5" />
                   <div>
                     <div className="font-bold text-[#4A7C59]">Operating Hours</div>
@@ -91,7 +91,7 @@ export const ContactPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3.5 bg-[#F1E9D8] rounded-2xl border border-[#8DAA91]/30">
+                <div className="flex items-start gap-3 p-3.5 bg-[#F6F1E7] rounded-2xl border border-[#8DAA91]/30">
                   <Accessibility className="w-5 h-5 text-[#4A7C59] shrink-0 mt-0.5" />
                   <div>
                     <div className="font-bold text-[#4A7C59]">Accessibility</div>
@@ -123,7 +123,7 @@ export const ContactPage: React.FC = () => {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-7 bg-white rounded-3xl shadow-sm border border-[#8DAA91]/30 overflow-hidden min-h-[420px] flex flex-col"
           >
-            <div className="bg-[#F1E9D8] px-6 py-4 border-b border-[#8DAA91]/30 flex items-center justify-between">
+            <div className="bg-[#F6F1E7] px-6 py-4 border-b border-[#8DAA91]/30 flex items-center justify-between">
               <span className="font-bold text-xs sm:text-sm text-[#4A7C59] flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#4A7C59]" />
                 Interactive Hospital Map
