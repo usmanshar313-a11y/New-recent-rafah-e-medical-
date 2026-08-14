@@ -8,16 +8,12 @@ interface HeroProps {
   onOpenBooking?: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
+export const Hero: React.FC<HeroProps> = () => {
   const navigate = useNavigate();
 
   const handleBookClick = () => {
-    if (onOpenBooking) {
-      onOpenBooking();
-    } else {
-      navigate('/departments');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    navigate('/departments');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

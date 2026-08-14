@@ -27,7 +27,7 @@ export const HomePage: React.FC = () => {
 
   return (
     <div ref={containerRef} className="space-y-0">
-      <Hero onOpenBooking={handleOpenGeneralBooking} />
+      <Hero />
       <TrustBar />
       <AboutSection />
       <DepartmentsSection onOpenBooking={handleOpenGeneralBooking} />
