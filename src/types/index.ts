@@ -10,7 +10,10 @@ export interface Patient {
   bloodGroup?: string;
   emergencyContact?: string;
   zipCode?: string;
+  patientCode?: string;
+  mrNumber?: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface Appointment {

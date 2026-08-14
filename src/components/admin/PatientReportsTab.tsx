@@ -17,6 +17,11 @@ import {
   Clock,
   Filter,
   Link,
+  Key,
+  Edit2,
+  Copy,
+  Check,
+  Lock,
 } from 'lucide-react';
 import {
   collection,
@@ -24,6 +29,7 @@ import {
   addDoc,
   deleteDoc,
   doc,
+  updateDoc,
   query,
   orderBy,
   serverTimestamp,
@@ -56,13 +62,20 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
   const [reportSearchQuery, setReportSearchQuery] = useState('');
   const [activeSubTab, setActiveSubTab] = useState<'upload' | 'all_reports'>('upload');
 
-  // Modal / Form State
+  // Modal / Form State for Adding Report Link
   const [selectedPatientForUpload, setSelectedPatientForUpload] = useState<Patient | null>(null);
   const [reportTitle, setReportTitle] = useState('');
   const [driveUrlInput, setDriveUrlInput] = useState('');
   const [reportDescription, setReportDescription] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
+
+  // Modal / Form State for Editing Patient Security ID / Access Code (ZIP / MR Number)
+  const [editingPatientCodeModal, setEditingPatientCodeModal] = useState<Patient | null>(null);
+  const [customSecurityCode, setCustomSecurityCode] = useState('');
+  const [isSavingSecurityCode, setIsSavingSecurityCode] = useState(false);
+  const [securityCodeError, setSecurityCodeError] = useState('');
+  const [copiedUid, setCopiedUid] = useState<string | null>(null);
 
   // Delete modal state
   const [reportToDelete, setReportToDelete] = useState<MedicalReport | null>(null);
@@ -78,6 +91,91 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
       setPatients(patientsList);
     }
   }, [patientsList]);
+
+  // Copy helper
+  const handleCopyText = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedUid(text);
+    setTimeout(() => setCopiedUid(null), 2000);
+    showToast('Copied to clipboard!', 'success');
+  };
+
+  // Open Edit Security ID / Access Code Modal
+  const openEditSecurityCodeModal = (patient: Patient) => {
+    setEditingPatientCodeModal(patient);
+    setCustomSecurityCode(patient.patientCode || patient.zipCode || patient.uid || '');
+    setSecurityCodeError('');
+  };
+
+  const closeEditSecurityCodeModal = () => {
+    if (isSavingSecurityCode) return;
+    setEditingPatientCodeModal(null);
+    setCustomSecurityCode('');
+    setSecurityCodeError('');
+  };
+
+  const handleSaveSecurityCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingPatientCodeModal) return;
+
+    const trimmedCode = customSecurityCode.trim();
+    if (!trimmedCode) {
+      setSecurityCodeError('Please enter a valid Patient Security Access Code, MR Number, or ZIP Code.');
+      return;
+    }
+
+    setIsSavingSecurityCode(true);
+    setSecurityCodeError('');
+
+    try {
+      const patientRef = doc(db, 'patients', editingPatientCodeModal.uid);
+      const updatePayload = {
+        patientCode: trimmedCode,
+        zipCode: trimmedCode,
+        updatedAt: new Date().toISOString(),
+      };
+
+      await updateDoc(patientRef, updatePayload);
+
+      // Update local state instantly
+      setPatients((prev) =>
+        prev.map((p) =>
+          p.uid === editingPatientCodeModal.uid
+            ? { ...p, patientCode: trimmedCode, zipCode: trimmedCode, updatedAt: updatePayload.updatedAt }
+            : p
+        )
+      );
+
+      showToast(
+        `✅ Security Access Code / ZIP updated to "${trimmedCode}" for ${editingPatientCodeModal.name}`,
+        'success'
+      );
+      setEditingPatientCodeModal(null);
+    } catch (err: any) {
+      console.error('Error updating patient security access code:', err);
+      setSecurityCodeError(err?.message || 'Failed to update patient security code in Firestore.');
+    } finally {
+      setIsSavingSecurityCode(false);
+    }
+  };
+
+  // Helper quick generator presets
+  const generateMRNumber = () => {
+    const year = new Date().getFullYear();
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    setCustomSecurityCode(`MR-${year}-${rand}`);
+  };
+
+  const generatePinCode = () => {
+    const rand = Math.floor(10000 + Math.random() * 90000);
+    setCustomSecurityCode(rand.toString());
+  };
+
+  const resetToAuthUid = () => {
+    if (editingPatientCodeModal) {
+      setCustomSecurityCode(editingPatientCodeModal.uid);
+    }
+  };
 
   // ----------------------------------------------------------------------
   // ALPHABETICAL PATIENT SORTING (A-Z)
@@ -248,7 +346,10 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
       (p.name && p.name.toLowerCase().includes(q)) ||
       (p.email && p.email.toLowerCase().includes(q)) ||
       (p.phone && p.phone.includes(q)) ||
-      (p.uid && p.uid.toLowerCase().includes(q))
+      (p.uid && p.uid.toLowerCase().includes(q)) ||
+      (p.patientCode && p.patientCode.toLowerCase().includes(q)) ||
+      (p.zipCode && p.zipCode.toLowerCase().includes(q)) ||
+      (p.mrNumber && p.mrNumber.toLowerCase().includes(q))
     );
   });
 
@@ -270,10 +371,10 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
         <div>
           <h2 className="font-heading font-bold text-lg text-[#0B6B4E] flex items-center gap-2">
             <FileText className="w-5 h-5 text-[#0B6B4E]" />
-            Patient Medical Reports Management
+            Patient Medical Reports & Security Codes Management
           </h2>
           <p className="text-xs text-emerald-800/70">
-            Attach Google Drive PDF links or upload lab test results to patient accounts securely in Firestore.
+            Attach Google Drive PDF links and manage patient Security Access Identifiers (MR Numbers / ZIP codes) in Firestore.
           </p>
         </div>
 
@@ -309,18 +410,18 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h3 className="font-heading font-bold text-base text-[#0B6B4E]">
-                Select Patient to Add Report Link
+                Patient Accounts & Security Access Codes
               </h3>
               <p className="text-xs text-emerald-800/70">
-                Patients are sorted alphabetically (A-Z). Click "Add Report Link" next to any patient to attach a Google Drive PDF link.
+                Manage patient report links and edit their custom Security Access Code / ZIP code used to unlock PDF reports.
               </p>
             </div>
 
-            <div className="relative w-full sm:w-72">
+            <div className="relative w-full sm:w-80">
               <Search className="w-4 h-4 text-emerald-700 absolute left-3 top-2.5" />
               <input
                 type="text"
-                placeholder="Search patient name, email, UID..."
+                placeholder="Search name, email, UID, MR #, Security Code..."
                 value={patientSearchQuery}
                 onChange={(e) => setPatientSearchQuery(e.target.value)}
                 className="w-full pl-9 pr-3 py-2 bg-[#F5F1E8] border border-emerald-900/20 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
@@ -349,15 +450,19 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                 <thead>
                   <tr className="bg-[#0B6B4E] text-white text-xs font-bold">
                     <th className="p-3.5">Patient Name (A-Z)</th>
-                    <th className="p-3.5">Firestore Document ID (Auth UID)</th>
+                    <th className="p-3.5">Security Code / Access PIN</th>
+                    <th className="p-3.5">Auth UID (Doc ID)</th>
                     <th className="p-3.5">Contact Details</th>
                     <th className="p-3.5">Blood Group & DOB</th>
-                    <th className="p-3.5 text-right">Action</th>
+                    <th className="p-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-emerald-900/10 text-xs font-medium">
                   {filteredPatients.map((patient) => {
                     const patientReportsCount = reports.filter((r) => r.patientId === patient.uid).length;
+                    const displayCode = patient.patientCode || patient.zipCode || patient.uid;
+                    const isCustomCode = Boolean(patient.patientCode || (patient.zipCode && patient.zipCode !== patient.uid));
+
                     return (
                       <tr key={patient.uid} className="hover:bg-[#F5F1E8]/40 transition-colors">
                         <td className="p-3.5">
@@ -377,10 +482,53 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                           </div>
                         </td>
 
+                        {/* Security Access Code / ZIP / MR Number */}
+                        <td className="p-3.5">
+                          <div className="flex items-center gap-1.5">
+                            <span
+                              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold font-mono border ${
+                                isCustomCode
+                                  ? 'bg-amber-50 text-amber-900 border-amber-300'
+                                  : 'bg-emerald-50 text-emerald-900 border-emerald-200'
+                              }`}
+                              title={isCustomCode ? 'Custom Security Access PIN / MR ID' : 'Default Auth UID'}
+                            >
+                              <Key className="w-3 h-3 text-[#0B6B4E]" />
+                              <span>{displayCode}</span>
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => openEditSecurityCodeModal(patient)}
+                              className="p-1 rounded-md text-emerald-700 hover:bg-emerald-100 hover:text-emerald-900 cursor-pointer transition-colors"
+                              title="Edit Patient Security Code / Access PIN"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                          <div className="text-[10px] text-emerald-800/70 mt-0.5">
+                            {isCustomCode ? 'Custom Access Code' : 'Default (Auth UID)'}
+                          </div>
+                        </td>
+
+                        {/* Firebase Auth UID with Copy Button */}
                         <td className="p-3.5 font-mono text-[11px] text-emerald-900/80">
-                          <span className="bg-[#F5F1E8] px-2 py-1 rounded-md border border-emerald-900/10 select-all font-semibold">
-                            {patient.uid}
-                          </span>
+                          <div className="flex items-center gap-1">
+                            <span className="bg-[#F5F1E8] px-2 py-1 rounded-md border border-emerald-900/10 select-all font-semibold max-w-[140px] truncate block" title={patient.uid}>
+                              {patient.uid}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleCopyText(patient.uid)}
+                              className="p-1 rounded-md text-emerald-700 hover:bg-emerald-100 cursor-pointer transition-colors"
+                              title="Copy Firebase Auth UID"
+                            >
+                              {copiedUid === patient.uid ? (
+                                <Check className="w-3 h-3 text-green-600" />
+                              ) : (
+                                <Copy className="w-3 h-3" />
+                              )}
+                            </button>
+                          </div>
                         </td>
 
                         <td className="p-3.5 space-y-0.5">
@@ -399,14 +547,26 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
                         </td>
 
                         <td className="p-3.5 text-right">
-                          <button
-                            type="button"
-                            onClick={() => openUploadModal(patient)}
-                            className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
-                          >
-                            <Link className="w-3.5 h-3.5" />
-                            <span>Add Report Link</span>
-                          </button>
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => openEditSecurityCodeModal(patient)}
+                              className="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 px-2.5 py-1.5 rounded-xl text-xs font-bold inline-flex items-center gap-1 shadow-2xs cursor-pointer transition-colors"
+                              title="Edit Patient Security ID / PIN Code"
+                            >
+                              <Key className="w-3 h-3 text-amber-700" />
+                              <span className="hidden xl:inline">Edit ID</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => openUploadModal(patient)}
+                              className="bg-[#0B6B4E] hover:bg-[#08523c] text-white px-3 py-1.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
+                            >
+                              <Link className="w-3.5 h-3.5" />
+                              <span>Add Link</span>
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -565,6 +725,129 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
               </table>
             </div>
           )}
+        </div>
+      )}
+
+      {/* EDIT PATIENT SECURITY ID / ACCESS CODE (ZIP / MR NUMBER) MODAL */}
+      {editingPatientCodeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full border border-emerald-900/10 overflow-hidden animate-in zoom-in-95">
+            <div className="bg-[#0B6B4E] text-white p-5 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 bg-white/10 rounded-xl">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-bold text-base">Edit Patient Security Access Code</h3>
+                  <p className="text-xs text-emerald-200">
+                    Patient: <strong className="text-white">{editingPatientCodeModal.name || 'Unnamed Patient'}</strong>
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={closeEditSecurityCodeModal}
+                disabled={isSavingSecurityCode}
+                className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 cursor-pointer disabled:opacity-50"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveSecurityCode} className="p-6 space-y-4">
+              <div className="p-3 bg-[#F5F1E8] rounded-xl text-xs space-y-1.5 border border-emerald-900/10">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-[#0B6B4E]">Patient Email:</span>
+                  <span className="text-emerald-950 font-medium">{editingPatientCodeModal.email || 'N/A'}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-[#0B6B4E]">Auth UID (Immutable):</span>
+                  <span className="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-emerald-900/10 select-all font-bold">
+                    {editingPatientCodeModal.uid}
+                  </span>
+                </div>
+              </div>
+
+              {securityCodeError && (
+                <div className="p-3 bg-red-50 text-red-700 text-xs font-medium rounded-xl border border-red-200 flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                  <span>{securityCodeError}</span>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-bold text-emerald-900 mb-1">
+                  Custom Security ID / Access PIN / ZIP Code *
+                </label>
+                <input
+                  type="text"
+                  required
+                  disabled={isSavingSecurityCode}
+                  placeholder="e.g. MR-2026-0042, 75210, or SEC-9912"
+                  value={customSecurityCode}
+                  onChange={(e) => setCustomSecurityCode(e.target.value)}
+                  className="w-full bg-[#F5F1E8] border border-emerald-900/20 rounded-xl px-3 py-2.5 text-xs font-bold font-mono focus:outline-none focus:ring-2 focus:ring-[#0B6B4E]"
+                />
+                <p className="text-[11px] text-emerald-800/80 mt-1 leading-relaxed">
+                  🔒 This security identifier / PIN is used by the patient to unlock and view their medical reports in the Patient Portal. Updating this changes the access key in Firestore without altering the underlying Firebase Auth credentials.
+                </p>
+              </div>
+
+              {/* Quick generator buttons */}
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="text-[10px] font-bold text-emerald-800 uppercase">Quick Presets:</span>
+                <button
+                  type="button"
+                  onClick={generateMRNumber}
+                  className="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-lg text-[11px] font-bold cursor-pointer transition-colors"
+                >
+                  Generate MR #
+                </button>
+                <button
+                  type="button"
+                  onClick={generatePinCode}
+                  className="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-lg text-[11px] font-bold cursor-pointer transition-colors"
+                >
+                  Generate 5-Digit PIN
+                </button>
+                <button
+                  type="button"
+                  onClick={resetToAuthUid}
+                  className="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 rounded-lg text-[11px] font-bold cursor-pointer transition-colors"
+                >
+                  Reset to UID
+                </button>
+              </div>
+
+              <div className="pt-3 flex items-center justify-end gap-2 border-t border-emerald-900/10">
+                <button
+                  type="button"
+                  onClick={closeEditSecurityCodeModal}
+                  disabled={isSavingSecurityCode}
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl cursor-pointer disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingSecurityCode}
+                  className="px-5 py-2 bg-[#0B6B4E] hover:bg-[#08523c] disabled:bg-gray-400 text-white text-xs font-bold rounded-xl shadow cursor-pointer transition-colors inline-flex items-center gap-1.5 disabled:cursor-not-allowed"
+                >
+                  {isSavingSecurityCode ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      <span>Saving Code...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="w-3.5 h-3.5" />
+                      <span>Save Security Code</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 

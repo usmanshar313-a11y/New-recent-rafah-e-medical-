@@ -204,35 +204,58 @@ export const PortalPage: React.FC = () => {
     setZipError('');
 
     try {
-      // Step 1: Retrieve target ZIP code from Firestore patients/{uid}
+      // Retrieve target security access code from Firestore patients/{uid}
       const currentUid = auth.currentUser?.uid || user?.uid;
-      let targetZip = patientZipCode || currentUid || '';
+      let targetCode = patientZipCode || currentUid || '';
 
       if (currentUid) {
         const pDocRef = doc(db, 'patients', currentUid);
         const pSnap = await getDoc(pDocRef);
         if (pSnap.exists()) {
           const pData = pSnap.data();
-          targetZip = (pData.zipCode || pData.postalCode || pData.zip || currentUid).toString().trim();
-          if (!pData.zipCode) {
-            await updateDoc(pDocRef, { zipCode: currentUid }).catch(() => {
-              setDoc(pDocRef, { zipCode: currentUid }, { merge: true }).catch(console.error);
-            });
+          const validCodes = [
+            pData.patientCode,
+            pData.mrNumber,
+            pData.zipCode,
+            pData.postalCode,
+            pData.zip,
+            currentUid,
+          ]
+            .filter(Boolean)
+            .map((c) => c.toString().trim().toLowerCase());
+
+          targetCode = (pData.patientCode || pData.mrNumber || pData.zipCode || pData.postalCode || pData.zip || currentUid).toString().trim();
+          
+          const isMatch = validCodes.includes(entered) || entered === currentUid.toLowerCase();
+
+          if (isMatch) {
+            // MATCH: Close modal, clear input, and open Google Drive link in a new tab
+            const targetUrl = selectedReportForView.driveUrl || selectedReportForView.fileUrl;
+            closeZipModal();
+
+            if (targetUrl) {
+              window.open(targetUrl, '_blank', 'noopener,noreferrer');
+            } else {
+              alert('Report Google Drive link is unavailable.');
+            }
+            return;
+          } else {
+            setZipError('Incorrect Access Code / PIN / ZIP code. Please try again.');
+            return;
           }
         } else {
-          targetZip = currentUid;
-          await setDoc(pDocRef, { uid: currentUid, zipCode: currentUid, createdAt: new Date().toISOString() }, { merge: true }).catch(console.error);
+          targetCode = currentUid;
+          await setDoc(pDocRef, { uid: currentUid, zipCode: currentUid, patientCode: currentUid, createdAt: new Date().toISOString() }, { merge: true }).catch(console.error);
         }
-        setPatientZipCode(targetZip);
+        setPatientZipCode(targetCode);
       }
 
-      // Step 3: Compare entered ZIP against targetZip OR patientId (currentUid)
+      // Step 3: Fallback check against targetCode OR currentUid
       const isMatch =
-        entered === targetZip.toLowerCase() ||
+        entered === targetCode.toLowerCase() ||
         (currentUid && entered === currentUid.toLowerCase());
 
       if (isMatch) {
-        // MATCH: Close modal, clear input, and open Google Drive link in a new tab
         const targetUrl = selectedReportForView.driveUrl || selectedReportForView.fileUrl;
         closeZipModal();
 
@@ -242,11 +265,10 @@ export const PortalPage: React.FC = () => {
           alert('Report Google Drive link is unavailable.');
         }
       } else {
-        // NO MATCH: Show red error message and keep modal open
-        setZipError('Incorrect ZIP code. Please try again.');
+        setZipError('Incorrect Access Code / PIN / ZIP code. Please try again.');
       }
     } catch (err) {
-      console.error('ZIP verification error:', err);
+      console.error('Security code verification error:', err);
       setZipError('Verification failed. Please check your network connection and try again.');
     } finally {
       setIsVerifyingZip(false);
@@ -1549,9 +1571,9 @@ export const PortalPage: React.FC = () => {
                     <Lock className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-[#1F2937]">Verify Identity</h3>
+                    <h3 className="text-lg font-bold text-[#1F2937]">Verify Security Access Code</h3>
                     <p className="text-xs text-[#6B7280] mt-0.5">
-                      Please enter your ZIP code to securely view your report.
+                      Please enter your Security Access Code, PIN, MR #, or ZIP Code to unlock your medical report.
                     </p>
                   </div>
                 </div>
@@ -1567,7 +1589,7 @@ export const PortalPage: React.FC = () => {
               <form onSubmit={handleVerifyZipAndOpenReport} className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-[#1F2937] mb-1.5">
-                    ZIP Code / Postal Code
+                    Security Code / PIN / ZIP Code / MR #
                   </label>
                   <input
                     type="text"
@@ -1578,7 +1600,7 @@ export const PortalPage: React.FC = () => {
                       setZipInput(e.target.value);
                       if (zipError) setZipError('');
                     }}
-                    placeholder="Enter your ZIP code"
+                    placeholder="e.g. MR-2026-0042, 75210, or your access code"
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
