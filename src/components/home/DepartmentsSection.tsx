@@ -13,6 +13,7 @@ import {
   Baby,
   FlaskConical
 } from 'lucide-react';
+import { getDepartmentTheme } from '../common/DepartmentIcon';
 
 interface DepartmentsSectionProps {
   onOpenBooking?: () => void;
@@ -67,7 +68,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
   ];
 
   return (
-    <section id="departments" className="py-16 sm:py-24 bg-white text-[#1F2937] relative overflow-hidden">
+    <section id="departments" className="py-16 sm:py-24 bg-white text-[#182334] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12 relative z-10">
         
         {/* Section Header */}
@@ -78,14 +79,14 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-2xl mx-auto space-y-3.5"
         >
-          <span className="bg-[#E8F7EE] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#22A25A]/20">
+          <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#E4E9E5]">
             <Building2 className="w-4 h-4 text-[#22A25A]" />
             FEATURED MEDICAL SERVICES
           </span>
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#1F2937]">
+          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#182334]">
             Specialized Departments & OPDs
           </h2>
-          <p className="text-xs sm:text-sm text-[#6B7280] leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-[#5F6875] leading-relaxed font-medium">
             Rafah-E-Aam Medical Centre features 15+ specialized medical departments and 34+ senior consultant doctors. Explore featured specialties or view our full OPD schedule.
           </p>
         </motion.div>
@@ -94,14 +95,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {FEATURED_DEPARTMENTS.map((dept, idx) => {
             const Icon = dept.icon;
-            // Alternating icon chip styles
-            const chipStyles = [
-              'bg-[#E8F7EE] text-[#22A25A]',
-              'bg-[#F1F6EA] text-[#7A9B57]',
-              'bg-[#FBEAE0] text-[#D9691F]',
-              'bg-[#E8F7EE] text-[#22A25A]',
-            ];
-            const chipClass = chipStyles[idx % chipStyles.length];
+            const theme = getDepartmentTheme(dept.id);
 
             return (
               <motion.div
@@ -110,44 +104,45 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white p-6 rounded-3xl border border-gray-200 border-t-4 border-t-[#22A25A] shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
+                className={`bg-white p-6 rounded-3xl border border-[#E4E9E5] ${theme.hoverBorder} shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group`}
+                style={{ borderTopWidth: '4px', borderTopColor: theme.primary }}
               >
                 <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
-                    <div className={`p-3 rounded-2xl ${chipClass} group-hover:scale-105 transition-transform`}>
+                    <div className={`p-3 rounded-2xl ${theme.bgTint} ${theme.iconColor} border ${theme.borderTint} group-hover:scale-105 transition-transform`}>
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-xs font-extrabold text-white bg-[#D9691F] px-2.5 py-1 rounded-full shadow-2xs">
+                    <span className="text-xs font-extrabold text-white bg-[#F28C45] px-2.5 py-1 rounded-full shadow-2xs">
                       Fee: {dept.fee}
                     </span>
                   </div>
 
-                  <h3 className="font-heading font-extrabold text-base sm:text-lg text-[#1F2937] leading-snug group-hover:text-[#22A25A] transition-colors">
+                  <h3 className="font-heading font-extrabold text-base sm:text-lg text-[#182334] leading-snug group-hover:text-[#22A25A] transition-colors">
                     {dept.name}
                   </h3>
 
-                  <p className="text-xs text-[#6B7280] leading-relaxed font-medium">
+                  <p className="text-xs text-[#5F6875] leading-relaxed font-medium">
                     {dept.desc}
                   </p>
 
-                  <div className="bg-[#F9FAFB] p-3 rounded-2xl border border-gray-100 text-xs text-[#1F2937]">
-                    <span className="font-bold text-[#22A25A]">Consultants: </span>
-                    {dept.doctors}
+                  <div className={`${theme.bgTint} p-3 rounded-2xl border ${theme.borderTint} text-xs text-[#182334]`}>
+                    <span className={`font-bold ${theme.textTint}`}>Consultants: </span>
+                    <span className="text-[#5F6875]">{dept.doctors}</span>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-gray-100 space-y-2 text-xs">
-                  <div className="flex items-center justify-between text-[#1F2937]">
-                    <span className="text-[#6B7280] font-medium flex items-center gap-1.5">
+                <div className="pt-3 border-t border-[#E4E9E5] space-y-2 text-xs">
+                  <div className="flex items-center justify-between text-[#182334]">
+                    <span className="text-[#5F6875] font-medium flex items-center gap-1.5">
                       <Calendar className="w-3.5 h-3.5 text-[#22A25A] shrink-0" /> Days:
                     </span>
-                    <span className="font-bold text-[#22A25A]">{dept.days}</span>
+                    <span className="font-bold text-[#182334]">{dept.days}</span>
                   </div>
-                  <div className="flex items-center justify-between text-[#1F2937]">
-                    <span className="text-[#6B7280] font-medium flex items-center gap-1.5">
+                  <div className="flex items-center justify-between text-[#182334]">
+                    <span className="text-[#5F6875] font-medium flex items-center gap-1.5">
                       <Clock className="w-3.5 h-3.5 text-[#22A25A] shrink-0" /> Timing:
                     </span>
-                    <span className="font-bold text-[#22A25A]">{dept.timing}</span>
+                    <span className="font-bold text-[#182334]">{dept.timing}</span>
                   </div>
                 </div>
               </motion.div>
@@ -161,16 +156,16 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-[#F9FAFB] rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6"
+          className="bg-[#EFF4EC] rounded-3xl p-6 sm:p-8 border border-[#E4E9E5] shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6"
         >
-          <div className="flex items-center gap-3.5 text-xs sm:text-sm text-[#1F2937] font-medium text-center sm:text-left">
+          <div className="flex items-center gap-3.5 text-xs sm:text-sm text-[#182334] font-medium text-center sm:text-left">
             <CheckCircle2 className="w-5 h-5 text-[#22A25A] shrink-0" />
             <span>Discover all 15+ departments, 34+ senior doctor profiles, OPD room numbers, and timings.</span>
           </div>
 
           <Link
             to="/departments"
-            className="w-full sm:w-auto bg-[#22A25A] hover:bg-[#1E834B] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer hover:gap-3 shrink-0"
+            className="w-full sm:w-auto bg-[#22A25A] hover:bg-[#168A4A] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer hover:gap-3 shrink-0"
           >
             <span>View All Departments & Doctors</span>
             <ArrowRight className="w-4 h-4" />

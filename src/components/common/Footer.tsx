@@ -13,7 +13,7 @@ import {
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#22A25A] text-white pt-12 pb-8 border-t border-[#1E834B]">
+    <footer className="bg-[#22A25A] text-white pt-12 pb-8 border-t border-[#168A4A]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           
@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
                 <h3 className="font-heading font-bold text-lg text-white">
                   Rafah-E-Aam Medical Centre
                 </h3>
-                <p className="text-xs text-[#E8F7EE]">General & Orthopedic Specialist Hospital</p>
+                <p className="text-xs text-[#EFF4EC]">General & Orthopedic Specialist Hospital</p>
               </div>
             </div>
 
@@ -37,21 +37,21 @@ export const Footer: React.FC = () => {
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2 pt-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#1E834B] text-xs font-medium text-white border border-white/10">
-                <Accessibility className="w-3.5 h-3.5 text-[#E8F7EE]" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#168A4A] text-xs font-medium text-white border border-white/10">
+                <Accessibility className="w-3.5 h-3.5 text-[#EFF4EC]" />
                 Wheelchair & Stretcher Accessible
               </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#1E834B] text-xs font-medium text-white border border-white/10">
-                <Clock className="w-3.5 h-3.5 text-[#E8F7EE]" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#168A4A] text-xs font-medium text-white border border-white/10">
+                <Clock className="w-3.5 h-3.5 text-[#EFF4EC]" />
                 24/7 Emergency Ward
               </span>
             </div>
 
             {/* Social Proof */}
-            <div className="bg-[#1E834B]/80 p-3 rounded-xl border border-white/10 flex items-center justify-between gap-3">
+            <div className="bg-[#168A4A]/80 p-3 rounded-xl border border-white/10 flex items-center justify-between gap-3">
               <div>
-                <div className="flex items-center gap-1 text-[#D9691F] text-sm font-bold">
-                  <Star className="w-4 h-4 fill-[#D9691F]" /> <span className="text-white">3.8 / 5.0</span>
+                <div className="flex items-center gap-1 text-[#F28C45] text-sm font-bold">
+                  <Star className="w-4 h-4 fill-[#F28C45]" /> <span className="text-white">3.8 / 5.0</span>
                 </div>
                 <div className="text-xs text-white/80">Trusted by over 50,000+ patients across Karachi</div>
               </div>
@@ -59,7 +59,7 @@ export const Footer: React.FC = () => {
                 href="https://www.google.com/maps?q=Rafah-E-Aam+Medical+Center+Karachi"
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs text-[#FBEAE0] hover:text-white underline font-semibold"
+                className="text-xs text-[#EFF4EC] hover:text-white underline font-semibold"
               >
                 Google Reviews
               </a>
@@ -73,19 +73,19 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-white/90">
               <li>
-                <Link to="/" className="hover:text-[#FBEAE0] transition-colors">Home</Link>
+                <Link to="/" className="hover:text-[#EFF4EC] transition-colors">Home</Link>
               </li>
               <li>
-                <Link to="/departments" className="hover:text-[#FBEAE0] transition-colors">Departments & Doctors</Link>
+                <Link to="/departments" className="hover:text-[#EFF4EC] transition-colors">Departments & Doctors</Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-[#FBEAE0] transition-colors">About Hospital</Link>
+                <Link to="/about" className="hover:text-[#EFF4EC] transition-colors">About Hospital</Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-[#FBEAE0] transition-colors">Contact & Location</Link>
+                <Link to="/contact" className="hover:text-[#EFF4EC] transition-colors">Contact & Location</Link>
               </li>
               <li>
-                <Link to="/portal" className="hover:text-[#FBEAE0] transition-colors text-[#FBEAE0] font-semibold">
+                <Link to="/portal" className="hover:text-[#EFF4EC] transition-colors text-white font-semibold underline underline-offset-2">
                   Patient Portal →
                 </Link>
               </li>
@@ -114,17 +114,17 @@ export const Footer: React.FC = () => {
             </h4>
             <div className="space-y-3 text-xs sm:text-sm text-white/90">
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#E8F7EE] mt-0.5 shrink-0" />
+                <MapPin className="w-4 h-4 text-[#EFF4EC] mt-0.5 shrink-0" />
                 <span>St-10, Block 13, Gulberg Town, Karachi, 78500, Pakistan</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#E8F7EE] shrink-0" />
+                <Phone className="w-4 h-4 text-[#EFF4EC] shrink-0" />
                 <a href="tel:+922136342011" className="hover:underline font-semibold text-white">
                   +92 21 36342011
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
-                <Clock className="w-4 h-4 text-[#E8F7EE] shrink-0" />
+                <Clock className="w-4 h-4 text-[#EFF4EC] shrink-0" />
                 <span>Open 24 Hours, 7 Days a Week</span>
               </div>
             </div>
@@ -132,7 +132,7 @@ export const Footer: React.FC = () => {
             <div className="mt-4 pt-3 border-b-0 border-white/15">
               <a
                 href="tel:+922136342011"
-                className="w-full bg-[#1E834B] hover:bg-[#196B3E] text-white py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs"
+                className="w-full bg-[#168A4A] hover:bg-[#168A4A]/90 text-white py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs"
               >
                 <Phone className="w-3.5 h-3.5" /> Call 24/7 Helpline
               </a>
@@ -147,8 +147,8 @@ export const Footer: React.FC = () => {
             © {new Date().getFullYear()} Rafah-E-Aam Medical Center (رفاہ عام میڈیکل سینٹر). All rights reserved.
           </div>
           <div className="flex items-center gap-4">
-            <Link to="/privacy" className="hover:text-[#FBEAE0] transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-[#FBEAE0] transition-colors">Terms of Service</Link>
+            <Link to="/privacy" className="hover:text-[#EFF4EC] transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-[#EFF4EC] transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

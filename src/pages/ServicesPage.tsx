@@ -164,7 +164,7 @@ export const ServicesPage: React.FC = () => {
   const getIconComponent = (iconName?: string) => {
     switch (iconName) {
       case 'shield-alert':
-        return <ShieldAlert className="w-6 h-6 text-[#D9691F]" />;
+        return <ShieldAlert className="w-6 h-6 text-[#F28C45]" />;
       case 'flask':
         return <FlaskConical className="w-6 h-6 text-[#22A25A]" />;
       case 'pill':
@@ -190,19 +190,19 @@ export const ServicesPage: React.FC = () => {
   });
 
   return (
-    <div ref={containerRef} className="bg-white min-h-screen py-10 text-[#1F2937]">
+    <div ref={containerRef} className="bg-white min-h-screen py-10 text-[#182334]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Page Header */}
-        <div className="bg-[#22A25A] text-white p-8 rounded-3xl shadow-lg border border-[#1E834B] flex flex-col md:flex-row items-center justify-between gap-6 gsap-reveal">
+        <div className="bg-[#22A25A] text-white p-8 rounded-3xl shadow-lg border border-[#168A4A] flex flex-col md:flex-row items-center justify-between gap-6 gsap-reveal">
           <div className="space-y-3 max-w-2xl text-center md:text-left">
-            <span className="bg-[#1E834B] text-[#D9691F] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block">
+            <span className="bg-[#168A4A] text-[#F28C45] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block">
               Rafah-E-Aam Medical Departments
             </span>
             <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-white">
               All Medical Services & Clinical Care
             </h1>
-            <p className="text-xs sm:text-sm text-[#E8F7EE] leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#EFF4EC] leading-relaxed">
               Explore our full range of general, specialist, diagnostic, and emergency clinical services offered at Rafah-E-Aam Medical Centre.
             </p>
           </div>
@@ -210,7 +210,7 @@ export const ServicesPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
             <a
               href="tel:+922136342011"
-              className="w-full sm:w-auto bg-[#D9691F] hover:bg-[#c25a17] text-white px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold shadow-md flex items-center justify-center gap-2 transition-colors"
+              className="w-full sm:w-auto bg-[#F28C45] hover:bg-[#d9691f] text-white px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold shadow-md flex items-center justify-center gap-2 transition-colors"
             >
               <PhoneCall className="w-4 h-4" /> 24/7 Helpline (+92 21 36342011)
             </a>
@@ -218,7 +218,7 @@ export const ServicesPage: React.FC = () => {
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-white p-4 rounded-2xl shadow-2xs border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="bg-white p-4 rounded-2xl shadow-2xs border border-[#E4E9E5] flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="relative w-full md:w-80">
             <Search className="w-4 h-4 text-[#22A25A] absolute left-3 top-3.5" />
             <input
@@ -226,7 +226,7 @@ export const ServicesPage: React.FC = () => {
               placeholder="Search services or departments..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-xs sm:text-sm font-medium text-[#1F2937] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
+              className="w-full bg-[#F5F1E8]/40 border border-[#E4E9E5] rounded-xl pl-9 pr-4 py-2.5 text-xs sm:text-sm font-medium text-[#182334] placeholder:text-[#5F6875]/60 focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
             />
           </div>
 
@@ -239,7 +239,7 @@ export const ServicesPage: React.FC = () => {
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                   selectedDept === dept
                     ? 'bg-[#22A25A] text-white shadow-2xs'
-                    : 'bg-gray-50 text-[#1F2937] hover:bg-gray-100 border border-gray-200'
+                    : 'bg-[#F5F1E8]/40 text-[#182334] hover:bg-[#EFF4EC] border border-[#E4E9E5]'
                 }`}
               >
                 {dept}
@@ -250,12 +250,12 @@ export const ServicesPage: React.FC = () => {
 
         {/* Services Grid */}
         {filteredServices.length === 0 ? (
-          <div className="bg-white p-12 rounded-2xl text-center space-y-3 border border-gray-200 gsap-reveal">
-            <p className="font-heading font-bold text-lg text-[#1F2937]">No matching services found</p>
-            <p className="text-xs text-[#6B7280]">Try searching for a different service name or department.</p>
+          <div className="bg-white p-12 rounded-2xl text-center space-y-3 border border-[#E4E9E5] gsap-reveal">
+            <p className="font-heading font-bold text-lg text-[#182334]">No matching services found</p>
+            <p className="text-xs text-[#5F6875]">Try searching for a different service name or department.</p>
             <button
               onClick={() => { setSearchTerm(''); setSelectedDept('All'); }}
-              className="bg-[#22A25A] text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-[#1E834B]"
+              className="bg-[#22A25A] text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-[#168A4A]"
             >
               Reset Filters
             </button>
@@ -265,40 +265,40 @@ export const ServicesPage: React.FC = () => {
             {filteredServices.map((serv) => (
               <div
                 key={serv.id}
-                className="bg-white p-6 rounded-2xl shadow-2xs hover:shadow-md transition-all border border-gray-200 flex flex-col justify-between group"
+                className="bg-white p-6 rounded-2xl shadow-2xs hover:shadow-md transition-all border border-[#E4E9E5] flex flex-col justify-between group"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <div className="p-3 bg-gray-50 rounded-xl group-hover:scale-105 transition-transform border border-gray-100">
+                    <div className="p-3 bg-[#F5F1E8]/40 rounded-xl group-hover:scale-105 transition-transform border border-[#E4E9E5]">
                       {getIconComponent(serv.icon)}
                     </div>
                     {serv.department && (
-                      <span className="text-[11px] font-bold bg-[#E8F7EE] px-2.5 py-0.5 rounded-full text-[#22A25A]">
+                      <span className="text-[11px] font-bold bg-[#EFF4EC] px-2.5 py-0.5 rounded-full text-[#22A25A]">
                         {serv.department}
                       </span>
                     )}
                   </div>
 
-                  <h3 className="font-heading font-bold text-lg text-[#1F2937]">
+                  <h3 className="font-heading font-bold text-lg text-[#182334]">
                     {serv.name}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-[#6B7280] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#5F6875] leading-relaxed">
                     {serv.description}
                   </p>
 
                   <div className="space-y-1.5 pt-2">
-                    <div className="flex items-center gap-1.5 text-xs text-[#6B7280] font-medium">
+                    <div className="flex items-center gap-1.5 text-xs text-[#5F6875] font-medium">
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#22A25A] shrink-0" />
                       <span>Available for walk-in & appointments</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-6 mt-4 border-t border-gray-100">
+                <div className="pt-6 mt-4 border-t border-[#E4E9E5]">
                   <button
                     onClick={() => handleOpenBooking(serv.id)}
-                    className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xs"
+                    className="w-full bg-[#22A25A] hover:bg-[#168A4A] text-white py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xs"
                   >
                     <Calendar className="w-4 h-4" />
                     <span>Book Service Appointment</span>

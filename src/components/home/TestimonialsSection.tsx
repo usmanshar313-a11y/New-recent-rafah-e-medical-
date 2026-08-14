@@ -86,7 +86,7 @@ export const TestimonialsSection: React.FC = () => {
   };
 
   return (
-    <section id="reviews" className="py-16 sm:py-24 bg-white text-[#1F2937] relative overflow-hidden">
+    <section id="reviews" className="py-16 sm:py-24 bg-white text-[#182334] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 relative z-10">
         
         {/* Header */}
@@ -98,14 +98,14 @@ export const TestimonialsSection: React.FC = () => {
           className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6"
         >
           <div className="space-y-3">
-            <span className="bg-[#E8F7EE] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider border border-[#22A25A]/20 inline-flex items-center gap-1.5">
+            <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider border border-[#E4E9E5] inline-flex items-center gap-1.5">
               <Heart className="w-3.5 h-3.5 text-[#22A25A]" />
               PATIENT EXPERIENCES
             </span>
-            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#1F2937]">
+            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#182334]">
               Trusted by Patients in Karachi
             </h2>
-            <p className="text-xs sm:text-sm text-[#6B7280] max-w-xl font-medium leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#5F6875] max-w-xl font-medium leading-relaxed">
               Read authentic feedback from patients and families treated at Rafah-E-Aam Medical Centre.
             </p>
           </div>
@@ -115,9 +115,9 @@ export const TestimonialsSection: React.FC = () => {
               href="https://www.google.com/maps?q=Rafah-E-Aam+Medical+Center+Karachi"
               target="_blank"
               rel="noreferrer"
-              className="bg-white border border-gray-200 text-[#1F2937] hover:bg-gray-50 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all shadow-2xs flex items-center gap-2"
+              className="bg-white border border-[#E4E9E5] text-[#182334] hover:bg-[#EFF4EC]/50 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all shadow-2xs flex items-center gap-2"
             >
-              <Star className="w-4 h-4 fill-[#D9691F] text-[#D9691F]" />
+              <Star className="w-4 h-4 fill-[#F28C45] text-[#F28C45]" />
               <span>Google Rating (3.8★)</span>
             </a>
 
@@ -126,7 +126,7 @@ export const TestimonialsSection: React.FC = () => {
                 setModalOpen(true);
                 setSubmitted(false);
               }}
-              className="bg-[#22A25A] hover:bg-[#1E834B] text-white px-5 py-2.5 rounded-2xl text-xs font-bold shadow-md flex items-center gap-2 transition-colors cursor-pointer"
+              className="bg-[#22A25A] hover:bg-[#168A4A] text-white px-5 py-2.5 rounded-2xl text-xs font-bold shadow-md flex items-center gap-2 transition-colors cursor-pointer"
             >
               <MessageSquarePlus className="w-4 h-4" />
               <span>Write a Review</span>
@@ -143,32 +143,32 @@ export const TestimonialsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-white p-6 rounded-3xl border border-gray-200 shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all"
+              className="bg-white p-6 rounded-3xl border border-[#E4E9E5] shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-[#D9691F]">
+                  <div className="flex items-center gap-1 text-[#F28C45]">
                     {[...Array(rev.rating || 5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#D9691F] text-[#D9691F]" />
+                      <Star key={i} className="w-4 h-4 fill-[#F28C45] text-[#F28C45]" />
                     ))}
                   </div>
-                  <span className="text-[11px] text-[#6B7280] font-medium">
+                  <span className="text-[11px] text-[#5F6875] font-medium">
                     {rev.createdAt ? new Date(rev.createdAt).toLocaleDateString() : 'Verified Patient'}
                   </span>
                 </div>
 
-                <p className="text-sm sm:text-base text-[#1F2937] leading-relaxed font-medium italic">
+                <p className="text-sm sm:text-base text-[#182334] leading-relaxed font-medium italic">
                   "{rev.comment}"
                 </p>
               </div>
 
-              <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
+              <div className="flex items-center gap-3 pt-3 border-t border-[#E4E9E5]">
                 <div className="w-9 h-9 rounded-full bg-[#22A25A] text-white flex items-center justify-center text-xs font-bold shrink-0">
                   {rev.patientName.charAt(0)}
                 </div>
                 <div>
-                  <div className="font-bold text-xs sm:text-sm text-[#22A25A]">{rev.patientName}</div>
-                  <div className="text-[10px] text-[#6B7280] font-bold uppercase tracking-wider">Verified Patient</div>
+                  <div className="font-bold text-xs sm:text-sm text-[#168A4A]">{rev.patientName}</div>
+                  <div className="text-[10px] text-[#5F6875] font-bold uppercase tracking-wider">Verified Patient</div>
                 </div>
               </div>
             </motion.div>
@@ -180,10 +180,10 @@ export const TestimonialsSection: React.FC = () => {
       {/* Review Submission Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white text-[#1F2937] w-full max-w-md rounded-3xl shadow-2xl p-6 border border-gray-200 space-y-4">
-            <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-              <h3 className="font-heading font-bold text-base text-[#1F2937]">Write a Patient Review</h3>
-              <button onClick={() => setModalOpen(false)} className="text-[#6B7280] hover:text-[#1F2937] cursor-pointer">
+          <div className="bg-white text-[#182334] w-full max-w-md rounded-3xl shadow-2xl p-6 border border-[#E4E9E5] space-y-4">
+            <div className="flex items-center justify-between border-b border-[#E4E9E5] pb-3">
+              <h3 className="font-heading font-bold text-base text-[#182334]">Write a Patient Review</h3>
+              <button onClick={() => setModalOpen(false)} className="text-[#5F6875] hover:text-[#182334] cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -192,12 +192,12 @@ export const TestimonialsSection: React.FC = () => {
               <div className="text-center py-6 space-y-3">
                 <CheckCircle2 className="w-12 h-12 text-[#22A25A] mx-auto" />
                 <h4 className="font-bold text-base text-[#22A25A]">Thank you for your feedback!</h4>
-                <p className="text-xs text-[#6B7280]">
+                <p className="text-xs text-[#5F6875]">
                   Your review has been submitted for verification and will appear shortly.
                 </p>
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="bg-[#22A25A] hover:bg-[#1E834B] text-white px-5 py-2.5 rounded-xl text-xs font-bold cursor-pointer"
+                  className="bg-[#22A25A] hover:bg-[#168A4A] text-white px-5 py-2.5 rounded-xl text-xs font-bold cursor-pointer"
                 >
                   Close
                 </button>
@@ -212,7 +212,7 @@ export const TestimonialsSection: React.FC = () => {
                     value={patientName}
                     onChange={(e) => setPatientName(e.target.value)}
                     placeholder="e.g. Tariq Ahmed"
-                    className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
+                    className="w-full bg-white border border-[#E4E9E5] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
 
@@ -228,7 +228,7 @@ export const TestimonialsSection: React.FC = () => {
                       >
                         <Star
                           className={`w-6 h-6 ${
-                            star <= rating ? 'fill-[#22A25A] text-[#22A25A]' : 'text-gray-300'
+                            star <= rating ? 'fill-[#F28C45] text-[#F28C45]' : 'text-gray-300'
                           }`}
                         />
                       </button>
@@ -244,14 +244,14 @@ export const TestimonialsSection: React.FC = () => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder="Describe your visit or experience with doctors..."
-                    className="w-full bg-white border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
+                    className="w-full bg-white border border-[#E4E9E5] rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white py-2.5 rounded-xl font-bold text-xs shadow-xs cursor-pointer disabled:opacity-50"
+                  className="w-full bg-[#22A25A] hover:bg-[#168A4A] text-white py-2.5 rounded-xl font-bold text-xs shadow-xs cursor-pointer disabled:opacity-50"
                 >
                   {submitting ? 'Submitting...' : 'Submit Review'}
                 </button>

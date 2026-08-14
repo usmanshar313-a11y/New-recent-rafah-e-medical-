@@ -27,7 +27,7 @@ export const TrustBar: React.FC = () => {
   ];
 
   return (
-    <section className="bg-white border-y border-gray-100 py-6 relative z-20">
+    <section className="bg-white border-y border-[#E4E9E5] py-6 relative z-20">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 items-center">
           {TRUST_ITEMS.map((item, idx) => {
@@ -45,17 +45,17 @@ export const TrustBar: React.FC = () => {
                 <div
                   className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 transition-colors duration-300 ${
                     isOrangeChip
-                      ? 'bg-[#FBEAE0] text-[#D9691F] group-hover:bg-[#D9691F] group-hover:text-white'
-                      : 'bg-[#E8F7EE] text-[#22A25A] group-hover:bg-[#22A25A] group-hover:text-white'
+                      ? 'bg-[#F28C45]/10 text-[#F28C45] group-hover:bg-[#F28C45] group-hover:text-white'
+                      : 'bg-[#EFF4EC] text-[#22A25A] group-hover:bg-[#22A25A] group-hover:text-white'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs sm:text-sm font-extrabold text-[#1F2937] leading-tight">
+                  <h4 className="text-xs sm:text-sm font-extrabold text-[#182334] leading-tight">
                     {item.label}
                   </h4>
-                  <p className="text-[11px] sm:text-xs font-medium text-[#6B7280] leading-tight mt-0.5">
+                  <p className="text-[11px] sm:text-xs font-medium text-[#5F6875] leading-tight mt-0.5">
                     {item.detail}
                   </p>
                 </div>

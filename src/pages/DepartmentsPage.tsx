@@ -117,28 +117,28 @@ export const DepartmentsPage: React.FC = () => {
   );
 
   return (
-    <div ref={containerRef} className="bg-white min-h-screen py-8 sm:py-10 text-[#1F2937]">
+    <div ref={containerRef} className="bg-white min-h-screen py-8 sm:py-10 text-[#182334]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
 
         {/* Hero Banner Section */}
-        <div className="dept-hero-content bg-[#22A25A] text-white rounded-3xl p-7 sm:p-12 shadow-xs relative overflow-hidden">
+        <div className="dept-hero-content bg-[#22A25A] text-white rounded-3xl p-7 sm:p-12 shadow-xs relative overflow-hidden border border-[#168A4A]">
           <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
           <div className="max-w-3xl space-y-3 sm:space-y-4 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1E834B] border border-white/20 text-xs font-extrabold uppercase tracking-wider text-white">
-              <Sparkles className="w-4 h-4 text-[#D9691F]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#168A4A] border border-white/20 text-xs font-extrabold uppercase tracking-wider text-white">
+              <Sparkles className="w-4 h-4 text-[#F28C45]" />
               <span>Rafah-e-Aam Medical Centre OPD</span>
             </div>
             <h1 className="font-heading font-extrabold text-2xl sm:text-5xl tracking-tight leading-tight text-white">
               Medical Departments & Specialists
             </h1>
-            <p className="text-xs sm:text-base text-[#E8F7EE] font-medium leading-relaxed max-w-2xl">
+            <p className="text-xs sm:text-base text-[#EFF4EC] font-medium leading-relaxed max-w-2xl">
               Select a specialized medical department below to view consulting doctors, OPD schedules, room locations, and book your visit directly.
             </p>
           </div>
         </div>
 
         {/* Search & Filter Controls */}
-        <div className="dept-search-bar bg-white p-4 sm:p-6 rounded-2xl border border-gray-200 shadow-2xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="dept-search-bar bg-white p-4 sm:p-6 rounded-2xl border border-[#E4E9E5] shadow-2xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
           
           {/* Text Search Input */}
           <div className="relative flex-1">
@@ -148,12 +148,12 @@ export const DepartmentsPage: React.FC = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search department, doctor, or specialty..."
-              className="w-full pl-11 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-semibold text-[#1F2937] placeholder:text-gray-400 focus:outline-hidden focus:ring-2 focus:ring-[#22A25A] transition-all"
+              className="w-full pl-11 pr-10 py-3 bg-[#F5F1E8]/40 border border-[#E4E9E5] rounded-xl text-xs sm:text-sm font-semibold text-[#182334] placeholder:text-[#5F6875]/60 focus:outline-hidden focus:ring-2 focus:ring-[#22A25A] transition-all"
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-[#22A25A] hover:text-[#1E834B] bg-[#E8F7EE] px-2 py-1 rounded-md cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-[#22A25A] hover:text-[#168A4A] bg-[#EFF4EC] px-2 py-1 rounded-md cursor-pointer"
               >
                 Clear
               </button>
@@ -166,8 +166,8 @@ export const DepartmentsPage: React.FC = () => {
               onClick={() => setIsFilterModalOpen(true)}
               className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2.5 px-4 sm:px-5 py-3 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer ${
                 selectedDeptId !== 'All'
-                  ? 'bg-[#1E834B] text-white border-[#1E834B] shadow-2xs'
-                  : 'bg-gray-50 text-[#1F2937] border-gray-200 hover:bg-gray-100'
+                  ? 'bg-[#168A4A] text-white border-[#168A4A] shadow-2xs'
+                  : 'bg-[#F5F1E8]/40 text-[#182334] border-[#E4E9E5] hover:bg-[#EFF4EC]/50'
               }`}
             >
               <Filter className="w-4 h-4 shrink-0" />
@@ -177,7 +177,7 @@ export const DepartmentsPage: React.FC = () => {
                   : `Dept: ${selectedDepartmentObj?.name || selectedDeptId}`}
               </span>
               {selectedDeptId !== 'All' && (
-                <span className="bg-[#D9691F] text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full shrink-0">
+                <span className="bg-[#F28C45] text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full shrink-0">
                   1
                 </span>
               )}
@@ -187,7 +187,7 @@ export const DepartmentsPage: React.FC = () => {
               <button
                 onClick={() => setSelectedDeptId('All')}
                 title="Reset Department Filter"
-                className="p-3 rounded-xl bg-[#FBEAE0] text-[#D9691F] border border-[#D9691F]/30 hover:bg-[#f7ded0] transition-colors cursor-pointer shrink-0"
+                className="p-3 rounded-xl bg-[#F28C45]/10 text-[#F28C45] border border-[#F28C45]/30 hover:bg-[#F28C45]/20 transition-colors cursor-pointer shrink-0"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -196,15 +196,15 @@ export const DepartmentsPage: React.FC = () => {
         </div>
 
         {/* Results Counter & Active Filter Badge */}
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-bold text-[#6B7280] px-1">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-bold text-[#5F6875] px-1">
           <div className="flex items-center gap-2">
             <span>Showing {filteredDepartments.length} Department{filteredDepartments.length === 1 ? '' : 's'}</span>
             {selectedDeptId !== 'All' && selectedDepartmentObj && (
-              <span className="bg-[#E8F7EE] text-[#22A25A] px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5 border border-[#22A25A]/20">
+              <span className="bg-[#EFF4EC] text-[#22A25A] px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5 border border-[#E4E9E5]">
                 <span>{selectedDepartmentObj.name}</span>
                 <button
                   onClick={() => setSelectedDeptId('All')}
-                  className="hover:text-red-600 cursor-pointer"
+                  className="hover:text-[#F28C45] cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -220,15 +220,15 @@ export const DepartmentsPage: React.FC = () => {
 
         {/* Department Cards List */}
         {filteredDepartments.length === 0 ? (
-          <div className="bg-white p-10 sm:p-12 rounded-3xl border border-gray-200 text-center space-y-4">
+          <div className="bg-white p-10 sm:p-12 rounded-3xl border border-[#E4E9E5] text-center space-y-4">
             <p className="text-base font-bold text-[#22A25A]">No matching medical departments found</p>
-            <p className="text-xs text-[#6B7280]">Try adjusting your search text or department filter selection.</p>
+            <p className="text-xs text-[#5F6875]">Try adjusting your search text or department filter selection.</p>
             <button
               onClick={() => {
                 setSearchTerm('');
                 setSelectedDeptId('All');
               }}
-              className="px-5 py-2.5 bg-[#22A25A] text-white text-xs font-bold rounded-xl hover:bg-[#1E834B] transition-colors cursor-pointer"
+              className="px-5 py-2.5 bg-[#22A25A] text-white text-xs font-bold rounded-xl hover:bg-[#168A4A] transition-colors cursor-pointer"
             >
               Reset All Filters
             </button>
@@ -241,20 +241,20 @@ export const DepartmentsPage: React.FC = () => {
               return (
                 <div
                   key={dept.id}
-                  className="dept-card bg-white rounded-3xl border border-gray-200 shadow-2xs hover:shadow-md hover:border-[#22A25A]/40 transition-all flex flex-col lg:flex-row overflow-hidden group"
+                  className={`dept-card bg-white rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md ${theme.hoverBorder} transition-all flex flex-col lg:flex-row overflow-hidden group`}
                 >
                   {/* Left / Upper Block: Tinted Header Zone */}
-                  <div className={`p-6 sm:p-7 ${theme.bgTint} border-b lg:border-b-0 lg:border-r ${theme.borderTint} flex flex-col justify-between space-y-4 shrink-0 lg:w-[300px] xl:w-[340px]`}>
+                  <div className={`p-6 sm:p-7 ${theme.bgTint} border-b lg:border-b-0 lg:border-r border-[#E4E9E5] flex flex-col justify-between space-y-4 shrink-0 lg:w-[300px] xl:w-[340px]`}>
                     <div className="flex items-start gap-4">
                       {/* Department Icon */}
-                      <div className={`p-3.5 bg-white rounded-2xl border ${theme.borderTint} shadow-2xs shrink-0 ${theme.iconColor}`}>
+                      <div className={`p-3.5 bg-white rounded-2xl border border-[#E4E9E5] shadow-2xs shrink-0 ${theme.iconColor}`}>
                         <DepartmentIcon iconType={dept.icon} deptId={dept.id} className="w-7 h-7" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h2 className="font-heading font-extrabold text-lg sm:text-xl text-[#1F2937] leading-snug group-hover:text-[#22A25A] transition-colors">
+                        <h2 className="font-heading font-extrabold text-lg sm:text-xl text-[#182334] leading-snug group-hover:text-[#22A25A] transition-colors">
                           {dept.name}
                         </h2>
-                        <div className={`mt-2 inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full border border-black/5 ${theme.badgeBg} ${theme.badgeText}`}>
+                        <div className={`mt-2 inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full border ${theme.badgeBorder} ${theme.badgeBg} ${theme.badgeText}`}>
                           <UserCheck className="w-3.5 h-3.5 shrink-0" />
                           <span>{dept.doctors.length} Specialist{dept.doctors.length === 1 ? '' : 's'}</span>
                         </div>
@@ -267,38 +267,38 @@ export const DepartmentsPage: React.FC = () => {
                     <h4 className="text-[11px] font-extrabold uppercase tracking-wider text-[#22A25A] hidden lg:block">
                       Department Overview
                     </h4>
-                    <p className="text-xs sm:text-sm text-[#6B7280] font-medium leading-relaxed">
+                    <p className="text-xs sm:text-sm text-[#5F6875] font-medium leading-relaxed">
                       {dept.description}
                     </p>
                   </div>
 
                   {/* Right / Schedule Block: Days, Timings, Fee & Show Doctors CTA */}
-                  <div className="p-6 sm:p-7 bg-gray-50/60 border-t lg:border-t-0 lg:border-l border-gray-200 flex flex-col justify-between space-y-5 lg:w-[290px] xl:w-[310px] shrink-0">
-                    <div className="space-y-2.5 text-xs text-[#1F2937]">
+                  <div className="p-6 sm:p-7 bg-[#F5F1E8]/30 border-t lg:border-t-0 lg:border-l border-[#E4E9E5] flex flex-col justify-between space-y-5 lg:w-[290px] xl:w-[310px] shrink-0">
+                    <div className="space-y-2.5 text-xs text-[#182334]">
                       <div className="flex items-center justify-between">
-                        <span className="flex items-center gap-1.5 font-medium text-[#6B7280]">
+                        <span className="flex items-center gap-1.5 font-medium text-[#5F6875]">
                           <Calendar className="w-3.5 h-3.5 text-[#22A25A]" /> Days:
                         </span>
-                        <span className="font-bold text-[#1F2937]">{dept.days || 'Mon - Sat'}</span>
+                        <span className="font-bold text-[#182334]">{dept.days || 'Mon - Sat'}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="flex items-center gap-1.5 font-medium text-[#6B7280]">
+                        <span className="flex items-center gap-1.5 font-medium text-[#5F6875]">
                           <Clock className="w-3.5 h-3.5 text-[#22A25A]" /> Timing:
                         </span>
-                        <span className="font-bold text-[#1F2937]">{dept.timing || '09:00 AM - 05:00 PM'}</span>
+                        <span className="font-bold text-[#182334]">{dept.timing || '09:00 AM - 05:00 PM'}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="flex items-center gap-1.5 font-medium text-[#6B7280]">
+                        <span className="flex items-center gap-1.5 font-medium text-[#5F6875]">
                           <Banknote className="w-3.5 h-3.5 text-[#22A25A]" /> Fee:
                         </span>
-                        <span className="font-extrabold text-[#D9691F] bg-[#FBEAE0] px-2.5 py-1 rounded-full border border-[#D9691F]/20">{dept.fee || 'Rs. 1,000'}</span>
+                        <span className="font-extrabold text-[#F28C45] bg-[#F28C45]/10 px-2.5 py-1 rounded-full border border-[#F28C45]/20">{dept.fee || 'Rs. 1,000'}</span>
                       </div>
                     </div>
 
                     {/* Primary Dedicated CTA Button */}
                     <Link
                       to={`/departments/${dept.id}`}
-                      className="w-full bg-[#22A25A] hover:bg-[#1E834B] active:bg-[#186A3B] text-white py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold shadow-2xs flex items-center justify-center gap-2 transition-all cursor-pointer group/btn"
+                      className="w-full bg-[#22A25A] hover:bg-[#168A4A] active:bg-[#168A4A] text-white py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold shadow-2xs flex items-center justify-center gap-2 transition-all cursor-pointer group/btn"
                     >
                       <span>Show Doctors</span>
                       <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -316,29 +316,29 @@ export const DepartmentsPage: React.FC = () => {
       {isFilterModalOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in">
           <div
-            className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border border-gray-200 overflow-hidden animate-in slide-in-from-bottom-6 sm:zoom-in-95"
+            className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border border-[#E4E9E5] overflow-hidden animate-in slide-in-from-bottom-6 sm:zoom-in-95"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="p-5 sm:p-6 border-b border-gray-200 flex items-center justify-between bg-gray-50">
+            <div className="p-5 sm:p-6 border-b border-[#E4E9E5] flex items-center justify-between bg-[#F5F1E8]/40">
               <div>
-                <h3 className="font-heading font-extrabold text-lg text-[#1F2937]">
+                <h3 className="font-heading font-extrabold text-lg text-[#182334]">
                   Filter by Department
                 </h3>
-                <p className="text-xs text-[#6B7280] font-medium mt-0.5">
+                <p className="text-xs text-[#5F6875] font-medium mt-0.5">
                   Select a medical specialty to narrow down departments
                 </p>
               </div>
               <button
                 onClick={() => setIsFilterModalOpen(false)}
-                className="p-2 rounded-full hover:bg-gray-200 text-gray-700 transition-colors cursor-pointer"
+                className="p-2 rounded-full hover:bg-gray-200 text-[#5F6875] hover:text-[#182334] transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Modal Quick Search */}
-            <div className="p-4 border-b border-gray-100 bg-white">
+            <div className="p-4 border-b border-[#E4E9E5] bg-white">
               <div className="relative">
                 <Search className="w-4 h-4 text-[#22A25A] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
@@ -346,13 +346,13 @@ export const DepartmentsPage: React.FC = () => {
                   value={modalSearchTerm}
                   onChange={(e) => setModalSearchTerm(e.target.value)}
                   placeholder="Type to filter departments list..."
-                  className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-semibold text-[#1F2937] focus:outline-hidden focus:ring-2 focus:ring-[#22A25A]"
+                  className="w-full pl-9 pr-3 py-2.5 bg-[#F5F1E8]/40 border border-[#E4E9E5] rounded-xl text-xs font-semibold text-[#182334] focus:outline-hidden focus:ring-2 focus:ring-[#22A25A]"
                 />
               </div>
             </div>
 
             {/* Department List Options */}
-            <div className="p-3 sm:p-4 overflow-y-auto space-y-1.5 flex-1 divide-y divide-gray-100">
+            <div className="p-3 sm:p-4 overflow-y-auto space-y-1.5 flex-1 divide-y divide-[#E4E9E5]">
               {/* All Departments Option */}
               <button
                 onClick={() => {
@@ -362,11 +362,11 @@ export const DepartmentsPage: React.FC = () => {
                 className={`w-full text-left px-4 py-3 rounded-xl flex items-center justify-between text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                   selectedDeptId === 'All'
                     ? 'bg-[#22A25A] text-white'
-                    : 'hover:bg-[#E8F7EE] text-[#1F2937]'
+                    : 'hover:bg-[#EFF4EC] text-[#182334]'
                 }`}
               >
                 <span>All Departments ({departments.length})</span>
-                {selectedDeptId === 'All' && <Check className="w-4 h-4 text-[#D9691F]" />}
+                {selectedDeptId === 'All' && <Check className="w-4 h-4 text-[#F28C45]" />}
               </button>
 
               {/* Specific Department Options */}
@@ -383,49 +383,49 @@ export const DepartmentsPage: React.FC = () => {
                     className={`w-full text-left px-4 py-3 rounded-xl flex items-center justify-between text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                       isSelected
                         ? 'bg-[#22A25A] text-white'
-                        : 'hover:bg-[#E8F7EE] text-[#1F2937]'
+                        : 'hover:bg-[#EFF4EC] text-[#182334]'
                     }`}
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className={`p-1.5 rounded-lg border shrink-0 ${isSelected ? 'bg-white/20 text-white border-transparent' : `${theme.bgTint} ${theme.iconColor} ${theme.borderTint}`}`}>
+                      <div className={`p-1.5 rounded-lg border shrink-0 ${isSelected ? 'bg-white/20 text-white border-transparent' : `${theme.bgTint} ${theme.iconColor} border-[#E4E9E5]`}`}>
                         <DepartmentIcon iconType={dept.icon} deptId={dept.id} className="w-4 h-4" />
                       </div>
                       <span className="truncate">{dept.name}</span>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-md ${
-                        isSelected ? 'bg-[#1E834B] text-[#D9691F]' : 'bg-[#E8F7EE] text-[#22A25A]'
+                        isSelected ? 'bg-[#168A4A] text-[#F28C45]' : 'bg-[#EFF4EC] text-[#22A25A]'
                       }`}>
                         {dept.doctors.length} Doc{dept.doctors.length === 1 ? '' : 's'}
                       </span>
-                      {isSelected && <Check className="w-4 h-4 text-[#D9691F]" />}
+                      {isSelected && <Check className="w-4 h-4 text-[#F28C45]" />}
                     </div>
                   </button>
                 );
               })}
 
               {modalDepartments.length === 0 && (
-                <div className="py-8 text-center text-xs text-[#6B7280] font-medium">
+                <div className="py-8 text-center text-xs text-[#5F6875] font-medium">
                   No department matching "{modalSearchTerm}"
                 </div>
               )}
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between gap-3">
+            <div className="p-4 border-t border-[#E4E9E5] bg-[#F5F1E8]/40 flex items-center justify-between gap-3">
               <button
                 onClick={() => {
                   setSelectedDeptId('All');
                   setModalSearchTerm('');
                   setIsFilterModalOpen(false);
                 }}
-                className="px-4 py-2.5 text-xs font-bold text-[#D9691F] bg-[#FBEAE0] hover:bg-[#f7ded0] rounded-xl transition-colors cursor-pointer"
+                className="px-4 py-2.5 text-xs font-bold text-[#F28C45] bg-[#F28C45]/10 hover:bg-[#F28C45]/20 rounded-xl transition-colors cursor-pointer"
               >
                 Reset Filter
               </button>
               <button
                 onClick={() => setIsFilterModalOpen(false)}
-                className="px-5 py-2.5 bg-[#22A25A] text-white text-xs font-bold rounded-xl hover:bg-[#1E834B] transition-colors cursor-pointer"
+                className="px-5 py-2.5 bg-[#22A25A] text-white text-xs font-bold rounded-xl hover:bg-[#168A4A] transition-colors cursor-pointer"
               >
                 Close
               </button>

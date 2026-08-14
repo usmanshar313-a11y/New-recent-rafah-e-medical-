@@ -73,7 +73,7 @@ const AppContent: React.FC = () => {
   const isHideWhatsApp = location.pathname.startsWith('/admin');
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-[#1F2937]">
+    <div className="min-h-screen flex flex-col bg-[#F5F1E8] text-[#182334]">
       <Navbar onOpenBooking={() => setGlobalBookingOpen(true)} />
 
       <main className="flex-1">

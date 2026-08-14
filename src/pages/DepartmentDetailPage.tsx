@@ -18,7 +18,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { db } from '../firebase';
 import { DEPARTMENTS_DATA } from '../data/departmentsData';
 import { Department, Doctor } from '../types';
-import { DepartmentIcon } from '../components/common/DepartmentIcon';
+import { DepartmentIcon, getDepartmentTheme } from '../components/common/DepartmentIcon';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -210,14 +210,14 @@ export const DepartmentDetailPage: React.FC = () => {
   if (!department) {
     return (
       <div className="min-h-screen bg-white py-16 px-4 text-[#22A25A]">
-        <div className="max-w-2xl mx-auto bg-white p-8 sm:p-10 rounded-3xl text-center space-y-6 shadow-2xs border border-gray-200">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-[#1F2937]">Department Not Found</h2>
-          <p className="text-xs sm:text-sm text-[#6B7280] font-medium">
+        <div className="max-w-2xl mx-auto bg-white p-8 sm:p-10 rounded-3xl text-center space-y-6 shadow-2xs border border-[#E4E9E5]">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-[#182334]">Department Not Found</h2>
+          <p className="text-xs sm:text-sm text-[#5F6875] font-medium">
             The requested medical department could not be located in our OPD directory.
           </p>
           <Link
             to="/departments"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#22A25A] text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-[#1E834B] transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#22A25A] text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-[#168A4A] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Departments
           </Link>
@@ -227,7 +227,7 @@ export const DepartmentDetailPage: React.FC = () => {
   }
 
   return (
-    <div ref={containerRef} className="bg-white min-h-screen py-6 sm:py-8 text-[#1F2937]">
+    <div ref={containerRef} className="bg-white min-h-screen py-6 sm:py-8 text-[#182334]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         
         {/* Navigation & Header Section */}
@@ -236,31 +236,36 @@ export const DepartmentDetailPage: React.FC = () => {
           <div className="gsap-header">
             <Link
               to="/departments"
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#22A25A] hover:text-[#1E834B] bg-white px-3.5 py-2 rounded-xl border border-gray-200 shadow-2xs transition-all hover:-translate-x-0.5"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#22A25A] hover:text-[#168A4A] bg-white px-3.5 py-2 rounded-xl border border-[#E4E9E5] shadow-2xs transition-all hover:-translate-x-0.5"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Departments
             </Link>
           </div>
 
           {/* Department Header */}
-          <div className="gsap-header bg-white p-5 sm:p-6 rounded-2xl border border-gray-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="p-3 bg-[#E8F7EE] rounded-xl border border-[#22A25A]/20 shrink-0 text-[#22A25A]">
-              <DepartmentIcon iconType={department.icon} className="w-6 h-6" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h1 className="font-heading font-extrabold text-xl sm:text-2xl text-[#1F2937] leading-tight">
-                {department.name}
-              </h1>
-              <p className="text-xs sm:text-sm text-[#6B7280] font-medium mt-1 line-clamp-2">
-                {department.description}
-              </p>
-            </div>
-          </div>
+          {(() => {
+            const deptTheme = getDepartmentTheme(department.id);
+            return (
+              <div className="gsap-header bg-white p-5 sm:p-6 rounded-2xl border border-[#E4E9E5] shadow-2xs flex flex-col sm:flex-row items-start sm:items-center gap-4" style={{ borderLeftWidth: '4px', borderLeftColor: deptTheme.primary }}>
+                <div className={`p-3 ${deptTheme.bgTint} rounded-xl border ${deptTheme.borderTint} shrink-0 ${deptTheme.iconColor}`}>
+                  <DepartmentIcon iconType={department.icon} deptId={department.id} className="w-6 h-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h1 className="font-heading font-extrabold text-xl sm:text-2xl text-[#182334] leading-tight">
+                    {department.name}
+                  </h1>
+                  <p className="text-xs sm:text-sm text-[#5F6875] font-medium mt-1 line-clamp-2">
+                    {department.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
         {/* Section Indicator */}
         <div className="gsap-section-title flex items-center justify-between px-1">
-          <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#1F2937]">
+          <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#182334]">
             <UserCheck className="w-4.5 h-4.5 text-[#22A25A]" />
             <span>Consulting Specialists ({department.doctors.length})</span>
           </div>
@@ -268,66 +273,68 @@ export const DepartmentDetailPage: React.FC = () => {
 
         {/* Doctor Cards Grid */}
         {department.doctors.length === 0 ? (
-          <div className="bg-white p-8 sm:p-10 rounded-2xl border border-gray-200 text-center space-y-3">
-            <p className="text-sm text-[#6B7280] font-medium">
+          <div className="bg-white p-8 sm:p-10 rounded-2xl border border-[#E4E9E5] text-center space-y-3">
+            <p className="text-sm text-[#5F6875] font-medium">
               No individual consultant listed online for this department at the moment.
             </p>
-            <p className="text-xs text-[#6B7280]/70">
+            <p className="text-xs text-[#5F6875]/70">
               Walk-in OPD consultations and emergency support are available at reception 24/7.
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {department.doctors.map((doc) => (
-              <div
-                key={doc.id}
-                className="doc-card bg-white rounded-2xl border border-gray-200 shadow-2xs hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between space-y-6"
-              >
-                <div className="space-y-4">
-                  {/* Photo, Name, Specialty, Room */}
-                  <div className="flex items-start gap-4">
-                    <img
-                      src={
-                        doc.photoURL ||
-                        'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80'
-                      }
-                      alt={doc.name}
-                      className="w-20 h-20 sm:w-22 sm:h-22 rounded-xl object-cover object-top border border-gray-200 bg-gray-50 shrink-0 shadow-2xs"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80';
-                      }}
-                    />
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-heading font-extrabold text-base sm:text-lg text-[#1F2937] leading-tight truncate">
-                        {doc.name}
-                      </h3>
-                      <p className="text-xs font-bold text-[#D9691F] mt-1 truncate">
-                        {doc.specialty}
-                      </p>
-                      {doc.roomNumber && (
-                        <p className="text-xs text-[#6B7280] font-medium mt-1.5 flex items-center gap-1.5 truncate">
-                          <MapPin className="w-3.5 h-3.5 text-[#22A25A] shrink-0" />
-                          <span className="truncate">OPD Room: {doc.roomNumber}</span>
-                        </p>
-                      )}
-
-                      {doc.isAvailable === false && (
-                        <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-[#FBEAE0] text-[#D9691F] border border-[#D9691F]/30">
-                          <span className="w-2 h-2 rounded-full bg-[#D9691F]" />
-                          <span>Currently Unavailable (On Leave)</span>
+            {department.doctors.map((doc) => {
+              const docTheme = getDepartmentTheme(doc.departmentId || department.id || doc.specialty);
+              return (
+                <div
+                  key={doc.id}
+                  className="doc-card bg-white rounded-2xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between space-y-6"
+                >
+                  <div className="space-y-4">
+                    {/* Photo, Name, Specialty, Room */}
+                    <div className="flex items-start gap-4">
+                      <img
+                        src={
+                          doc.photoURL ||
+                          'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80'
+                        }
+                        alt={doc.name}
+                        className="w-20 h-20 sm:w-22 sm:h-22 rounded-xl object-cover object-top border border-[#E4E9E5] bg-[#F5F1E8]/40 shrink-0 shadow-2xs"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80';
+                        }}
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-heading font-extrabold text-base sm:text-lg text-[#182334] leading-tight truncate">
+                          {doc.name}
+                        </h3>
+                        <div className={`mt-1 inline-flex items-center text-xs font-bold ${docTheme.badgeBg} ${docTheme.badgeText} border ${docTheme.badgeBorder} px-2.5 py-0.5 rounded-full truncate`}>
+                          {doc.specialty}
                         </div>
-                      )}
+                        {doc.roomNumber && (
+                          <p className="text-xs text-[#5F6875] font-medium mt-1.5 flex items-center gap-1.5 truncate">
+                            <MapPin className="w-3.5 h-3.5 text-[#22A25A] shrink-0" />
+                            <span className="truncate">OPD Room: {doc.roomNumber}</span>
+                          </p>
+                        )}
+
+                        {doc.isAvailable === false && (
+                          <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-[#F28C45]/10 text-[#F28C45] border border-[#F28C45]/30">
+                            <span className="w-2 h-2 rounded-full bg-[#F28C45]" />
+                            <span>Currently Unavailable (On Leave)</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
                   {/* Schedule & Fee Info */}
-                  <div className="space-y-2 pt-3 border-t border-gray-100 text-xs text-[#6B7280]">
+                  <div className="space-y-2 pt-3 border-t border-[#E4E9E5] text-xs text-[#5F6875]">
                     <div className="flex items-center justify-between gap-2">
                       <span className="flex items-center gap-1.5 font-medium shrink-0">
                         <Calendar className="w-3.5 h-3.5 text-[#22A25A]" /> Days:
                       </span>
-                      <span className="font-bold text-[#1F2937] truncate text-right">
+                      <span className="font-bold text-[#182334] truncate text-right">
                         {Array.isArray(doc.availableDays)
                           ? doc.availableDays.join(', ')
                           : doc.availableDays || department.days || 'Mon - Sat'}
@@ -338,7 +345,7 @@ export const DepartmentDetailPage: React.FC = () => {
                       <span className="flex items-center gap-1.5 font-medium shrink-0">
                         <Clock className="w-3.5 h-3.5 text-[#22A25A]" /> Timing:
                       </span>
-                      <span className="font-bold text-[#1F2937] truncate text-right">
+                      <span className="font-bold text-[#182334] truncate text-right">
                         {doc.timing || department.timing || '09:00 AM - 05:00 PM'}
                       </span>
                     </div>
@@ -347,7 +354,7 @@ export const DepartmentDetailPage: React.FC = () => {
                       <span className="flex items-center gap-1.5 font-medium shrink-0">
                         <Banknote className="w-3.5 h-3.5 text-[#22A25A]" /> Fee:
                       </span>
-                      <span className="font-extrabold text-[#D9691F] text-xs bg-[#FBEAE0] border border-[#D9691F]/20 px-2.5 py-0.5 rounded-md">
+                      <span className="font-extrabold text-[#F28C45] text-xs bg-[#F28C45]/10 border border-[#F28C45]/20 px-2.5 py-0.5 rounded-md">
                         {doc.fee || department.fee || 'Rs. 1,000'}
                       </span>
                     </div>
@@ -355,10 +362,10 @@ export const DepartmentDetailPage: React.FC = () => {
                 </div>
 
                 {/* Actions */}
-                <div className="pt-3 border-t border-gray-100 flex items-center gap-3">
+                <div className="pt-3 border-t border-[#E4E9E5] flex items-center gap-3">
                   <button
                     onClick={() => setSelectedDoctorForModal(doc)}
-                    className="flex-1 border border-gray-200 hover:bg-[#E8F7EE] text-[#22A25A] py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="flex-1 border border-[#E4E9E5] hover:bg-[#EFF4EC] text-[#22A25A] py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <Info className="w-3.5 h-3.5" />
                     <span>View Detail</span>
@@ -367,7 +374,7 @@ export const DepartmentDetailPage: React.FC = () => {
                   {doc.isAvailable !== false ? (
                     <button
                       onClick={() => handleOpenBooking(doc.id)}
-                      className="flex-1 bg-[#22A25A] hover:bg-[#1E834B] active:bg-[#186A3B] text-white py-2.5 px-3 rounded-xl text-xs font-bold shadow-2xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="flex-1 bg-[#22A25A] hover:bg-[#168A4A] active:bg-[#168A4A] text-white py-2.5 px-3 rounded-xl text-xs font-bold shadow-2xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <Calendar className="w-3.5 h-3.5" />
                       <span>Book Appointment</span>
@@ -375,7 +382,7 @@ export const DepartmentDetailPage: React.FC = () => {
                   ) : (
                     <button
                       disabled
-                      className="flex-1 bg-[#FBEAE0] text-[#D9691F] border border-[#D9691F]/30 py-2.5 px-3 rounded-xl text-xs font-bold opacity-80 cursor-not-allowed flex items-center justify-center gap-1.5"
+                      className="flex-1 bg-[#F28C45]/10 text-[#F28C45] border border-[#F28C45]/30 py-2.5 px-3 rounded-xl text-xs font-bold opacity-80 cursor-not-allowed flex items-center justify-center gap-1.5"
                     >
                       <Calendar className="w-3.5 h-3.5" />
                       <span>On Leave</span>
@@ -383,7 +390,8 @@ export const DepartmentDetailPage: React.FC = () => {
                   )}
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         )}
 
@@ -396,18 +404,18 @@ export const DepartmentDetailPage: React.FC = () => {
           onClick={() => setSelectedDoctorForModal(null)}
         >
           <div
-            className="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95"
+            className="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-[#E4E9E5] overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="p-5 border-b border-gray-200 flex items-center justify-between bg-gray-50">
+            <div className="p-5 border-b border-[#E4E9E5] flex items-center justify-between bg-[#F5F1E8]/40">
               <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#22A25A]">
-                <Sparkles className="w-4 h-4 text-[#D9691F]" />
+                <Sparkles className="w-4 h-4 text-[#F28C45]" />
                 <span>Doctor Details</span>
               </div>
               <button
                 onClick={() => setSelectedDoctorForModal(null)}
-                className="p-1.5 rounded-full hover:bg-gray-200 text-gray-700 transition-colors cursor-pointer"
+                className="p-1.5 rounded-full hover:bg-gray-200 text-[#5F6875] hover:text-[#182334] transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -422,17 +430,17 @@ export const DepartmentDetailPage: React.FC = () => {
                     'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80'
                   }
                   alt={selectedDoctorForModal.name}
-                  className="w-20 h-20 rounded-xl object-cover object-top border border-gray-200 bg-gray-50 shrink-0"
+                  className="w-20 h-20 rounded-xl object-cover object-top border border-[#E4E9E5] bg-[#F5F1E8]/40 shrink-0"
                 />
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-heading font-extrabold text-lg text-[#1F2937]">
+                  <h3 className="font-heading font-extrabold text-lg text-[#182334]">
                     {selectedDoctorForModal.name}
                   </h3>
-                  <p className="text-xs font-bold text-[#D9691F] mt-1">
+                  <p className="text-xs font-bold text-[#F28C45] mt-1">
                     {selectedDoctorForModal.specialty}
                   </p>
                   {selectedDoctorForModal.roomNumber && (
-                    <p className="text-xs text-[#6B7280] font-medium mt-1">
+                    <p className="text-xs text-[#5F6875] font-medium mt-1">
                       OPD Location: {selectedDoctorForModal.roomNumber}
                     </p>
                   )}
@@ -442,16 +450,16 @@ export const DepartmentDetailPage: React.FC = () => {
               {selectedDoctorForModal.bio && (
                 <div className="space-y-1.5">
                   <h4 className="text-xs font-bold text-[#22A25A] uppercase tracking-wider">Biography & Experience</h4>
-                  <p className="text-xs text-[#6B7280] leading-relaxed font-medium bg-gray-50 p-3 rounded-xl border border-gray-100">
+                  <p className="text-xs text-[#5F6875] leading-relaxed font-medium bg-[#F5F1E8]/40 p-3 rounded-xl border border-[#E4E9E5]">
                     {selectedDoctorForModal.bio}
                   </p>
                 </div>
               )}
 
-              <div className="space-y-2 pt-2 text-xs text-[#6B7280] border-t border-gray-100">
+              <div className="space-y-2 pt-2 text-xs text-[#5F6875] border-t border-[#E4E9E5]">
                 <div className="flex items-center justify-between py-1">
                   <span className="font-medium">Consultation Days:</span>
-                  <span className="font-bold text-[#1F2937]">
+                  <span className="font-bold text-[#182334]">
                     {Array.isArray(selectedDoctorForModal.availableDays)
                       ? selectedDoctorForModal.availableDays.join(', ')
                       : selectedDoctorForModal.availableDays || department.days || 'Mon - Sat'}
@@ -459,13 +467,13 @@ export const DepartmentDetailPage: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-between py-1">
                   <span className="font-medium">Consultation Hours:</span>
-                  <span className="font-bold text-[#1F2937]">
+                  <span className="font-bold text-[#182334]">
                     {selectedDoctorForModal.timing || department.timing || '09:00 AM - 05:00 PM'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between py-1">
                   <span className="font-medium">Consultation Fee:</span>
-                  <span className="font-extrabold text-[#D9691F]">
+                  <span className="font-extrabold text-[#F28C45]">
                     {selectedDoctorForModal.fee || department.fee || 'Rs. 1,000'}
                   </span>
                 </div>
@@ -473,10 +481,10 @@ export const DepartmentDetailPage: React.FC = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-gray-200 bg-gray-50 flex items-center justify-end gap-3">
+            <div className="p-4 border-t border-[#E4E9E5] bg-[#F5F1E8]/40 flex items-center justify-end gap-3">
               <button
                 onClick={() => setSelectedDoctorForModal(null)}
-                className="px-4 py-2 text-xs font-bold text-[#1F2937] hover:bg-gray-200 rounded-xl transition-colors cursor-pointer"
+                className="px-4 py-2 text-xs font-bold text-[#182334] hover:bg-[#EFF4EC] rounded-xl transition-colors cursor-pointer"
               >
                 Close
               </button>
@@ -486,7 +494,7 @@ export const DepartmentDetailPage: React.FC = () => {
                   setSelectedDoctorForModal(null);
                   handleOpenBooking(docId);
                 }}
-                className="px-5 py-2.5 bg-[#22A25A] text-white text-xs font-bold rounded-xl hover:bg-[#1E834B] transition-colors cursor-pointer flex items-center gap-1.5"
+                className="px-5 py-2.5 bg-[#22A25A] text-white text-xs font-bold rounded-xl hover:bg-[#168A4A] transition-colors cursor-pointer flex items-center gap-1.5"
               >
                 <Calendar className="w-3.5 h-3.5" />
                 <span>Book Appointment</span>

@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-primary: #22A25A;
+  --color-brand-dark: #168A4A;
+  --color-brand-sage: #EFF4EC;
+  --color-brand-bg: #F5F1E8;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-heading: #182334;
+  --color-brand-body: #5F6875;
+  --color-brand-border: #E4E9E5;
+  --color-brand-orange: #F28C45;
+  --color-brand-whatsapp: #25D366;
+}
+
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);

@@ -19,18 +19,18 @@ export const ContactPage: React.FC = () => {
   }, [hash]);
 
   return (
-    <div className="min-h-screen bg-white text-[#1F2937] pb-20">
+    <div className="min-h-screen bg-white text-[#182334] pb-20">
       {/* Hero Header */}
-      <div className="bg-[#22A25A] text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 shadow-xs">
+      <div className="bg-[#22A25A] text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 shadow-xs border-b border-[#168A4A]">
         <div className="max-w-7xl mx-auto text-center space-y-3">
-          <div className="inline-flex items-center gap-2 bg-[#1E834B] text-white text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider border border-white/20">
+          <div className="inline-flex items-center gap-2 bg-[#168A4A] text-white text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider border border-white/20">
             <HeartPulse className="w-4 h-4 text-white" />
             <span>Hospital Location & Contact</span>
           </div>
           <h1 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
             Contact & Visit Us
           </h1>
-          <p className="text-xs sm:text-base text-[#E8F7EE] font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-base text-[#EFF4EC] font-medium max-w-2xl mx-auto leading-relaxed">
             Conveniently located in Block 13, Gulberg Town, Karachi. Accessible round-the-clock for routine checkups, OPD clinics, and emergency care.
           </p>
         </div>
@@ -45,30 +45,30 @@ export const ContactPage: React.FC = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl shadow-2xs border border-gray-200 flex flex-col justify-between space-y-6"
+            className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl shadow-2xs border border-[#E4E9E5] flex flex-col justify-between space-y-6"
           >
             <div className="space-y-4">
-              <div className="border-b border-gray-100 pb-3">
-                <h2 className="font-heading font-extrabold text-xl sm:text-2xl text-[#1F2937]">
+              <div className="border-b border-[#E4E9E5] pb-3">
+                <h2 className="font-heading font-extrabold text-xl sm:text-2xl text-[#182334]">
                   Contact & Address
                 </h2>
-                <p className="text-xs text-[#6B7280] mt-1 font-medium">
+                <p className="text-xs text-[#5F6875] mt-1 font-medium">
                   We are available 24/7 to assist you with inquiries, appointments, and emergency care.
                 </p>
               </div>
 
               <div className="space-y-3.5 text-xs sm:text-sm">
-                <div className="flex items-start gap-3 p-3.5 bg-gray-50 rounded-2xl border border-gray-100">
+                <div className="flex items-start gap-3 p-3.5 bg-[#F5F1E8]/40 rounded-2xl border border-[#E4E9E5]">
                   <MapPin className="w-5 h-5 text-[#22A25A] shrink-0 mt-0.5" />
                   <div>
                     <div className="font-bold text-[#22A25A]">Full Address</div>
-                    <div className="text-[#1F2937] leading-snug mt-0.5">
+                    <div className="text-[#182334] leading-snug mt-0.5">
                       St-10, Block 13, Gulberg Town, Karachi, 78500, Pakistan
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3.5 bg-gray-50 rounded-2xl border border-gray-100">
+                <div className="flex items-start gap-3 p-3.5 bg-[#F5F1E8]/40 rounded-2xl border border-[#E4E9E5]">
                   <Phone className="w-5 h-5 text-[#22A25A] shrink-0 mt-0.5" />
                   <div>
                     <div className="font-bold text-[#22A25A]">24/7 Phone Helpline</div>
@@ -81,21 +81,21 @@ export const ContactPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3.5 bg-gray-50 rounded-2xl border border-gray-100">
+                <div className="flex items-start gap-3 p-3.5 bg-[#F5F1E8]/40 rounded-2xl border border-[#E4E9E5]">
                   <Clock className="w-5 h-5 text-[#22A25A] shrink-0 mt-0.5" />
                   <div>
                     <div className="font-bold text-[#22A25A]">Operating Hours</div>
-                    <div className="text-[#1F2937] leading-snug mt-0.5">
+                    <div className="text-[#182334] leading-snug mt-0.5">
                       Open 24 Hours, 7 Days a Week (OPD + Emergency)
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3.5 bg-gray-50 rounded-2xl border border-gray-100">
+                <div className="flex items-start gap-3 p-3.5 bg-[#F5F1E8]/40 rounded-2xl border border-[#E4E9E5]">
                   <Accessibility className="w-5 h-5 text-[#22A25A] shrink-0 mt-0.5" />
                   <div>
                     <div className="font-bold text-[#22A25A]">Accessibility</div>
-                    <div className="text-[#1F2937] leading-snug mt-0.5">
+                    <div className="text-[#182334] leading-snug mt-0.5">
                       Wheelchair accessible entrance, corridors, and rest rooms
                     </div>
                   </div>
@@ -107,7 +107,7 @@ export const ContactPage: React.FC = () => {
               href="https://www.google.com/maps/search/?api=1&query=Rafah-E-Aam+Medical+Center+St-10+Block+13+Gulberg+Town+Karachi"
               target="_blank"
               rel="noreferrer"
-              className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white py-3.5 rounded-2xl text-xs sm:text-sm font-bold shadow-2xs flex items-center justify-center gap-2 transition-all hover:gap-3 cursor-pointer"
+              className="w-full bg-[#22A25A] hover:bg-[#168A4A] text-white py-3.5 rounded-2xl text-xs sm:text-sm font-bold shadow-2xs flex items-center justify-center gap-2 transition-all hover:gap-3 cursor-pointer"
             >
               <Navigation className="w-4 h-4" />
               <span>Get Directions on Google Maps</span>
@@ -121,14 +121,14 @@ export const ContactPage: React.FC = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-7 bg-white rounded-3xl shadow-2xs border border-gray-200 overflow-hidden min-h-[420px] flex flex-col"
+            className="lg:col-span-7 bg-white rounded-3xl shadow-2xs border border-[#E4E9E5] overflow-hidden min-h-[420px] flex flex-col"
           >
-            <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-              <span className="font-bold text-xs sm:text-sm text-[#1F2937] flex items-center gap-2">
+            <div className="bg-[#F5F1E8]/40 px-6 py-4 border-b border-[#E4E9E5] flex items-center justify-between">
+              <span className="font-bold text-xs sm:text-sm text-[#182334] flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#22A25A]" />
                 Interactive Hospital Map
               </span>
-              <span className="text-xs text-[#6B7280] font-medium">Gulberg Town, Karachi</span>
+              <span className="text-xs text-[#5F6875] font-medium">Gulberg Town, Karachi</span>
             </div>
             <div className="flex-1 min-h-[380px]">
               <iframe
