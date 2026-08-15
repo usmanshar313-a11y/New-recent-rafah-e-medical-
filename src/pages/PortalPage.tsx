@@ -37,14 +37,26 @@ import {
   deleteDoc
 } from 'firebase/firestore';
 import { db, auth } from '../firebase';
-import { signOut, sendPasswordResetEmail } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { useAuth } from '../context/AuthContext';
 import { Appointment, AppointmentStatus, MedicalReport } from '../types';
 import { Toast, ToastMessage } from '../components/common/Toast';
 
 export const PortalPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user, patientProfile, loading, signUpWithEmail, signInWithEmail, updatePatientProfile, logout } = useAuth();
+  const { 
+    user, 
+    patientProfile, 
+    loading, 
+    signInWithGoogle, 
+    sendPasswordlessEmailLink, 
+    completePasswordlessEmailSignIn, 
+    isPasswordlessEmailLink, 
+    signUpWithEmail,
+    signInWithEmail,
+    updatePatientProfile, 
+    logout 
+  } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'appointments' | 'reports' | 'profile'>('appointments');
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -52,35 +64,30 @@ export const PortalPage: React.FC = () => {
   const [loadingData, setLoadingData] = useState(true);
   const [loadingReports, setLoadingReports] = useState(false);
 
-  // Auth Toggle & Form States
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  // Authentication Mode & Method States
+  const [authMethod, setAuthMethod] = useState<'passwordless' | 'password'>('passwordless');
+  const [passwordMode, setPasswordMode] = useState<'login' | 'signup'>('login');
 
-  // Login State
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [loginNoAccount, setLoginNoAccount] = useState(false);
-  const [loginSubmitting, setLoginSubmitting] = useState(false);
+  // Passwordless Authentication States
+  const [authEmail, setAuthEmail] = useState('');
+  const [authError, setAuthError] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
+  const [isEmailLinkNotAllowed, setIsEmailLinkNotAllowed] = useState(false);
+  const [emailSentSuccess, setEmailSentSuccess] = useState(false);
+  const [emailSentAddress, setEmailSentAddress] = useState('');
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [verifyingEmailLink, setVerifyingEmailLink] = useState(false);
+  const [emailPromptRequired, setEmailPromptRequired] = useState(false);
+  const [promptEmailInput, setPromptEmailInput] = useState('');
 
-  // Signup State
-  const [signupName, setSignupName] = useState('');
-  const [signupEmail, setSignupEmail] = useState('');
-  const [signupPassword, setSignupPassword] = useState('');
-  const [signupConfirmPassword, setSignupConfirmPassword] = useState('');
-  const [signupConfirmEmailChecked, setSignupConfirmEmailChecked] = useState(false);
-  const [signupError, setSignupError] = useState('');
-  const [signupAlreadyExists, setSignupAlreadyExists] = useState(false);
-  const [signupSubmitting, setSignupSubmitting] = useState(false);
-  const [showLoginPassword, setShowLoginPassword] = useState(false);
-  const [showSignupPassword, setShowSignupPassword] = useState(false);
-  const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
-
-  const [showResetPassword, setShowResetPassword] = useState(false);
-  const [resetEmail, setResetEmail] = useState('');
-  const [resetMessage, setResetMessage] = useState('');
-  const [resetSubmitting, setResetSubmitting] = useState(false);
-  const [resetSentModalOpen, setResetSentModalOpen] = useState(false);
-  const [resetSentEmail, setResetSentEmail] = useState('');
+  // Password-based Form States
+  const [passEmail, setPassEmail] = useState('');
+  const [passPassword, setPassPassword] = useState('');
+  const [passName, setPassName] = useState('');
+  const [passConfirm, setPassConfirm] = useState('');
+  const [showPassPassword, setShowPassPassword] = useState(false);
+  const [showPassConfirm, setShowPassConfirm] = useState(false);
+  const [showGuideModal, setShowGuideModal] = useState(false);
 
   // Profile Edit Form State
   const [profileName, setProfileName] = useState('');
@@ -117,6 +124,51 @@ export const PortalPage: React.FC = () => {
     onConfirm: () => {},
   });
 
+  // Detect and process email sign-in link automatically on mount
+  useEffect(() => {
+    const checkIncomingEmailLink = async () => {
+      if (isPasswordlessEmailLink()) {
+        setVerifyingEmailLink(true);
+        setAuthError('');
+        try {
+          const storedEmail = window.localStorage.getItem('emailForSignIn');
+          if (!storedEmail) {
+            setEmailPromptRequired(true);
+            setVerifyingEmailLink(false);
+            return;
+          }
+          await completePasswordlessEmailSignIn(storedEmail);
+          window.history.replaceState({}, document.title, window.location.pathname);
+          setToast({ message: 'Welcome to Rafah-E-Aam Patient Portal!', type: 'success' });
+        } catch (err: any) {
+          console.error('Email sign in error:', err);
+          const code = err?.code || '';
+          if (code === 'auth/invalid-action-code' || err?.message?.includes('invalid-action-code')) {
+            setAuthError('This sign-in link has expired or has already been used. Please request a new one.');
+          } else if (code === 'auth/invalid-email') {
+            setAuthError('Invalid email address for sign-in verification.');
+          } else {
+            setAuthError(err?.message || 'Unable to complete sign in. Please request a new link.');
+          }
+          window.history.replaceState({}, document.title, window.location.pathname);
+        } finally {
+          setVerifyingEmailLink(false);
+        }
+      }
+    };
+
+    checkIncomingEmailLink();
+  }, []);
+
+  // Resend cooldown timer
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
   useEffect(() => {
     if (patientProfile) {
       setProfileName(patientProfile.name || '');
@@ -134,12 +186,6 @@ export const PortalPage: React.FC = () => {
   useEffect(() => {
     if (user) {
       fetchPatientData();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      setResetSentModalOpen(false);
     }
   }, [user]);
 
@@ -330,173 +376,103 @@ export const PortalPage: React.FC = () => {
     }
   };
 
-  const handleLoginSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (loginSubmitting) return;
-    setLoginError('');
-    setLoginNoAccount(false);
-
-    const cleanEmail = loginEmail.trim();
-    if (!cleanEmail) {
-      setLoginError('Please enter your email address.');
-      return;
-    }
-    if (!loginPassword) {
-      setLoginError('Please enter your Secret Portal Key.');
-      return;
-    }
-
-    setLoginSubmitting(true);
+  const handleGoogleSignInClick = async () => {
+    if (authLoading) return;
+    setAuthError('');
+    setAuthLoading(true);
     try {
-        await signInWithEmail(cleanEmail, loginPassword);
-        setResetSentModalOpen(false);
-        setResetMessage('');
+      await signInWithGoogle();
+      setToast({ message: 'Welcome to Rafah-E-Aam Patient Portal!', type: 'success' });
     } catch (err: any) {
-        try {
-          await signOut(auth);
-        } catch (e) {
-          // ignore signOut errors
-        }
+      console.error('Google Sign-In Error:', err);
       const code = err?.code || '';
-      const msg = err?.message || '';
-
-      if (code === 'auth/user-not-found') {
-        setLoginNoAccount(true);
-        setLoginError('No account found with this email. Please sign up first.');
-      } else if (code === 'auth/wrong-password') {
-        setLoginError('Incorrect password. Please try again.');
-      } else if (code === 'auth/invalid-credential' || msg.includes('auth/invalid-credential')) {
-        try {
-          const lowerEmail = cleanEmail.toLowerCase();
-          const [snap1, snap2, snapAppt1, snapAppt2] = await Promise.all([
-            getDocs(query(collection(db, 'patients'), where('email', '==', cleanEmail))),
-            getDocs(query(collection(db, 'patients'), where('email', '==', lowerEmail))),
-            getDocs(query(collection(db, 'appointments'), where('email', '==', cleanEmail))),
-            getDocs(query(collection(db, 'appointments'), where('email', '==', lowerEmail)))
-          ]);
-
-          if (!snap1.empty || !snap2.empty || !snapAppt1.empty || !snapAppt2.empty) {
-            setLoginError('Incorrect password. Please try again.');
-          } else {
-            setLoginNoAccount(true);
-            setLoginError('No account found with this email. Please sign up first.');
-          }
-        } catch {
-          setLoginError('Incorrect password or credentials.');
-        }
-      } else if (code === 'auth/invalid-email') {
-        setLoginError('Please enter a valid email address.');
+      const message = err?.message || '';
+      if (code === 'auth/popup-closed-by-user') {
+        setAuthError('Google sign-in popup was closed. Please try again.');
+      } else if (code === 'auth/cancelled-popup-request') {
+        // Ignored
+      } else if (code === 'auth/unauthorized-domain' || message.includes('unauthorized-domain')) {
+        setAuthError('This app domain is not authorized in Firebase Authentication. Open Firebase Console → Authentication → Settings → Authorized domains and add this website’s domain, then try again.');
       } else {
-        setLoginError(err?.message || 'Failed to log in. Please check your credentials.');
+        setAuthError(message || 'Google sign-in failed. Please try again or use email.');
       }
     } finally {
-      setLoginSubmitting(false);
+      setAuthLoading(false);
     }
   };
 
-  const handlePasswordResetSubmit = async () => {
-    if (resetSubmitting) return;
-    setResetMessage('');
-    setLoginError('');
-
-    const cleanEmail = resetEmail.trim();
-    if (!cleanEmail) {
-      setLoginError('Please enter your email address to reset your password.');
-      return;
-    }
-
-    setResetSubmitting(true);
-    try {
-      await sendPasswordResetEmail(auth, cleanEmail);
-      const message = 'If an account exists with this email, a password reset link was sent. Please check your inbox and spam folders.';
-      setResetMessage(message);
-      setResetSentEmail(cleanEmail);
-      setResetSentModalOpen(true);
-      setShowResetPassword(false);
-      setResetEmail('');
-    } catch (err: any) {
-      const message = 'If an account exists with this email, a password reset link was sent. Please check your inbox and spam folders.';
-      setResetMessage(message);
-      setResetSentEmail(cleanEmail);
-      setResetSentModalOpen(true);
-      setShowResetPassword(false);
-      setResetEmail('');
-    } finally {
-      setResetSubmitting(false);
-    }
-  };
-
-  const handleSignupSubmit = async (e: React.FormEvent) => {
+  const handleSendEmailLinkSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (signupSubmitting) return;
-    setSignupError('');
-    setSignupAlreadyExists(false);
+    if (authLoading || resendCooldown > 0) return;
+    setAuthError('');
 
-    const cleanEmail = signupEmail.trim();
-    if (!signupName.trim()) {
-      setSignupError('Please enter your full name.');
-      return;
-    }
-    if (!cleanEmail) {
-      setSignupError('Please enter your email address.');
-      return;
-    }
-    if (!signupPassword) {
-      setSignupError('Please enter your Secret Portal Key.');
-      return;
-    }
-    if (signupPassword !== signupConfirmPassword) {
-      setSignupError('Passwords do not match.');
-      return;
-    }
-    if (!signupConfirmEmailChecked) {
-      setSignupError('Please confirm that your email address is correct.');
+    const cleanEmail = authEmail.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
+      setAuthError('Please enter a valid email address.');
       return;
     }
 
-    setSignupSubmitting(true);
+    setAuthLoading(true);
     try {
-        // Ensure there is no lingering auth session before creating a new user
-        try {
-          await signOut(auth);
-        } catch (e) {
-          // ignore signOut errors
-        }
-
-        await signUpWithEmail(cleanEmail, signupPassword, signupName);
+      await sendPasswordlessEmailLink(cleanEmail);
+      setEmailSentAddress(cleanEmail);
+      setEmailSentSuccess(true);
+      setResendCooldown(60); // 60s cooldown
     } catch (err: any) {
-        const code = err?.code || '';
-        const msg = err?.message || '';
-        if (code === 'auth/email-already-in-use' || msg.includes('email-already-in-use')) {
-          setSignupAlreadyExists(true);
-          setSignupError('This email is already registered. Please log in instead.');
-        } else if (code === 'auth/weak-password') {
-          setSignupError('Password is too weak.');
-        } else if (code === 'auth/invalid-email') {
-          setSignupError('Please enter a valid email address.');
-        } else {
-          setSignupError(err?.message || 'Failed to create account. Please try again.');
-        }
+      console.error('Send Email Link Error:', err);
+      const code = err?.code || '';
+      const message = err?.message || '';
+      if (code === 'auth/unauthorized-domain' || message.includes('unauthorized-domain')) {
+        setAuthError('This domain is not allowed in Firebase Auth. In Firebase Console, go to Authentication → Settings → Authorized domains and add your current site domain before sending sign-in links.');
+      } else {
+        setAuthError(message || 'Failed to send secure sign-in link. Please check your email and try again.');
+      }
     } finally {
-      setSignupSubmitting(false);
+      setAuthLoading(false);
+    }
+  };
+
+  const handlePromptEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (authLoading) return;
+    setAuthError('');
+
+    const cleanEmail = promptEmailInput.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
+      setAuthError('Please enter a valid email address to complete sign-in.');
+      return;
+    }
+
+    setAuthLoading(true);
+    try {
+      await completePasswordlessEmailSignIn(cleanEmail);
+      setEmailPromptRequired(false);
+      window.history.replaceState({}, document.title, window.location.pathname);
+      setToast({ message: 'Welcome to Rafah-E-Aam Patient Portal!', type: 'success' });
+    } catch (err: any) {
+      console.error('Email sign in error:', err);
+      const code = err?.code || '';
+      const message = err?.message || '';
+      if (code === 'auth/unauthorized-domain' || message.includes('unauthorized-domain')) {
+        setAuthError('This domain is not authorized in Firebase Authentication. Add the current site domain under Authentication → Settings → Authorized domains, then retry the passwordless sign-in.');
+      } else {
+        setAuthError(message || 'Unable to sign in with this email and link. Please request a new link.');
+      }
+    } finally {
+      setAuthLoading(false);
     }
   };
 
   const handleLogout = async () => {
     await logout();
     setAppointments([]);
-    setLoginEmail('');
-    setLoginPassword('');
-    setLoginError('');
-    setLoginNoAccount(false);
-    setSignupName('');
-    setSignupEmail('');
-    setSignupPassword('');
-    setSignupConfirmPassword('');
-    setSignupConfirmEmailChecked(false);
-    setSignupError('');
-    setSignupAlreadyExists(false);
-    setAuthMode('login');
+    setReports([]);
+    setAuthEmail('');
+    setAuthError('');
+    setEmailSentSuccess(false);
+    setEmailSentAddress('');
   };
 
   const handleCancelAppointment = (apptId: string) => {
@@ -660,13 +636,6 @@ export const PortalPage: React.FC = () => {
     return isAppointmentCompleted(status) || isAppointmentCancelled(status);
   };
 
-  // Password strength checks for Sign Up: length, number, uppercase, symbol
-  const hasLength = signupPassword.length >= 8;
-  const hasNumber = /\d/.test(signupPassword);
-  const hasUpper = /[A-Z]/.test(signupPassword);
-  const hasSymbol = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(signupPassword);
-  const isPasswordStrong = hasLength && hasNumber && hasUpper && hasSymbol;
-
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center p-6">
@@ -678,460 +647,242 @@ export const PortalPage: React.FC = () => {
     );
   }
 
-  // Render Login / Sign Up UI if not authenticated
+  // Render Passwordless Authentication UI if not authenticated
   if (!user) {
     return (
-      <div className="min-h-screen bg-white py-12 px-4 flex items-center justify-center text-[#1F2937]">
-        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-md w-full border border-gray-200 space-y-6">
+      <div className="min-h-screen bg-[#F5F1E8] py-12 px-4 flex items-center justify-center text-[#182334]">
+        <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-200/80 space-y-6">
+          
+          {/* Header */}
           <div className="text-center space-y-2">
-            <div className="w-14 h-14 bg-[#22A25A] text-white rounded-full flex items-center justify-center mx-auto shadow-sm">
-              {authMode === 'login' ? <LogIn className="w-7 h-7" /> : <UserPlus className="w-7 h-7" />}
+            <div className="w-14 h-14 bg-[#22A25A] text-white rounded-2xl flex items-center justify-center mx-auto shadow-md shadow-[#22A25A]/20">
+              <ShieldCheck className="w-8 h-8" />
             </div>
-            <h2 className="font-heading font-extrabold text-2xl text-[#1F2937]">
-              {authMode === 'login' ? 'Patient Portal Login' : 'Create Patient Account'}
+            <h2 className="font-heading font-extrabold text-2xl text-[#182334] tracking-tight">
+              Patient Portal Sign In
             </h2>
-            <p className="text-xs sm:text-sm text-[#6B7280]">
-              {authMode === 'login'
-                ? 'Sign in with your registered email & Secret Portal Key to view appointments.'
-                : 'Register your details to schedule medical appointments and access your records.'}
+            <p className="text-xs sm:text-sm text-gray-500 max-w-xs mx-auto">
+              Access your appointments, medical records, and reports securely without a password.
             </p>
           </div>
 
-          {/* Form switch tab pills */}
-          <div className="bg-gray-100 p-1 rounded-xl flex gap-1">
-            <button
-              type="button"
-              onClick={() => {
-                if (signupEmail && !loginEmail) setLoginEmail(signupEmail.trim());
-                setAuthMode('login');
-                setLoginError('');
-                setLoginNoAccount(false);
-                setSignupError('');
-                setSignupAlreadyExists(false);
-              }}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                authMode === 'login' ? 'bg-[#22A25A] text-white shadow-xs' : 'text-[#6B7280] hover:bg-gray-200'
-              }`}
-            >
-              Log In
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (loginEmail && !signupEmail) setSignupEmail(loginEmail.trim());
-                setAuthMode('signup');
-                setLoginError('');
-                setLoginNoAccount(false);
-                setSignupError('');
-                setSignupAlreadyExists(false);
-              }}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                authMode === 'signup' ? 'bg-[#22A25A] text-white shadow-xs' : 'text-[#6B7280] hover:bg-gray-200'
-              }`}
-            >
-              Sign Up
-            </button>
-          </div>
-
-          {/* LOGIN FORM */}
-          {authMode === 'login' && (
-            <form onSubmit={handleLoginSubmit} className="space-y-4">
-              {loginError && (
-                <div className="bg-red-50 border border-red-200 p-3.5 rounded-xl text-xs text-red-800 font-medium space-y-2.5">
-                  <div className="flex items-center gap-2 font-semibold">
-                    <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
-                    <span>{loginError}</span>
-                  </div>
-                  {loginNoAccount && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSignupEmail(loginEmail.trim());
-                        setSignupName('');
-                        setSignupPassword('');
-                        setSignupConfirmPassword('');
-                        setSignupConfirmEmailChecked(false);
-                        setSignupError('');
-                        setSignupAlreadyExists(false);
-                        setLoginError('');
-                        setLoginNoAccount(false);
-                        setAuthMode('signup');
-                      }}
-                      className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-2 px-3 rounded-lg shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer text-xs mt-1"
-                    >
-                      <UserPlus className="w-4 h-4" />
-                      <span>Go to Sign Up (Email Pre-filled)</span>
-                    </button>
-                  )}
-                </div>
-              )}
-
-              <div>
-                <label className="block text-xs font-bold text-[#1F2937] mb-1">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
-                  <input
-                    type="email"
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                    placeholder="patient@example.com"
-                    required
-                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-[#1F2937] mb-1">
-                  Secret Portal Key
-                </label>
-                <div className="relative">
-                  <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
-                  <input
-                    type={showLoginPassword ? 'text' : 'password'}
-                    value={loginPassword}
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                    placeholder="Enter your Secret Portal Key"
-                    required
-                    className="w-full pl-9 pr-11 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowLoginPassword((prev) => !prev)}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                  >
-                    {showLoginPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loginSubmitting}
-                className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-3 px-4 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm mt-2"
-              >
-                <LogIn className="w-4 h-4" />
-                <span>{loginSubmitting ? 'Verifying Key...' : 'Log In to Patient Portal'}</span>
-              </button>
-
-              <div className="flex flex-col items-center gap-3 text-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => setShowResetPassword(true)}
-                  className="text-xs text-[#22A25A] font-bold hover:underline cursor-pointer"
-                >
-                  Forgot Password?
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (loginEmail && !signupEmail) setSignupEmail(loginEmail.trim());
-                    setLoginError('');
-                    setLoginNoAccount(false);
-                    setSignupError('');
-                    setSignupAlreadyExists(false);
-                    setAuthMode('signup');
-                  }}
-                  className="text-xs text-[#22A25A] font-bold hover:underline cursor-pointer"
-                >
-                  Don't have an account? Sign Up
-                </button>
-              </div>
-
-              {showResetPassword && (
-                <div className="mt-4 p-4 bg-[#EAF6F0] border border-[#22A25A]/20 rounded-2xl text-[#1F2937]">
-                  <h4 className="text-sm font-bold text-[#1F2937]">Reset Password</h4>
-                  <p className="text-xs text-[#6B7280] mt-1 mb-3">
-                    Enter the email address used for your patient account.
-                  </p>
-                  {resetMessage ? (
-                    <div className="p-3 bg-[#22A25A]/10 text-[#22A25A] text-xs font-semibold rounded-xl mb-3">
-                      {resetMessage}
-                    </div>
-                  ) : null}
-                  <div className="relative">
-                    <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
-                    <input
-                      type="email"
-                      value={resetEmail}
-                      onChange={(e) => setResetEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      className="w-full pl-9 pr-3 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
-                    />
-                  </div>
-                  <div className="flex items-center justify-between gap-2 mt-3">
-                    <button
-                      type="button"
-                      onClick={() => setShowResetPassword(false)}
-                      className="flex-1 bg-gray-100 text-[#1F2937] border border-gray-200 rounded-xl py-2 text-xs font-bold hover:bg-gray-200 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handlePasswordResetSubmit}
-                      disabled={resetSubmitting}
-                      className="flex-1 bg-[#22A25A] text-white rounded-xl py-2 text-xs font-bold hover:bg-[#1E834B] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
-                    >
-                      {resetSubmitting ? 'Sending...' : 'Send Reset Link'}
-                    </button>
-                  </div>
-                </div>
-              )}
-            </form>
-          )}
-
-          {/* SIGNUP FORM */}
-          {authMode === 'signup' && (
-            <form onSubmit={handleSignupSubmit} className="space-y-4">
-              {signupError && (
-                <div className="bg-red-50 border border-red-200 p-3.5 rounded-xl text-xs text-red-800 font-medium space-y-2.5">
-                  <div className="flex items-center gap-2 font-semibold">
-                    <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
-                    <span>{signupError}</span>
-                  </div>
-                  {signupAlreadyExists && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setLoginEmail(signupEmail.trim());
-                        setLoginPassword('');
-                        setLoginError('');
-                        setLoginNoAccount(false);
-                        setSignupError('');
-                        setSignupAlreadyExists(false);
-                        setAuthMode('login');
-                      }}
-                      className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-2 px-3 rounded-lg shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer text-xs mt-1"
-                    >
-                      <LogIn className="w-4 h-4" />
-                      <span>Go to Login (Email Pre-filled)</span>
-                    </button>
-                  )}
-                </div>
-              )}
-
-              <div>
-                <label className="block text-xs font-bold text-[#1F2937] mb-1">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <User className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
-                  <input
-                    type="text"
-                    value={signupName}
-                    onChange={(e) => setSignupName(e.target.value)}
-                    placeholder="e.g. Fatima Ali"
-                    required
-                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-[#1F2937] mb-1">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
-                  <input
-                    type="email"
-                    value={signupEmail}
-                    onChange={(e) => setSignupEmail(e.target.value)}
-                    placeholder="fatima@example.com"
-                    required
-                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-[#1F2937] mb-1">
-                  Secret Portal Key
-                </label>
-                <div className="relative">
-                  <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
-                  <input
-                    type={showSignupPassword ? 'text' : 'password'}
-                    value={signupPassword}
-                    onChange={(e) => setSignupPassword(e.target.value)}
-                    placeholder="Create your Secret Portal Key"
-                    required
-                    className="w-full pl-9 pr-11 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowSignupPassword((prev) => !prev)}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                  >
-                    {showSignupPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-                {/* Password strength checklist */}
-                <div className="mt-2 text-xs text-[#6B7280]">
-                  <div className="flex flex-col gap-1 pl-1">
-                    <div className="flex items-center gap-2">
-                      {hasLength ? (
-                        <CheckCircle2 className="w-4 h-4 text-[#22A25A]" />
-                      ) : (
-                        <XCircle className="w-4 h-4 text-gray-300" />
-                      )}
-                      <span className={hasLength ? 'text-[#1F2937] font-semibold' : 'text-[#6B7280]'}>At least 8 characters</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      {hasNumber ? (
-                        <CheckCircle2 className="w-4 h-4 text-[#22A25A]" />
-                      ) : (
-                        <XCircle className="w-4 h-4 text-gray-300" />
-                      )}
-                      <span className={hasNumber ? 'text-[#1F2937] font-semibold' : 'text-[#6B7280]'}>Includes a number</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      {hasUpper ? (
-                        <CheckCircle2 className="w-4 h-4 text-[#22A25A]" />
-                      ) : (
-                        <XCircle className="w-4 h-4 text-gray-300" />
-                      )}
-                      <span className={hasUpper ? 'text-[#1F2937] font-semibold' : 'text-[#6B7280]'}>Includes an uppercase letter</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      {hasSymbol ? (
-                        <CheckCircle2 className="w-4 h-4 text-[#22A25A]" />
-                      ) : (
-                        <XCircle className="w-4 h-4 text-gray-300" />
-                      )}
-                      <span className={hasSymbol ? 'text-[#1F2937] font-semibold' : 'text-[#6B7280]'}>Includes a symbol (e.g. !@#$%)</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-[#1F2937] mb-1">
-                  Confirm Password
-                </label>
-                <div className="relative">
-                  <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
-                  <input
-                    type={showSignupConfirmPassword ? 'text' : 'password'}
-                    value={signupConfirmPassword}
-                    onChange={(e) => setSignupConfirmPassword(e.target.value)}
-                    placeholder="Re-enter your Secret Portal Key"
-                    required
-                    className="w-full pl-9 pr-11 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#22A25A]"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowSignupConfirmPassword((prev) => !prev)}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                  >
-                    {showSignupConfirmPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <div className="pt-1">
-                <label className="flex items-start gap-2.5 text-xs text-[#6B7280] cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={signupConfirmEmailChecked}
-                    onChange={(e) => setSignupConfirmEmailChecked(e.target.checked)}
-                    required
-                    className="mt-0.5 rounded text-[#22A25A] focus:ring-[#22A25A]"
-                  />
-                  <span className="font-semibold leading-snug">
-                    I confirm my email address is correct
-                  </span>
-                </label>
-              </div>
-
-              <button
-                type="submit"
-                disabled={signupSubmitting || !isPasswordStrong}
-                className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-3 px-4 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm mt-2"
-                title={!isPasswordStrong ? 'Password must be 8+ chars and include number, uppercase and symbol' : undefined}
-              >
-                <UserPlus className="w-4 h-4" />
-                <span>{signupSubmitting ? 'Creating Account...' : 'Create Account & Sign In'}</span>
-              </button>
-
-              <div className="text-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (signupEmail && !loginEmail) setLoginEmail(signupEmail.trim());
-                    setLoginError('');
-                    setLoginNoAccount(false);
-                    setSignupError('');
-                    setSignupAlreadyExists(false);
-                    setAuthMode('login');
-                  }}
-                  className="text-xs text-[#22A25A] font-bold hover:underline cursor-pointer"
-                >
-                  Already have an account? Log In
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
-
-        {resetSentModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-            <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
-              <div className="p-6">
-                <div className="flex items-center gap-4">
-                  <div className="rounded-3xl bg-[#EAF6F0] p-3 text-[#22A25A]">
-                    <ShieldCheck className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-[#1F2937]">Reset Link Sent</h3>
-                    <p className="mt-2 text-sm text-[#6B7280]">
-                      If an account exists for <span className="font-semibold text-[#1F2937]">{resetSentEmail || 'this email'}</span>, a password reset link was sent.
-                      Please check your inbox and spam folders.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-6 rounded-3xl bg-[#EAF6F0] border border-[#22A25A]/20 p-4 text-sm text-[#1F2937]">
-                  <p className="font-semibold">Important:</p>
-                  <p className="mt-2">
-                    The reset email may appear in Gmail <span className="font-semibold">Spam</span> or <span className="font-semibold">Promotions</span>, and the sender may show as <span className="font-semibold">"noreply"</span>.
-                  </p>
-                  <p className="mt-2">
-                    If you don't see it shortly, please search for <span className="font-semibold">noreply</span> or check your spam folder.
-                  </p>
-                </div>
-
-                <div className="mt-6 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setResetSentModalOpen(false)}
-                    className="inline-flex items-center justify-center rounded-2xl bg-[#22A25A] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1E834B] transition-colors"
-                  >
-                    Got it
-                  </button>
-                </div>
+          {/* Link Verification in Progress */}
+          {verifyingEmailLink ? (
+            <div className="py-8 text-center space-y-4">
+              <div className="w-10 h-10 border-4 border-[#22A25A] border-t-transparent rounded-full animate-spin mx-auto" />
+              <div className="space-y-1">
+                <p className="text-sm font-bold text-[#182334]">Verifying your sign-in link...</p>
+                <p className="text-xs text-gray-500">Please wait while we log you in securely.</p>
               </div>
             </div>
-          </div>
-        )}
+          ) : emailPromptRequired ? (
+            /* Email confirmation prompt for cross-device sign-in link clicks */
+            <form onSubmit={handlePromptEmailSubmit} className="space-y-4">
+              <div className="p-3.5 bg-blue-50 border border-blue-200 rounded-2xl text-xs text-blue-900 leading-relaxed">
+                Please confirm the email address you used to request this sign-in link to complete your login.
+              </div>
+
+              {authError && (
+                <div className="bg-red-50 border border-red-200 p-3.5 rounded-2xl text-xs text-red-700 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                  <span>{authError}</span>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-bold text-[#182334] mb-1.5">
+                  Your Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                  <input
+                    type="email"
+                    value={promptEmailInput}
+                    onChange={(e) => setPromptEmailInput(e.target.value)}
+                    placeholder="patient@example.com"
+                    required
+                    className="w-full pl-10 pr-3.5 py-3 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-[#182334] focus:outline-none focus:ring-2 focus:ring-[#22A25A] focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={authLoading}
+                className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-3.5 px-4 rounded-xl shadow-md shadow-[#22A25A]/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-sm"
+              >
+                {authLoading ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="w-4 h-4" />
+                    <span>Complete Sign In</span>
+                  </>
+                )}
+              </button>
+            </form>
+          ) : emailSentSuccess ? (
+            /* "CHECK YOUR EMAIL" VIEW */
+            <div className="space-y-5 text-center">
+              <div className="w-16 h-16 bg-[#EFF4EC] text-[#22A25A] rounded-full flex items-center justify-center mx-auto shadow-inner">
+                <Mail className="w-8 h-8" />
+              </div>
+
+              <div className="space-y-1.5">
+                <h3 className="font-heading font-extrabold text-xl text-[#182334]">
+                  Check your email
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-600">
+                  We sent a secure sign-in link to:
+                </p>
+                <p className="text-sm font-bold text-[#22A25A] bg-[#EFF4EC] py-1.5 px-3 rounded-lg inline-block break-all">
+                  {emailSentAddress}
+                </p>
+              </div>
+
+              <div className="p-4 bg-gray-50 border border-gray-200 rounded-2xl text-left space-y-2 text-xs text-gray-600 leading-relaxed">
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#22A25A] shrink-0 mt-0.5" />
+                  <span>Click the link in your email to sign in instantly.</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#22A25A] shrink-0 mt-0.5" />
+                  <span>No password needed. You'll be logged in automatically.</span>
+                </div>
+                <div className="flex items-start gap-2 text-gray-500 pt-1 border-t border-gray-200/60">
+                  <AlertCircle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <span>Don't see it? Check your Spam or Promotions folder.</span>
+                </div>
+              </div>
+
+              {authError && (
+                <div className="bg-red-50 border border-red-200 p-3 rounded-xl text-xs text-red-700 flex items-center gap-2 text-left">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                  <span>{authError}</span>
+                </div>
+              )}
+
+              <div className="space-y-2 pt-2">
+                <button
+                  type="button"
+                  onClick={handleSendEmailLinkSubmit}
+                  disabled={authLoading || resendCooldown > 0}
+                  className="w-full py-2.5 px-4 bg-white border border-gray-300 hover:bg-gray-50 text-xs sm:text-sm font-bold text-[#182334] rounded-xl transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${authLoading ? 'animate-spin' : ''}`} />
+                  <span>
+                    {resendCooldown > 0
+                      ? `Resend sign-in link (${resendCooldown}s)`
+                      : 'Resend sign-in email'}
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmailSentSuccess(false);
+                    setAuthError('');
+                  }}
+                  className="w-full py-2 text-xs font-semibold text-gray-500 hover:text-[#182334] transition-colors cursor-pointer"
+                >
+                  Use a different email address
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* DEFAULT SIGN-IN SCREEN */
+            <div className="space-y-4">
+              {authError && (
+                <div className="bg-red-50 border border-red-200 p-3.5 rounded-2xl text-xs text-red-700 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                  <span>{authError}</span>
+                </div>
+              )}
+
+              {/* CONTINUE WITH GOOGLE */}
+              <button
+                type="button"
+                onClick={handleGoogleSignInClick}
+                disabled={authLoading}
+                className="w-full bg-white hover:bg-gray-50 text-[#182334] font-bold py-3 px-4 rounded-xl border border-gray-300 shadow-xs hover:shadow-sm transition-all flex items-center justify-center gap-3 cursor-pointer disabled:opacity-60 text-xs sm:text-sm"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <path
+                    fill="#4285F4"
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                  />
+                  <path
+                    fill="#EA4335"
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                  />
+                </svg>
+                <span>Continue with Google</span>
+              </button>
+
+              {/* DIVIDER */}
+              <div className="relative flex items-center justify-center my-4">
+                <div className="border-t border-gray-200 w-full" />
+                <span className="bg-white px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  or
+                </span>
+                <div className="border-t border-gray-200 w-full" />
+              </div>
+
+              {/* CONTINUE WITH EMAIL */}
+              <form onSubmit={handleSendEmailLinkSubmit} className="space-y-3.5">
+                <div>
+                  <label className="block text-xs font-bold text-[#182334] mb-1.5">
+                    Continue with Email
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                    <input
+                      type="email"
+                      value={authEmail}
+                      onChange={(e) => setAuthEmail(e.target.value)}
+                      placeholder="Enter your email address"
+                      required
+                      className="w-full pl-10 pr-3.5 py-3 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-[#182334] focus:outline-none focus:ring-2 focus:ring-[#22A25A] focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={authLoading}
+                  className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-3.5 px-4 rounded-xl shadow-md shadow-[#22A25A]/20 hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm"
+                >
+                  {authLoading ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>Sending secure link...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="w-4 h-4" />
+                      <span>Send Sign-In Link</span>
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <div className="pt-2 text-center text-xs text-gray-400">
+                <span>By continuing, you securely access Rafah-E-Aam Patient Portal. No password required.</span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
