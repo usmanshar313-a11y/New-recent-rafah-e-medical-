@@ -41,9 +41,9 @@
   --chat--toggle--hover--background: #168A4A;
   --chat--toggle--active--background: #116938;
   --chat--toggle--color: #ffffff;
-  --chat--toggle--size: 56px;
+  --chat--toggle--size: 48px;
   --chat--window--width: 380px;
-  --chat--window--height: 580px;
+  --chat--window--height: 540px;
   --chat--window--border-radius: 24px;
   --chat--window--box-shadow: 0 20px 45px -10px rgba(24, 35, 52, 0.2), 0 0 0 1px #E4E9E5;
   --chat--header--background: linear-gradient(135deg, #22A25A 0%, #168A4A 100%);
@@ -56,17 +56,48 @@
   --chat--body--background: #F9FBF8;
 }
 
-/* Chat Widget Card & UI Styling */
+/* Chat Widget Launcher & Container Consistency */
+div#n8n-chat,
+[id^="n8n-chat"] {
+  z-index: 50 !important;
+}
+
+div#n8n-chat > div:nth-of-type(1),
+div#n8n-chat:nth-of-type(2) > div:nth-of-type(1),
+.chat-toggle-button,
+[class*="chat-toggle-button"],
+[class*="chat-toggle"] {
+  height: 48px !important;
+  width: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+.chat-toggle-button svg,
+[class*="chat-toggle-button"] svg,
+[class*="chat-toggle"] svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* Chat Header */
 div#n8n-chat > div > div > main > div:nth-of-type(1),
 .chat-header,
 [class*="chat-header"] {
   background: linear-gradient(135deg, #22A25A 0%, #168A4A 100%) !important;
   color: #ffffff !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-  padding-top: 0px !important;
-  padding-bottom: 8px !important;
-  padding-right: 15px !important;
-  padding-left: 20px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  padding-right: 16px !important;
+  padding-left: 16px !important;
 }
 
 div#n8n-chat > div > div > main > div:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1),
@@ -74,17 +105,18 @@ div#n8n-chat > div > div > main > div:nth-of-type(1) > div:nth-of-type(1) > h1:n
 [class*="chat-header"] h1 {
   padding-top: 0px !important;
   padding-right: 0px !important;
-  padding-bottom: 1px !important;
-  color: #e6e6e6 !important;
-  font-size: 32px !important;
-  font-weight: bold !important;
-  font-family: Verdana, sans-serif !important;
+  padding-bottom: 2px !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
 }
 
 div#n8n-chat > div > div > main > div:nth-of-type(1) > p:nth-of-type(1),
 .chat-header p,
 [class*="chat-header"] p {
-  color: #ccff87 !important;
+  color: #d1fae5 !important;
+  font-size: 13px !important;
 }
 
 div#n8n-chat > div > div > main > div:nth-of-type(2),
@@ -92,9 +124,22 @@ div#n8n-chat > div > div > main > div:nth-of-type(2),
 [class*="chat-body"],
 .chat-messages,
 [class*="chat-messages"] {
-  width: 402.444px !important;
-  height: 307.875px !important;
+  width: 100% !important;
+  max-width: min(390px, calc(100vw - 32px)) !important;
+  height: min(440px, 60vh) !important;
   background: linear-gradient(180deg, #F5F1E8 0%, #EFF4EC 100%) !important;
+}
+
+/* Chat Layout Box */
+.chat-window,
+[class*="chat-window"],
+.chat-layout,
+[class*="chat-layout"] {
+  max-width: calc(100vw - 32px) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  border: 1px solid #E4E9E5 !important;
+  box-shadow: 0 20px 45px -10px rgba(24, 35, 52, 0.2) !important;
 }
 
 /* Bot Message Card */
