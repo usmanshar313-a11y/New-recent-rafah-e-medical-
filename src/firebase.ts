@@ -1,8 +1,17 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { initializeFirestore, getFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore';
+import {
+  initializeFirestore,
+  getFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  setLogLevel
+} from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 import config from '../firebase-applet-config.json';
+
+// Silence non-fatal Firestore offline/connection retry notices
+setLogLevel('error');
 
 const firebaseConfig = {
   apiKey: config.apiKey,
@@ -23,7 +32,7 @@ try {
   firestoreDb = initializeFirestore(
     app,
     {
-      experimentalForceLongPolling: true,
+      experimentalAutoDetectLongPolling: true,
       localCache: persistentLocalCache({
         tabManager: persistentMultipleTabManager(),
       }),
@@ -35,7 +44,7 @@ try {
     firestoreDb = initializeFirestore(
       app,
       {
-        experimentalForceLongPolling: true,
+        experimentalAutoDetectLongPolling: true,
       },
       dbId
     );
@@ -49,3 +58,4 @@ export const auth = getAuth(app);
 export const storage = getStorage(app);
 
 export default app;
+

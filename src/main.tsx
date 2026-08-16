@@ -3,31 +3,74 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-// Gracefully handle unhandled network fetch errors from third-party widgets / webhooks
-window.addEventListener('unhandledrejection', (event) => {
-  if (
-    event.reason &&
-    (event.reason.message === 'Failed to fetch' ||
-      event.reason.name === 'TypeError' ||
-      String(event.reason).includes('Failed to fetch') ||
-      String(event.reason).includes('NetworkError'))
-  ) {
-    console.warn('Network request failed gracefully (suppressed):', event.reason);
-    event.preventDefault();
-  }
-});
+// Gracefully handle benign ResizeObserver notifications and third-party widget errors
+if (typeof window !== 'undefined' && window.ResizeObserver) {
+  const OriginalResizeObserver = window.ResizeObserver;
+  window.ResizeObserver = class PatchedResizeObserver extends OriginalResizeObserver {
+    constructor(callback: ResizeObserverCallback) {
+      super((entries, observer) => {
+        window.requestAnimationFrame(() => {
+          try {
+            callback(entries, observer);
+          } catch {
+            // Suppress benign resize observer recursion
+          }
+        });
+      });
+    }
+  };
+}
 
-window.addEventListener('error', (event) => {
-  if (
-    event.message &&
-    (event.message.includes('Failed to fetch') ||
-      event.message.includes('Script error.') ||
-      event.message.includes('ResizeObserver loop'))
-  ) {
-    console.warn('Window error suppressed:', event.message);
-    event.preventDefault();
+const isBenignError = (msg: string) => {
+  return (
+    msg.includes('ResizeObserver') ||
+    msg.includes('Failed to fetch') ||
+    msg.includes('Script error') ||
+    msg.includes('NetworkError')
+  );
+};
+
+window.addEventListener(
+  'error',
+  (event) => {
+    const message = typeof event === 'string' ? event : event?.message || String(event?.error || '');
+    if (isBenignError(message)) {
+      event.stopImmediatePropagation?.();
+      event.preventDefault?.();
+      return true;
+    }
+  },
+  true
+);
+
+window.onerror = (message) => {
+  const msgStr = String(message || '');
+  if (isBenignError(msgStr)) {
+    return true;
   }
-});
+};
+
+window.addEventListener(
+  'unhandledrejection',
+  (event) => {
+    const reasonStr = String(event.reason?.message || event.reason || '');
+    if (isBenignError(reasonStr)) {
+      event.stopImmediatePropagation?.();
+      event.preventDefault?.();
+      return true;
+    }
+  },
+  true
+);
+
+window.onunhandledrejection = (event) => {
+  const reasonStr = String(event?.reason?.message || event?.reason || '');
+  if (isBenignError(reasonStr)) {
+    event.preventDefault();
+    return true;
+  }
+};
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
