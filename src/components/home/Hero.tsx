@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = () => {
           >
             {/* Eyebrow */}
             <div>
-              <span className="inline-block text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#22A25A] bg-[#EFF4EC] px-4 py-1.5 rounded-full border border-[#E4E9E5]">
+              <span className="inline-block text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#22A25A] bg-[#EFF4EC] pl-[12px] pr-[5px] py-[2px] rounded-full border border-[#E4E9E5]">
                 GENERAL & ORTHOPAEDIC CARE
               </span>
             </div>
