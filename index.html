@@ -17,13 +17,34 @@
     <script type="module" src="/src/main.tsx"></script>
     
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-<script type="module">
-	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-
-	createChat({
-		webhookUrl: 'https://miralion.app.n8n.cloud/webhook/52d3caf0-08f5-4d15-949e-97c700f4b7f7/chat'
-	});
-</script>
+    <script type="module">
+      (async function initChat() {
+        try {
+          const chatModule = await import('https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js');
+          if (chatModule && chatModule.createChat) {
+            chatModule.createChat({
+              webhookUrl: 'https://miralion.app.n8n.cloud/webhook/52d3caf0-08f5-4d15-949e-97c700f4b7f7/chat',
+              initialMessages: [
+                '👋 Hello! Welcome to Rafah-E-Aam Medical Centre (رفاہ عام میڈیکل سینٹر).',
+                'How can I help you today with doctor schedules, appointment booking, or hospital services?'
+              ],
+              i18n: {
+                en: {
+                  title: 'Rafah-E-Aam Medical Support',
+                  subtitle: '24/7 Hospital & Clinic Assistant',
+                  footer: 'Rafah-E-Aam Medical Centre • Gulberg, Karachi',
+                  getStarted: 'Start Chat',
+                  inputPlaceholder: 'Type your message or question...',
+                  closeButtonTooltip: 'Close Chat',
+                },
+              },
+            });
+          }
+        } catch (err) {
+          console.warn('Chat support widget could not connect to webhook service:', err);
+        }
+      })();
+    </script>
 
   </body>
 </html>
