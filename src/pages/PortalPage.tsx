@@ -445,6 +445,8 @@ export const PortalPage: React.FC = () => {
         setAuthError('auth/unauthorized-domain: This domain is not listed in Firebase Authorized Domains. Follow the guide below to add it in Firebase Console, or use Email & Password.');
       } else if (code === 'auth/operation-not-allowed') {
         setAuthError('Email link sign-in is not enabled in Firebase Console. Enable "Email link (passwordless sign-in)" under Authentication → Sign-in method, or use Email & Password.');
+      } else if (code === 'auth/quota-exceeded' || message.includes('quota-exceeded')) {
+        setAuthError('Firebase daily email link quota has been exceeded for today. Please switch to the "Email & Password" tab or use "Continue with Google" to sign in immediately.');
       } else {
         setAuthError(message || 'Failed to send secure sign-in link. Please check your email and try again.');
       }
