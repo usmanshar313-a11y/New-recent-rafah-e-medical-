@@ -24,6 +24,12 @@ import {
   FileText,
   Download,
   RefreshCw,
+  Copy,
+  Check,
+  HelpCircle,
+  KeyRound,
+  Sparkles,
+  Info,
 } from 'lucide-react';
 import { 
   collection, 
@@ -88,6 +94,18 @@ export const PortalPage: React.FC = () => {
   const [showPassPassword, setShowPassPassword] = useState(false);
   const [showPassConfirm, setShowPassConfirm] = useState(false);
   const [showGuideModal, setShowGuideModal] = useState(false);
+  const [copiedDomain, setCopiedDomain] = useState(false);
+
+  const handleCopyDomain = () => {
+    try {
+      const hostname = window.location.hostname;
+      navigator.clipboard.writeText(hostname);
+      setCopiedDomain(true);
+      setTimeout(() => setCopiedDomain(false), 3000);
+    } catch (e) {
+      console.error('Failed to copy domain:', e);
+    }
+  };
 
   // Profile Edit Form State
   const [profileName, setProfileName] = useState('');
@@ -392,7 +410,7 @@ export const PortalPage: React.FC = () => {
       } else if (code === 'auth/cancelled-popup-request') {
         // Ignored
       } else if (code === 'auth/unauthorized-domain' || message.includes('unauthorized-domain')) {
-        setAuthError('This app domain is not authorized in Firebase Authentication. Open Firebase Console → Authentication → Settings → Authorized domains and add this website’s domain, then try again.');
+        setAuthError('auth/unauthorized-domain: This domain is not listed in Firebase Authorized Domains. Follow the guide below to add it in Firebase Console, or use Email & Password.');
       } else {
         setAuthError(message || 'Google sign-in failed. Please try again or use email.');
       }
@@ -424,9 +442,87 @@ export const PortalPage: React.FC = () => {
       const code = err?.code || '';
       const message = err?.message || '';
       if (code === 'auth/unauthorized-domain' || message.includes('unauthorized-domain')) {
-        setAuthError('This domain is not allowed in Firebase Auth. In Firebase Console, go to Authentication → Settings → Authorized domains and add your current site domain before sending sign-in links.');
+        setAuthError('auth/unauthorized-domain: This domain is not listed in Firebase Authorized Domains. Follow the guide below to add it in Firebase Console, or use Email & Password.');
+      } else if (code === 'auth/operation-not-allowed') {
+        setAuthError('Email link sign-in is not enabled in Firebase Console. Enable "Email link (passwordless sign-in)" under Authentication → Sign-in method, or use Email & Password.');
       } else {
         setAuthError(message || 'Failed to send secure sign-in link. Please check your email and try again.');
+      }
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handlePasswordLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (authLoading) return;
+    setAuthError('');
+
+    const cleanEmail = passEmail.trim().toLowerCase();
+    if (!cleanEmail || !passPassword) {
+      setAuthError('Please enter both your email address and password.');
+      return;
+    }
+
+    setAuthLoading(true);
+    try {
+      await signInWithEmail(cleanEmail, passPassword);
+      setToast({ message: 'Welcome to Rafah-E-Aam Patient Portal!', type: 'success' });
+    } catch (err: any) {
+      console.error('Password Login Error:', err);
+      const code = err?.code || '';
+      if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+        setAuthError('Invalid email or password. Please verify your credentials or create a new account.');
+      } else if (code === 'auth/invalid-email') {
+        setAuthError('Please enter a valid email address.');
+      } else if (code === 'auth/too-many-requests') {
+        setAuthError('Too many failed attempts. Please wait a moment before trying again.');
+      } else {
+        setAuthError(err?.message || 'Login failed. Please try again.');
+      }
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handlePasswordSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (authLoading) return;
+    setAuthError('');
+
+    const cleanEmail = passEmail.trim().toLowerCase();
+    const cleanName = passName.trim();
+    if (!cleanName) {
+      setAuthError('Please enter your full name.');
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
+      setAuthError('Please enter a valid email address.');
+      return;
+    }
+    if (!passPassword || passPassword.length < 6) {
+      setAuthError('Password must be at least 6 characters.');
+      return;
+    }
+    if (passPassword !== passConfirm) {
+      setAuthError('Passwords do not match. Please re-enter your password.');
+      return;
+    }
+
+    setAuthLoading(true);
+    try {
+      await signUpWithEmail(cleanEmail, passPassword, cleanName);
+      setToast({ message: 'Account created! Welcome to Rafah-E-Aam Patient Portal.', type: 'success' });
+    } catch (err: any) {
+      console.error('Password Signup Error:', err);
+      const code = err?.code || '';
+      if (code === 'auth/email-already-in-use') {
+        setAuthError('This email is already registered. Please switch to "Log In" above.');
+      } else if (code === 'auth/weak-password') {
+        setAuthError('Password is too weak. Please use at least 6 characters.');
+      } else {
+        setAuthError(err?.message || 'Failed to create account. Please try again.');
       }
     } finally {
       setAuthLoading(false);
@@ -453,13 +549,7 @@ export const PortalPage: React.FC = () => {
       setToast({ message: 'Welcome to Rafah-E-Aam Patient Portal!', type: 'success' });
     } catch (err: any) {
       console.error('Email sign in error:', err);
-      const code = err?.code || '';
-      const message = err?.message || '';
-      if (code === 'auth/unauthorized-domain' || message.includes('unauthorized-domain')) {
-        setAuthError('This domain is not authorized in Firebase Authentication. Add the current site domain under Authentication → Settings → Authorized domains, then retry the passwordless sign-in.');
-      } else {
-        setAuthError(message || 'Unable to sign in with this email and link. Please request a new link.');
-      }
+      setAuthError(err?.message || 'Unable to sign in with this email and link. Please request a new link.');
     } finally {
       setAuthLoading(false);
     }
@@ -647,8 +737,12 @@ export const PortalPage: React.FC = () => {
     );
   }
 
-  // Render Passwordless Authentication UI if not authenticated
+  // Render Authentication UI if not authenticated
   if (!user) {
+    const isUnauthorizedDomain =
+      authError.toLowerCase().includes('unauthorized-domain') ||
+      authError.toLowerCase().includes('authorized domain');
+
     return (
       <div className="min-h-screen bg-[#F5F1E8] py-12 px-4 flex items-center justify-center text-[#182334]">
         <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-200/80 space-y-6">
@@ -662,8 +756,42 @@ export const PortalPage: React.FC = () => {
               Patient Portal Sign In
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 max-w-xs mx-auto">
-              Access your appointments, medical records, and reports securely without a password.
+              Access your appointments, medical records, and reports securely.
             </p>
+          </div>
+
+          {/* Top Method Tabs */}
+          <div className="bg-gray-100 p-1 rounded-2xl flex gap-1">
+            <button
+              type="button"
+              onClick={() => {
+                setAuthMethod('passwordless');
+                setAuthError('');
+              }}
+              className={`flex-1 py-2 px-3 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                authMethod === 'passwordless'
+                  ? 'bg-white text-[#182334] shadow-xs'
+                  : 'text-gray-500 hover:text-[#182334]'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#22A25A]" />
+              <span>Google / Link</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAuthMethod('password');
+                setAuthError('');
+              }}
+              className={`flex-1 py-2 px-3 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                authMethod === 'password'
+                  ? 'bg-white text-[#182334] shadow-xs'
+                  : 'text-gray-500 hover:text-[#182334]'
+              }`}
+            >
+              <KeyRound className="w-3.5 h-3.5 text-[#22A25A]" />
+              <span>Email & Password</span>
+            </button>
           </div>
 
           {/* Link Verification in Progress */}
@@ -792,15 +920,75 @@ export const PortalPage: React.FC = () => {
                 </button>
               </div>
             </div>
-          ) : (
-            /* DEFAULT SIGN-IN SCREEN */
+          ) : authMethod === 'passwordless' ? (
+            /* PASSWORDLESS (GOOGLE / MAGIC LINK) VIEW */
             <div className="space-y-4">
-              {authError && (
+              {/* UNAUTHORIZED DOMAIN DETECTED HELPER */}
+              {isUnauthorizedDomain ? (
+                <div className="bg-amber-50 border border-amber-300/80 rounded-2xl p-4 space-y-3 text-left">
+                  <div className="flex items-start gap-2.5">
+                    <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-xs font-bold text-amber-900">
+                        Firebase Domain Authorization Required
+                      </h4>
+                      <p className="text-[11px] text-amber-800/90 mt-0.5 leading-relaxed">
+                        Google Sign-In & Email Links require this app’s domain to be added to Authorized Domains in Firebase.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Copy Domain Box */}
+                  <div className="bg-white border border-amber-200 rounded-xl p-2.5 flex items-center justify-between gap-2">
+                    <span className="text-xs font-mono font-medium text-gray-800 truncate select-all">
+                      {typeof window !== 'undefined' ? window.location.hostname : ''}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleCopyDomain}
+                      className="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold px-2.5 py-1.5 rounded-lg shrink-0 flex items-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      {copiedDomain ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-green-700" />
+                          <span className="text-green-800">Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy Domain</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* 3 Step Instructions */}
+                  <ol className="text-[11px] text-amber-900 space-y-1 list-decimal list-inside pl-1 leading-snug">
+                    <li>Open <strong>Firebase Console</strong> → Select your project</li>
+                    <li>Go to <strong>Authentication → Settings → Authorized domains</strong></li>
+                    <li>Click <strong>Add domain</strong> and paste the copied domain</li>
+                  </ol>
+
+                  <div className="pt-1 border-t border-amber-200/60 flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAuthMethod('password');
+                        setAuthError('');
+                      }}
+                      className="text-xs font-bold text-[#22A25A] hover:underline cursor-pointer flex items-center gap-1"
+                    >
+                      <span>Or sign in with Email & Password</span>
+                      <span>→</span>
+                    </button>
+                  </div>
+                </div>
+              ) : authError ? (
                 <div className="bg-red-50 border border-red-200 p-3.5 rounded-2xl text-xs text-red-700 flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
                   <span>{authError}</span>
                 </div>
-              )}
+              ) : null}
 
               {/* CONTINUE WITH GOOGLE */}
               <button
@@ -831,7 +1019,7 @@ export const PortalPage: React.FC = () => {
               </button>
 
               {/* DIVIDER */}
-              <div className="relative flex items-center justify-center my-4">
+              <div className="relative flex items-center justify-center my-3">
                 <div className="border-t border-gray-200 w-full" />
                 <span className="bg-white px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                   or
@@ -839,11 +1027,11 @@ export const PortalPage: React.FC = () => {
                 <div className="border-t border-gray-200 w-full" />
               </div>
 
-              {/* CONTINUE WITH EMAIL */}
+              {/* CONTINUE WITH EMAIL LINK */}
               <form onSubmit={handleSendEmailLinkSubmit} className="space-y-3.5">
                 <div>
                   <label className="block text-xs font-bold text-[#182334] mb-1.5">
-                    Continue with Email
+                    Continue with Email Link
                   </label>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
@@ -866,7 +1054,7 @@ export const PortalPage: React.FC = () => {
                   {authLoading ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
-                      <span>Sending secure link...</span>
+                      <span>Sending link...</span>
                     </>
                   ) : (
                     <>
@@ -877,12 +1065,310 @@ export const PortalPage: React.FC = () => {
                 </button>
               </form>
 
-              <div className="pt-2 text-center text-xs text-gray-400">
-                <span>By continuing, you securely access Rafah-E-Aam Patient Portal. No password required.</span>
+              <div className="pt-2 text-center flex flex-col gap-1.5 text-xs text-gray-500">
+                <button
+                  type="button"
+                  onClick={() => setShowGuideModal(true)}
+                  className="text-[11px] text-[#22A25A] font-semibold hover:underline inline-flex items-center justify-center gap-1 cursor-pointer"
+                >
+                  <HelpCircle className="w-3.5 h-3.5" />
+                  <span>How to authorize domain in Firebase</span>
+                </button>
               </div>
+            </div>
+          ) : (
+            /* EMAIL & PASSWORD AUTHENTICATION VIEW */
+            <div className="space-y-4">
+              {/* Login / Sign Up Pill Switch */}
+              <div className="bg-gray-50 p-1 rounded-xl flex gap-1 border border-gray-200/70">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPasswordMode('login');
+                    setAuthError('');
+                  }}
+                  className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                    passwordMode === 'login'
+                      ? 'bg-[#22A25A] text-white shadow-xs'
+                      : 'text-gray-600 hover:bg-gray-200/60'
+                  }`}
+                >
+                  Log In
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPasswordMode('signup');
+                    setAuthError('');
+                  }}
+                  className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                    passwordMode === 'signup'
+                      ? 'bg-[#22A25A] text-white shadow-xs'
+                      : 'text-gray-600 hover:bg-gray-200/60'
+                  }`}
+                >
+                  Create Account
+                </button>
+              </div>
+
+              {authError && (
+                <div className="bg-red-50 border border-red-200 p-3.5 rounded-2xl text-xs text-red-700 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                  <span>{authError}</span>
+                </div>
+              )}
+
+              {passwordMode === 'login' ? (
+                /* PASSWORD LOGIN FORM */
+                <form onSubmit={handlePasswordLogin} className="space-y-3.5">
+                  <div>
+                    <label className="block text-xs font-bold text-[#182334] mb-1.5">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                      <input
+                        type="email"
+                        value={passEmail}
+                        onChange={(e) => setPassEmail(e.target.value)}
+                        placeholder="patient@example.com"
+                        required
+                        className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-[#182334] focus:outline-none focus:ring-2 focus:ring-[#22A25A] focus:bg-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#182334] mb-1.5">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                      <input
+                        type={showPassPassword ? 'text' : 'password'}
+                        value={passPassword}
+                        onChange={(e) => setPassPassword(e.target.value)}
+                        placeholder="Enter your password"
+                        required
+                        className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-[#182334] focus:outline-none focus:ring-2 focus:ring-[#22A25A] focus:bg-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassPassword((p) => !p)}
+                        className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      >
+                        {showPassPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={authLoading}
+                    className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-3.5 px-4 rounded-xl shadow-md shadow-[#22A25A]/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm"
+                  >
+                    {authLoading ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                        <span>Logging in...</span>
+                      </>
+                    ) : (
+                      <>
+                        <LogIn className="w-4 h-4" />
+                        <span>Log In</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              ) : (
+                /* PASSWORD SIGNUP FORM */
+                <form onSubmit={handlePasswordSignup} className="space-y-3.5">
+                  <div>
+                    <label className="block text-xs font-bold text-[#182334] mb-1.5">
+                      Full Name
+                    </label>
+                    <div className="relative">
+                      <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                      <input
+                        type="text"
+                        value={passName}
+                        onChange={(e) => setPassName(e.target.value)}
+                        placeholder="e.g. Fatima Ali"
+                        required
+                        className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-[#182334] focus:outline-none focus:ring-2 focus:ring-[#22A25A] focus:bg-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#182334] mb-1.5">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                      <input
+                        type="email"
+                        value={passEmail}
+                        onChange={(e) => setPassEmail(e.target.value)}
+                        placeholder="patient@example.com"
+                        required
+                        className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-[#182334] focus:outline-none focus:ring-2 focus:ring-[#22A25A] focus:bg-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#182334] mb-1.5">
+                      Password (min 6 chars)
+                    </label>
+                    <div className="relative">
+                      <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                      <input
+                        type={showPassPassword ? 'text' : 'password'}
+                        value={passPassword}
+                        onChange={(e) => setPassPassword(e.target.value)}
+                        placeholder="Create a password"
+                        required
+                        minLength={6}
+                        className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-[#182334] focus:outline-none focus:ring-2 focus:ring-[#22A25A] focus:bg-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassPassword((p) => !p)}
+                        className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      >
+                        {showPassPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#182334] mb-1.5">
+                      Confirm Password
+                    </label>
+                    <div className="relative">
+                      <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                      <input
+                        type={showPassConfirm ? 'text' : 'password'}
+                        value={passConfirm}
+                        onChange={(e) => setPassConfirm(e.target.value)}
+                        placeholder="Re-enter your password"
+                        required
+                        minLength={6}
+                        className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-[#182334] focus:outline-none focus:ring-2 focus:ring-[#22A25A] focus:bg-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassConfirm((p) => !p)}
+                        className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      >
+                        {showPassConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={authLoading}
+                    className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-3.5 px-4 rounded-xl shadow-md shadow-[#22A25A]/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm"
+                  >
+                    {authLoading ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                        <span>Creating Account...</span>
+                      </>
+                    ) : (
+                      <>
+                        <UserPlus className="w-4 h-4" />
+                        <span>Create Patient Account</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           )}
         </div>
+
+        {/* DOMAIN AUTHORIZATION GUIDE MODAL */}
+        {showGuideModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+            <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
+              <div className="p-6 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                    <ShieldCheck className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-[#182334]">
+                      How to Authorize Domain in Firebase
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      Step-by-step instructions for Google OAuth and Email Link sign-ins
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 space-y-3 text-xs text-gray-700">
+                  <p className="leading-relaxed">
+                    Firebase Authentication requires every domain that uses Google OAuth popups or passwordless email sign-ins to be added to your Firebase project's <strong>Authorized Domains</strong>.
+                  </p>
+
+                  <div className="space-y-1">
+                    <div className="font-semibold text-[#182334]">Your Current Domain:</div>
+                    <div className="bg-white border border-gray-300 rounded-xl p-2.5 flex items-center justify-between gap-2">
+                      <span className="font-mono text-xs text-[#182334] font-semibold truncate select-all">
+                        {typeof window !== 'undefined' ? window.location.hostname : ''}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleCopyDomain}
+                        className="bg-[#22A25A] hover:bg-[#1E834B] text-white text-xs font-bold px-3 py-1.5 rounded-lg shrink-0 flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        {copiedDomain ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>Copy Domain</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5 pt-1">
+                    <div className="font-semibold text-[#182334]">Steps in Firebase Console:</div>
+                    <ol className="list-decimal list-inside space-y-1 pl-1 text-gray-600">
+                      <li>Go to <a href="https://console.firebase.google.com" target="_blank" rel="noreferrer" className="text-[#22A25A] font-bold hover:underline">Firebase Console <ExternalLink className="w-3 h-3 inline" /></a></li>
+                      <li>Select your Firebase project</li>
+                      <li>In the left sidebar, click <strong>Authentication</strong></li>
+                      <li>Select the <strong>Settings</strong> tab at the top</li>
+                      <li>Scroll to <strong>Authorized domains</strong> and click <strong>Add domain</strong></li>
+                      <li>Paste the copied domain and click <strong>Save</strong></li>
+                    </ol>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-2">
+                  <span className="text-xs text-gray-500">
+                    Email & Password login works immediately without this step.
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowGuideModal(false)}
+                    className="bg-[#182334] hover:bg-[#2A3B54] text-white font-bold px-5 py-2.5 rounded-xl text-xs transition-colors cursor-pointer"
+                  >
+                    Close Guide
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

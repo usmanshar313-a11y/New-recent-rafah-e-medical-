@@ -32,27 +32,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const getConfiguredAppUrl = (): string => {
-  const envUrl = (import.meta as any)?.env?.VITE_APP_URL || (import.meta as any)?.env?.VITE_PUBLIC_APP_URL;
-  if (envUrl && envUrl.trim()) return envUrl.trim().replace(/\/$/, '');
-  return window.location.origin;
-};
-
-const getAuthErrorMessage = (error: any): string => {
-  const code = error?.code || '';
-  const message = error?.message || '';
-
-  if (code === 'auth/unauthorized-domain' || message.includes('unauthorized-domain')) {
-    return 'This app domain is not authorized in Firebase Authentication. Add the current domain in Firebase Console → Authentication → Settings → Authorized domains, then retry.';
-  }
-
-  if (code === 'auth/invalid-domain') {
-    return 'The current app URL is not valid for Firebase sign-in. Check the deployed domain and Firebase Auth configuration.';
-  }
-
-  return message || 'Authentication failed. Please try again.';
-};
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [patientProfile, setPatientProfile] = useState<Patient | null>(null);
@@ -114,49 +93,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // GOOGLE SIGN-IN (Popup)
   const signInWithGoogle = async (): Promise<User | null> => {
-    try {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account' });
-      const res = await signInWithPopup(auth, provider);
-      if (res.user) {
-        await fetchOrCreatePatient(res.user, {
-          name: res.user.displayName || 'Patient',
-          email: res.user.email || '',
-          photoURL: res.user.photoURL || '',
-        });
-        return res.user;
-      }
-      return null;
-    } catch (error: any) {
-      const friendlyError = getAuthErrorMessage(error);
-      if (error?.code === 'auth/unauthorized-domain' || error?.message?.includes('unauthorized-domain')) {
-        throw new Error(friendlyError);
-      }
-      throw error;
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    const res = await signInWithPopup(auth, provider);
+    if (res.user) {
+      await fetchOrCreatePatient(res.user, {
+        name: res.user.displayName || 'Patient',
+        email: res.user.email || '',
+        photoURL: res.user.photoURL || '',
+      });
+      return res.user;
     }
+    return null;
   };
 
   // PASSWORDLESS EMAIL LINK (Send Link)
   const sendPasswordlessEmailLink = async (email: string): Promise<void> => {
     const cleanEmail = email.trim().toLowerCase();
-    const appUrl = getConfiguredAppUrl();
-    const actionUrl = `${appUrl}/portal`;
-
+    const actionUrl = `${window.location.origin}/portal`;
+    
     const actionCodeSettings = {
       url: actionUrl,
       handleCodeInApp: true,
     };
 
-    try {
-      await sendSignInLinkToEmail(auth, cleanEmail, actionCodeSettings);
-      window.localStorage.setItem('emailForSignIn', cleanEmail);
-    } catch (error: any) {
-      const friendlyError = getAuthErrorMessage(error);
-      if (error?.code === 'auth/unauthorized-domain' || error?.message?.includes('unauthorized-domain')) {
-        throw new Error(friendlyError);
-      }
-      throw error;
-    }
+    await sendSignInLinkToEmail(auth, cleanEmail, actionCodeSettings);
+    // Save email in localStorage for smooth one-click login on same device
+    window.localStorage.setItem('emailForSignIn', cleanEmail);
   };
 
   // PASSWORDLESS EMAIL LINK (Complete Sign In)
