@@ -30,6 +30,7 @@ import {
   KeyRound,
   Sparkles,
   Info,
+  ArrowLeft,
 } from 'lucide-react';
 import { 
   collection, 
@@ -60,6 +61,7 @@ export const PortalPage: React.FC = () => {
     isPasswordlessEmailLink, 
     signUpWithEmail,
     signInWithEmail,
+    sendPasswordReset,
     updatePatientProfile, 
     logout 
   } = useAuth();
@@ -72,7 +74,8 @@ export const PortalPage: React.FC = () => {
 
   // Authentication Mode & Method States
   const [authMethod, setAuthMethod] = useState<'passwordless' | 'password'>('passwordless');
-  const [passwordMode, setPasswordMode] = useState<'login' | 'signup'>('login');
+  const [passwordMode, setPasswordMode] = useState<'login' | 'signup' | 'forgot'>('login');
+  const [forgotSuccess, setForgotSuccess] = useState(false);
 
   // Passwordless Authentication States
   const [authEmail, setAuthEmail] = useState('');
@@ -93,7 +96,6 @@ export const PortalPage: React.FC = () => {
   const [passConfirm, setPassConfirm] = useState('');
   const [showPassPassword, setShowPassPassword] = useState(false);
   const [showPassConfirm, setShowPassConfirm] = useState(false);
-  const [showGuideModal, setShowGuideModal] = useState(false);
   const [copiedDomain, setCopiedDomain] = useState(false);
 
   const handleCopyDomain = () => {
@@ -525,6 +527,40 @@ export const PortalPage: React.FC = () => {
         setAuthError('Password is too weak. Please use at least 6 characters.');
       } else {
         setAuthError(err?.message || 'Failed to create account. Please try again.');
+      }
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleForgotPasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (authLoading) return;
+    setAuthError('');
+
+    const cleanEmail = passEmail.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
+      setAuthError('Please enter a valid email address.');
+      return;
+    }
+
+    setAuthLoading(true);
+    try {
+      await sendPasswordReset(cleanEmail);
+      setForgotSuccess(true);
+      setToast({ message: 'Password reset link sent! Check your email inbox.', type: 'success' });
+    } catch (err: any) {
+      console.error('Password Reset Error:', err);
+      const code = err?.code || '';
+      if (code === 'auth/user-not-found') {
+        setAuthError('No account found with this email. Please check your email or create an account.');
+      } else if (code === 'auth/invalid-email') {
+        setAuthError('Please enter a valid email address.');
+      } else if (code === 'auth/quota-exceeded') {
+        setAuthError('Daily reset email limit reached. Please try again later.');
+      } else {
+        setAuthError(err?.message || 'Failed to send password reset email. Please try again.');
       }
     } finally {
       setAuthLoading(false);
@@ -1066,52 +1102,43 @@ export const PortalPage: React.FC = () => {
                   )}
                 </button>
               </form>
-
-              <div className="pt-2 text-center flex flex-col gap-1.5 text-xs text-gray-500">
-                <button
-                  type="button"
-                  onClick={() => setShowGuideModal(true)}
-                  className="text-[11px] text-[#22A25A] font-semibold hover:underline inline-flex items-center justify-center gap-1 cursor-pointer"
-                >
-                  <HelpCircle className="w-3.5 h-3.5" />
-                  <span>How to authorize domain in Firebase</span>
-                </button>
-              </div>
             </div>
           ) : (
             /* EMAIL & PASSWORD AUTHENTICATION VIEW */
             <div className="space-y-4">
-              {/* Login / Sign Up Pill Switch */}
-              <div className="bg-gray-50 p-1 rounded-xl flex gap-1 border border-gray-200/70">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setPasswordMode('login');
-                    setAuthError('');
-                  }}
-                  className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                    passwordMode === 'login'
-                      ? 'bg-[#22A25A] text-white shadow-xs'
-                      : 'text-gray-600 hover:bg-gray-200/60'
-                  }`}
-                >
-                  Log In
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setPasswordMode('signup');
-                    setAuthError('');
-                  }}
-                  className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                    passwordMode === 'signup'
-                      ? 'bg-[#22A25A] text-white shadow-xs'
-                      : 'text-gray-600 hover:bg-gray-200/60'
-                  }`}
-                >
-                  Create Account
-                </button>
-              </div>
+              {/* Login / Sign Up Pill Switch (Only shown when not in forgot password mode) */}
+              {passwordMode !== 'forgot' && (
+                <div className="bg-gray-50 p-1 rounded-xl flex gap-1 border border-gray-200/70">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPasswordMode('login');
+                      setAuthError('');
+                    }}
+                    className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                      passwordMode === 'login'
+                        ? 'bg-[#22A25A] text-white shadow-xs'
+                        : 'text-gray-600 hover:bg-gray-200/60'
+                    }`}
+                  >
+                    Log In
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPasswordMode('signup');
+                      setAuthError('');
+                    }}
+                    className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                      passwordMode === 'signup'
+                        ? 'bg-[#22A25A] text-white shadow-xs'
+                        : 'text-gray-600 hover:bg-gray-200/60'
+                    }`}
+                  >
+                    Create Account
+                  </button>
+                </div>
+              )}
 
               {authError && (
                 <div className="bg-red-50 border border-red-200 p-3.5 rounded-2xl text-xs text-red-700 flex items-center gap-2">
@@ -1141,9 +1168,22 @@ export const PortalPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#182334] mb-1.5">
-                      Password
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-xs font-bold text-[#182334]">
+                        Password
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPasswordMode('forgot');
+                          setAuthError('');
+                          setForgotSuccess(false);
+                        }}
+                        className="text-[11px] font-semibold text-[#22A25A] hover:underline cursor-pointer"
+                      >
+                        Forgot password?
+                      </button>
+                    </div>
                     <div className="relative">
                       <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                       <input
@@ -1182,7 +1222,7 @@ export const PortalPage: React.FC = () => {
                     )}
                   </button>
                 </form>
-              ) : (
+              ) : passwordMode === 'signup' ? (
                 /* PASSWORD SIGNUP FORM */
                 <form onSubmit={handlePasswordSignup} className="space-y-3.5">
                   <div>
@@ -1287,90 +1327,103 @@ export const PortalPage: React.FC = () => {
                     )}
                   </button>
                 </form>
+              ) : (
+                /* FORGOT PASSWORD FORM */
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 pb-1 border-b border-gray-100">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPasswordMode('login');
+                        setAuthError('');
+                        setForgotSuccess(false);
+                      }}
+                      className="text-xs font-semibold text-gray-500 hover:text-[#182334] flex items-center gap-1 cursor-pointer"
+                    >
+                      <ArrowLeft className="w-3.5 h-3.5" />
+                      <span>Back to Log In</span>
+                    </button>
+                  </div>
+
+                  <div className="text-left space-y-1">
+                    <h3 className="text-sm font-bold text-[#182334] flex items-center gap-1.5">
+                      <KeyRound className="w-4 h-4 text-[#22A25A]" />
+                      <span>Reset Your Password</span>
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      Enter the email address registered with your account to receive a secure password reset link.
+                    </p>
+                  </div>
+
+                  {forgotSuccess ? (
+                    <div className="bg-green-50 border border-green-200 rounded-2xl p-4 space-y-3 text-left">
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+                        <div>
+                          <h4 className="text-xs font-bold text-green-900">
+                            Reset Email Dispatched!
+                          </h4>
+                          <p className="text-xs text-green-800 mt-1 leading-relaxed">
+                            We've sent a password reset link to <strong>{passEmail}</strong>. Please check your inbox (and spam/junk folder) and click the link to choose a new password.
+                          </p>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPasswordMode('login');
+                          setAuthError('');
+                          setForgotSuccess(false);
+                        }}
+                        className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors cursor-pointer text-center"
+                      >
+                        Return to Log In
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleForgotPasswordSubmit} className="space-y-3.5">
+                      <div>
+                        <label className="block text-xs font-bold text-[#182334] mb-1.5">
+                          Account Email Address
+                        </label>
+                        <div className="relative">
+                          <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                          <input
+                            type="email"
+                            value={passEmail}
+                            onChange={(e) => setPassEmail(e.target.value)}
+                            placeholder="patient@example.com"
+                            required
+                            className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm font-medium text-[#182334] focus:outline-none focus:ring-2 focus:ring-[#22A25A] focus:bg-white"
+                          />
+                        </div>
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={authLoading}
+                        className="w-full bg-[#22A25A] hover:bg-[#1E834B] text-white font-bold py-3.5 px-4 rounded-xl shadow-md shadow-[#22A25A]/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 text-xs sm:text-sm"
+                      >
+                        {authLoading ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            <span>Sending reset link...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Mail className="w-4 h-4" />
+                            <span>Send Password Reset Link</span>
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  )}
+                </div>
               )}
             </div>
           )}
         </div>
-
-        {/* DOMAIN AUTHORIZATION GUIDE MODAL */}
-        {showGuideModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-            <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
-              <div className="p-6 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
-                    <ShieldCheck className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-bold text-[#182334]">
-                      How to Authorize Domain in Firebase
-                    </h3>
-                    <p className="text-xs text-gray-500">
-                      Step-by-step instructions for Google OAuth and Email Link sign-ins
-                    </p>
-                  </div>
-                </div>
-
-                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 space-y-3 text-xs text-gray-700">
-                  <p className="leading-relaxed">
-                    Firebase Authentication requires every domain that uses Google OAuth popups or passwordless email sign-ins to be added to your Firebase project's <strong>Authorized Domains</strong>.
-                  </p>
-
-                  <div className="space-y-1">
-                    <div className="font-semibold text-[#182334]">Your Current Domain:</div>
-                    <div className="bg-white border border-gray-300 rounded-xl p-2.5 flex items-center justify-between gap-2">
-                      <span className="font-mono text-xs text-[#182334] font-semibold truncate select-all">
-                        {typeof window !== 'undefined' ? window.location.hostname : ''}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={handleCopyDomain}
-                        className="bg-[#22A25A] hover:bg-[#1E834B] text-white text-xs font-bold px-3 py-1.5 rounded-lg shrink-0 flex items-center gap-1.5 transition-colors cursor-pointer"
-                      >
-                        {copiedDomain ? (
-                          <>
-                            <Check className="w-3.5 h-3.5" />
-                            <span>Copied!</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3.5 h-3.5" />
-                            <span>Copy Domain</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5 pt-1">
-                    <div className="font-semibold text-[#182334]">Steps in Firebase Console:</div>
-                    <ol className="list-decimal list-inside space-y-1 pl-1 text-gray-600">
-                      <li>Go to <a href="https://console.firebase.google.com" target="_blank" rel="noreferrer" className="text-[#22A25A] font-bold hover:underline">Firebase Console <ExternalLink className="w-3 h-3 inline" /></a></li>
-                      <li>Select your Firebase project</li>
-                      <li>In the left sidebar, click <strong>Authentication</strong></li>
-                      <li>Select the <strong>Settings</strong> tab at the top</li>
-                      <li>Scroll to <strong>Authorized domains</strong> and click <strong>Add domain</strong></li>
-                      <li>Paste the copied domain and click <strong>Save</strong></li>
-                    </ol>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between pt-2">
-                  <span className="text-xs text-gray-500">
-                    Email & Password login works immediately without this step.
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setShowGuideModal(false)}
-                    className="bg-[#182334] hover:bg-[#2A3B54] text-white font-bold px-5 py-2.5 rounded-xl text-xs transition-colors cursor-pointer"
-                  >
-                    Close Guide
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     );
   }

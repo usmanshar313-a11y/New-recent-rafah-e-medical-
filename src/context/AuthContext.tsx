@@ -9,7 +9,8 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
@@ -25,6 +26,7 @@ interface AuthContextType {
   isPasswordlessEmailLink: (linkUrl?: string) => boolean;
   signUpWithEmail: (email: string, pass: string, name: string, phone?: string) => Promise<User | null>;
   signInWithEmail: (email: string, pass: string) => Promise<User | null>;
+  sendPasswordReset: (email: string) => Promise<void>;
   logout: () => Promise<void>;
   updatePatientProfile: (updatedData: Partial<Patient>) => Promise<void>;
   refreshPatientProfile: () => Promise<void>;
@@ -179,6 +181,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return res.user;
   };
 
+  const sendPasswordReset = async (email: string) => {
+    const cleanEmail = email.trim().toLowerCase();
+    await sendPasswordResetEmail(auth, cleanEmail);
+  };
+
   const logout = async () => {
     await firebaseSignOut(auth);
     setUser(null);
@@ -210,6 +217,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isPasswordlessEmailLink,
         signUpWithEmail,
         signInWithEmail,
+        sendPasswordReset,
         logout,
         updatePatientProfile,
         refreshPatientProfile,
