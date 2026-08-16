@@ -16,7 +16,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-white rounded-3xl p-8 sm:p-12 border border-[#E4E9E5] shadow-sm text-center space-y-6"
+          className="card-gradient rounded-3xl p-8 sm:p-12 border border-[#E4E9E5] shadow-sm text-center space-y-6"
         >
           {/* Eyebrow badge */}
           <div className="inline-flex items-center gap-2 bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full border border-[#E4E9E5]">

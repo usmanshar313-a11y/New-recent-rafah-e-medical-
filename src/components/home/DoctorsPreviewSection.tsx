@@ -50,7 +50,7 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white rounded-3xl p-5 border border-[#E4E9E5] shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
+                className="card-gradient rounded-3xl p-5 border border-[#E4E9E5] shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
               >
                 <div className="space-y-4">
                   {/* Doctor Photo Frame */}

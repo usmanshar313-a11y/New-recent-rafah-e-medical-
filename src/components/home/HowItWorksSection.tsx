@@ -63,7 +63,7 @@ export const HowItWorksSection: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="bg-white p-6 sm:p-7 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all space-y-4 relative"
+                  className="card-gradient p-6 sm:p-7 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all space-y-4 relative"
                 >
                   <div className="flex items-center justify-between">
                     <div className="w-12 h-12 rounded-2xl bg-[#EFF4EC] text-[#22A25A] flex items-center justify-center font-bold shadow-xs">

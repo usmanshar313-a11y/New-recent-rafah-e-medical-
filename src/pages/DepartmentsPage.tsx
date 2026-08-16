@@ -138,7 +138,7 @@ export const DepartmentsPage: React.FC = () => {
         </div>
 
         {/* Search & Filter Controls */}
-        <div className="dept-search-bar bg-white p-4 sm:p-6 rounded-2xl border border-[#E4E9E5] shadow-2xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="dept-search-bar card-gradient p-4 sm:p-6 rounded-2xl border border-[#E4E9E5] shadow-2xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
           
           {/* Text Search Input */}
           <div className="relative flex-1">
@@ -220,7 +220,7 @@ export const DepartmentsPage: React.FC = () => {
 
         {/* Department Cards List */}
         {filteredDepartments.length === 0 ? (
-          <div className="bg-white p-10 sm:p-12 rounded-3xl border border-[#E4E9E5] text-center space-y-4">
+          <div className="card-gradient p-10 sm:p-12 rounded-3xl border border-[#E4E9E5] text-center space-y-4">
             <p className="text-base font-bold text-[#22A25A]">No matching medical departments found</p>
             <p className="text-xs text-[#5F6875]">Try adjusting your search text or department filter selection.</p>
             <button
@@ -241,7 +241,7 @@ export const DepartmentsPage: React.FC = () => {
               return (
                 <div
                   key={dept.id}
-                  className={`dept-card bg-white rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md ${theme.hoverBorder} transition-all flex flex-col lg:flex-row overflow-hidden group`}
+                  className={`dept-card card-gradient rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md ${theme.hoverBorder} transition-all flex flex-col lg:flex-row overflow-hidden group`}
                 >
                   {/* Left / Upper Block: Tinted Header Zone */}
                   <div className={`p-6 sm:p-7 ${theme.bgTint} border-b lg:border-b-0 lg:border-r border-[#E4E9E5] flex flex-col justify-between space-y-4 shrink-0 lg:w-[300px] xl:w-[340px]`}>

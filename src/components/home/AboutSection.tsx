@@ -74,12 +74,12 @@ export const AboutSection: React.FC = () => {
 
             {/* Key Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-              <div className="flex items-center gap-3 bg-white p-3.5 rounded-2xl border border-[#E4E9E5] shadow-2xs">
+              <div className="flex items-center gap-3 card-gradient p-3.5 rounded-2xl border border-[#E4E9E5] shadow-2xs">
                 <CheckCircle2 className="w-5 h-5 text-[#22A25A] shrink-0" />
                 <span className="text-xs sm:text-sm font-bold text-[#182334]">34+ Specialist Doctors Panel</span>
               </div>
 
-              <div className="flex items-center gap-3 bg-white p-3.5 rounded-2xl border border-[#E4E9E5] shadow-2xs">
+              <div className="flex items-center gap-3 card-gradient p-3.5 rounded-2xl border border-[#E4E9E5] shadow-2xs">
                 <Accessibility className="w-5 h-5 text-[#22A25A] shrink-0" />
                 <span className="text-xs sm:text-sm font-bold text-[#182334]">Full Wheelchair Accessibility</span>
               </div>

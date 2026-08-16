@@ -15,6 +15,16 @@
   <body class="bg-[#F5F1E8] text-[#0B6B4E] antialiased selection:bg-[#0B6B4E] selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+		webhookUrl: 'https://miralion.app.n8n.cloud/webhook/52d3caf0-08f5-4d15-949e-97c700f4b7f7/chat'
+	});
+</script>
+
   </body>
 </html>
 

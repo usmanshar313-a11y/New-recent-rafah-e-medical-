@@ -253,7 +253,7 @@ export const DoctorsPage: React.FC = () => {
 
         {/* Doctors Grid */}
         {filteredDoctors.length === 0 ? (
-          <div className="bg-white p-12 rounded-2xl text-center space-y-3 border border-[#E4E9E5]">
+          <div className="card-gradient p-12 rounded-2xl text-center space-y-3 border border-[#E4E9E5]">
             <UserCheck className="w-12 h-12 text-[#22A25A] mx-auto" />
             <h3 className="font-heading font-bold text-lg text-[#182334]">No Doctors Found</h3>
             <p className="text-xs text-[#5F6875]">
@@ -273,7 +273,7 @@ export const DoctorsPage: React.FC = () => {
               return (
                 <div
                   key={doc.id}
-                  className="doc-card bg-white rounded-2xl shadow-2xs hover:shadow-md transition-all border border-[#E4E9E5] overflow-hidden flex flex-col justify-between"
+                  className="doc-card card-gradient rounded-2xl shadow-2xs hover:shadow-md transition-all border border-[#E4E9E5] overflow-hidden flex flex-col justify-between"
                 >
                   <div>
                     <div className="h-48 bg-[#EFF4EC] relative overflow-hidden">

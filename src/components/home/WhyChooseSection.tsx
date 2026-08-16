@@ -93,7 +93,7 @@ export const WhyChooseSection: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  className="bg-white p-5 sm:p-6 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:border-[#22A25A]/40 transition-all space-y-3"
+                  className="card-gradient p-5 sm:p-6 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:border-[#22A25A]/40 transition-all space-y-3"
                 >
                   <div className="w-10 h-10 rounded-2xl bg-[#EFF4EC] text-[#22A25A] flex items-center justify-center font-bold shrink-0">
                     <Icon className="w-5 h-5 text-[#22A25A]" />

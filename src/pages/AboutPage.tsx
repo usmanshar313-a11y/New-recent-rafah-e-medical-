@@ -62,7 +62,7 @@ export const AboutPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center gsap-reveal">
           
           <div className="lg:col-span-7 space-y-6">
-            <div className="bg-white p-8 rounded-3xl shadow-xs border border-[#E4E9E5] space-y-5">
+            <div className="card-gradient p-8 rounded-3xl shadow-xs border border-[#E4E9E5] space-y-5">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EFF4EC] text-xs font-bold uppercase tracking-wider text-[#22A25A]">
                 <Building2 className="w-4 h-4 text-[#22A25A]" /> Community Healthcare Legacy
               </div>
@@ -98,7 +98,7 @@ export const AboutPage: React.FC = () => {
 
           <div className="lg:col-span-5 space-y-6">
             {/* Feature Highlights Card */}
-            <div className="bg-white p-8 rounded-3xl shadow-xs border border-[#E4E9E5] space-y-6">
+            <div className="card-gradient p-8 rounded-3xl shadow-xs border border-[#E4E9E5] space-y-6">
               <h3 className="font-heading font-bold text-lg text-[#182334] border-b border-[#E4E9E5] pb-3">
                 Key Hospital Facilities
               </h3>
@@ -152,7 +152,7 @@ export const AboutPage: React.FC = () => {
         </div>
 
         {/* Clinical Excellence & Continuing Staff Education Section */}
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#E4E9E5] shadow-xs gsap-reveal">
+        <div className="card-gradient rounded-3xl p-6 sm:p-10 border border-[#E4E9E5] shadow-xs gsap-reveal">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <div className="lg:col-span-5 relative group overflow-hidden rounded-2xl shadow-md border border-[#E4E9E5]">
@@ -256,7 +256,7 @@ export const AboutPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* Gallery Item 1: Treatment Rooms */}
-            <div className="bg-white rounded-3xl overflow-hidden border border-[#E4E9E5] shadow-xs hover:shadow-md transition-all duration-300 group">
+            <div className="card-gradient rounded-3xl overflow-hidden border border-[#E4E9E5] shadow-xs hover:shadow-md transition-all duration-300 group">
               <div className="relative overflow-hidden h-64 sm:h-72">
                 <img
                   src={facilityTreatmentImg}
@@ -279,7 +279,7 @@ export const AboutPage: React.FC = () => {
             </div>
 
             {/* Gallery Item 2: Patient Wards */}
-            <div className="bg-white rounded-3xl overflow-hidden border border-[#E4E9E5] shadow-xs hover:shadow-md transition-all duration-300 group">
+            <div className="card-gradient rounded-3xl overflow-hidden border border-[#E4E9E5] shadow-xs hover:shadow-md transition-all duration-300 group">
               <div className="relative overflow-hidden h-64 sm:h-72">
                 <img
                   src={facilityPatientRoomImg}

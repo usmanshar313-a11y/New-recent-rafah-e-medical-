@@ -13,6 +13,18 @@
   --color-brand-whatsapp: #25D366;
 }
 
+/* Subtle, premium green-and-white/faded-green gradient for all cards */
+.card-gradient,
+.premium-card-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, rgba(168, 213, 186, 0.18) 55%, rgba(46, 125, 91, 0.12) 100%);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.card-gradient:hover,
+.premium-card-gradient:hover {
+  background: linear-gradient(135deg, #ffffff 0%, rgba(168, 213, 186, 0.26) 55%, rgba(46, 125, 91, 0.18) 100%);
+}
+
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
@@ -46,3 +58,4 @@
   animation: shimmer 1.8s infinite;
   content: '';
 }
+

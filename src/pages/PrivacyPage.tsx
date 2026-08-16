@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export const PrivacyPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white text-[#1F2937] py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xs border border-gray-200 space-y-6">
+      <div className="max-w-3xl mx-auto card-gradient p-8 rounded-2xl shadow-xs border border-gray-200 space-y-6">
         <Link to="/" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#22A25A] hover:text-[#1E834B]">
           <ArrowLeft className="w-4 h-4" /> Back to Homepage
         </Link>

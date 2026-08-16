@@ -104,7 +104,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className={`bg-white p-6 rounded-3xl border border-[#E4E9E5] ${theme.hoverBorder} shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group`}
+                className={`card-gradient p-6 rounded-3xl border border-[#E4E9E5] ${theme.hoverBorder} shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group`}
                 style={{ borderTopWidth: '4px', borderTopColor: theme.primary }}
               >
                 <div className="space-y-3.5">

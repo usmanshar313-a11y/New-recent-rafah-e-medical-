@@ -273,7 +273,7 @@ export const DepartmentDetailPage: React.FC = () => {
 
         {/* Doctor Cards Grid */}
         {department.doctors.length === 0 ? (
-          <div className="bg-white p-8 sm:p-10 rounded-2xl border border-[#E4E9E5] text-center space-y-3">
+          <div className="card-gradient p-8 sm:p-10 rounded-2xl border border-[#E4E9E5] text-center space-y-3">
             <p className="text-sm text-[#5F6875] font-medium">
               No individual consultant listed online for this department at the moment.
             </p>
@@ -288,7 +288,7 @@ export const DepartmentDetailPage: React.FC = () => {
               return (
                 <div
                   key={doc.id}
-                  className="doc-card bg-white rounded-2xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between space-y-6"
+                  className="doc-card card-gradient rounded-2xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between space-y-6"
                 >
                   <div className="space-y-4">
                     {/* Photo, Name, Specialty, Room */}

@@ -218,7 +218,7 @@ export const ServicesPage: React.FC = () => {
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-white p-4 rounded-2xl shadow-2xs border border-[#E4E9E5] flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="card-gradient p-4 rounded-2xl shadow-2xs border border-[#E4E9E5] flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="relative w-full md:w-80">
             <Search className="w-4 h-4 text-[#22A25A] absolute left-3 top-3.5" />
             <input
@@ -250,7 +250,7 @@ export const ServicesPage: React.FC = () => {
 
         {/* Services Grid */}
         {filteredServices.length === 0 ? (
-          <div className="bg-white p-12 rounded-2xl text-center space-y-3 border border-[#E4E9E5] gsap-reveal">
+          <div className="card-gradient p-12 rounded-2xl text-center space-y-3 border border-[#E4E9E5] gsap-reveal">
             <p className="font-heading font-bold text-lg text-[#182334]">No matching services found</p>
             <p className="text-xs text-[#5F6875]">Try searching for a different service name or department.</p>
             <button
@@ -265,7 +265,7 @@ export const ServicesPage: React.FC = () => {
             {filteredServices.map((serv) => (
               <div
                 key={serv.id}
-                className="bg-white p-6 rounded-2xl shadow-2xs hover:shadow-md transition-all border border-[#E4E9E5] flex flex-col justify-between group"
+                className="card-gradient p-6 rounded-2xl shadow-2xs hover:shadow-md transition-all border border-[#E4E9E5] flex flex-col justify-between group"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">

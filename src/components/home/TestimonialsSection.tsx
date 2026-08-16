@@ -143,7 +143,7 @@ export const TestimonialsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-white p-6 rounded-3xl border border-[#E4E9E5] shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all"
+              className="card-gradient p-6 rounded-3xl border border-[#E4E9E5] shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">

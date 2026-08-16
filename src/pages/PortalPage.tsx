@@ -783,7 +783,7 @@ export const PortalPage: React.FC = () => {
 
     return (
       <div className="min-h-screen bg-[#F5F1E8] py-12 px-4 flex items-center justify-center text-[#182334]">
-        <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-200/80 space-y-6">
+        <div className="card-gradient p-6 sm:p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-200/80 space-y-6">
           
           {/* Header */}
           <div className="text-center space-y-2">
@@ -1487,7 +1487,7 @@ export const PortalPage: React.FC = () => {
         )}
 
         {/* Portal Tabs Bar */}
-        <div className="bg-white p-1.5 rounded-2xl shadow-xs border border-gray-200 flex flex-wrap gap-1">
+        <div className="card-gradient p-1.5 rounded-2xl shadow-xs border border-gray-200 flex flex-wrap gap-1">
           <button
             onClick={() => setActiveTab('appointments')}
             className={`flex-1 min-w-[120px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer ${
@@ -1548,11 +1548,11 @@ export const PortalPage: React.FC = () => {
             </div>
 
             {loadingData ? (
-              <div className="bg-white p-8 rounded-2xl text-center text-sm font-medium text-[#6B7280] border border-gray-200">
+              <div className="card-gradient p-8 rounded-2xl text-center text-sm font-medium text-[#6B7280] border border-gray-200">
                 Loading appointments...
               </div>
             ) : appointments.length === 0 ? (
-              <div className="bg-white p-12 rounded-2xl shadow-2xs border border-gray-200 text-center space-y-4">
+              <div className="card-gradient p-12 rounded-2xl shadow-2xs border border-gray-200 text-center space-y-4">
                 <Calendar className="w-12 h-12 text-[#22A25A]/40 mx-auto" />
                 <h3 className="font-bold text-base text-[#1F2937]">No appointments found</h3>
                 <p className="text-xs text-[#6B7280] max-w-sm mx-auto">
@@ -1575,7 +1575,7 @@ export const PortalPage: React.FC = () => {
                   return (
                     <div
                       key={appt.id}
-                      className="bg-white p-6 rounded-2xl shadow-2xs border border-gray-200 flex flex-col justify-between space-y-4 relative"
+                      className="card-gradient p-6 rounded-2xl shadow-2xs border border-gray-200 flex flex-col justify-between space-y-4 relative"
                     >
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
@@ -1637,7 +1637,7 @@ export const PortalPage: React.FC = () => {
         {/* Tab 2: Medical Reports */}
         {activeTab === 'reports' && (
           <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-2xl shadow-2xs border border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 card-gradient p-5 rounded-2xl shadow-2xs border border-gray-200">
               <div>
                 <h2 className="font-heading font-bold text-xl text-[#1F2937] flex items-center gap-2">
                   <FileText className="w-5 h-5 text-[#22A25A]" />
@@ -1660,12 +1660,12 @@ export const PortalPage: React.FC = () => {
             </div>
 
             {loadingReports ? (
-              <div className="py-12 text-center bg-white rounded-2xl border border-gray-200 space-y-2">
+              <div className="py-12 text-center card-gradient rounded-2xl border border-gray-200 space-y-2">
                 <RefreshCw className="w-6 h-6 animate-spin mx-auto text-[#22A25A]" />
                 <div className="text-xs font-bold text-[#6B7280]">Retrieving your secure medical reports...</div>
               </div>
             ) : reports.length === 0 ? (
-              <div className="p-10 text-center bg-white rounded-2xl border border-dashed border-gray-300 space-y-3">
+              <div className="p-10 text-center card-gradient rounded-2xl border border-dashed border-gray-300 space-y-3">
                 <FileText className="w-12 h-12 text-[#22A25A]/40 mx-auto" />
                 <div className="text-base font-bold text-[#1F2937]">No Medical Reports On File</div>
                 <p className="text-xs text-[#6B7280] max-w-md mx-auto leading-relaxed">
@@ -1677,7 +1677,7 @@ export const PortalPage: React.FC = () => {
                 {reports.map((report) => (
                   <div
                     key={report.id}
-                    className="bg-white p-5 rounded-2xl border border-gray-200 hover:border-[#22A25A]/40 transition-all shadow-2xs flex flex-col justify-between space-y-4"
+                    className="card-gradient p-5 rounded-2xl border border-gray-200 hover:border-[#22A25A]/40 transition-all shadow-2xs flex flex-col justify-between space-y-4"
                   >
                     <div className="space-y-2">
                       <div className="flex items-start justify-between gap-3">
@@ -1751,7 +1751,7 @@ export const PortalPage: React.FC = () => {
 
         {/* Tab 3: My Profile */}
         {activeTab === 'profile' && (
-          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-2xs border border-gray-200 space-y-6 max-w-2xl mx-auto">
+          <div className="card-gradient p-6 sm:p-8 rounded-2xl shadow-2xs border border-gray-200 space-y-6 max-w-2xl mx-auto">
             <h2 className="font-heading font-bold text-xl text-[#1F2937]">
               Edit Patient Profile
             </h2>

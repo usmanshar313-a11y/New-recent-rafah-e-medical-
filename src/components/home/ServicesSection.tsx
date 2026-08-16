@@ -32,10 +32,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
         </div>
 
         {/* Homepage Summary Card for Services */}
-        <div className="bg-white rounded-3xl p-8 border border-[#E4E9E5] shadow-md max-w-4xl mx-auto space-y-8">
+        <div className="card-gradient rounded-3xl p-8 border border-[#E4E9E5] shadow-md max-w-4xl mx-auto space-y-8">
           
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <div className="bg-white p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
+            <div className="card-gradient p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
               <div className="p-2.5 bg-[#EFF4EC] rounded-xl text-[#22A25A]">
                 <Stethoscope className="w-5 h-5" />
               </div>
@@ -45,7 +45,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
+            <div className="card-gradient p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
               <div className="p-2.5 bg-[#F28C45]/10 rounded-xl text-[#F28C45]">
                 <ShieldAlert className="w-5 h-5" />
               </div>
@@ -55,7 +55,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
+            <div className="card-gradient p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
               <div className="p-2.5 bg-[#EFF4EC] rounded-xl text-[#22A25A]">
                 <HeartHandshake className="w-5 h-5" />
               </div>
@@ -65,7 +65,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
+            <div className="card-gradient p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
               <div className="p-2.5 bg-[#EFF4EC] rounded-xl text-[#22A25A]">
                 <FlaskConical className="w-5 h-5" />
               </div>
@@ -75,7 +75,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
+            <div className="card-gradient p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
               <div className="p-2.5 bg-[#EFF4EC] rounded-xl text-[#22A25A]">
                 <Baby className="w-5 h-5" />
               </div>
@@ -85,7 +85,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
+            <div className="card-gradient p-4 rounded-2xl border border-[#E4E9E5] flex items-center gap-3 shadow-xs">
               <div className="p-2.5 bg-[#EFF4EC] rounded-xl text-[#22A25A]">
                 <Stethoscope className="w-5 h-5" />
               </div>

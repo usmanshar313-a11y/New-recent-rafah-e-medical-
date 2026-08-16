@@ -45,7 +45,7 @@ export const ContactPage: React.FC = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl shadow-2xs border border-[#E4E9E5] flex flex-col justify-between space-y-6"
+            className="lg:col-span-5 card-gradient p-6 sm:p-8 rounded-3xl shadow-2xs border border-[#E4E9E5] flex flex-col justify-between space-y-6"
           >
             <div className="space-y-4">
               <div className="border-b border-[#E4E9E5] pb-3">
