@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { initializeFirestore, getFirestore } from 'firebase/firestore';
+import { initializeFirestore, getFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 import config from '../firebase-applet-config.json';
@@ -24,11 +24,24 @@ try {
     app,
     {
       experimentalAutoDetectLongPolling: true,
+      localCache: persistentLocalCache({
+        tabManager: persistentMultipleTabManager(),
+      }),
     },
     dbId
   );
 } catch (e) {
-  firestoreDb = getFirestore(app, dbId);
+  try {
+    firestoreDb = initializeFirestore(
+      app,
+      {
+        experimentalAutoDetectLongPolling: true,
+      },
+      dbId
+    );
+  } catch (err) {
+    firestoreDb = getFirestore(app, dbId);
+  }
 }
 
 export const db = firestoreDb;
