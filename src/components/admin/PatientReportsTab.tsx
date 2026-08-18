@@ -92,6 +92,29 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
     }
   }, [patientsList]);
 
+  useEffect(() => {
+    if (!selectedPatientForUpload && !editingPatientCodeModal && !reportToDelete) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (selectedPatientForUpload && !isUploading) {
+          setSelectedPatientForUpload(null);
+          setReportTitle('');
+          setDriveUrlInput('');
+          setReportDescription('');
+          setUploadError('');
+        }
+        if (editingPatientCodeModal && !isSavingSecurityCode) {
+          closeEditSecurityCodeModal();
+        }
+        if (reportToDelete && !isDeleting) {
+          setReportToDelete(null);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedPatientForUpload, editingPatientCodeModal, reportToDelete, isUploading, isSavingSecurityCode, isDeleting]);
+
   // Copy helper
   const handleCopyText = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -730,8 +753,14 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
 
       {/* EDIT PATIENT SECURITY ID / ACCESS CODE (ZIP / MR NUMBER) MODAL */}
       {editingPatientCodeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full border border-emerald-900/10 overflow-hidden animate-in zoom-in-95">
+        <div 
+          onClick={closeEditSecurityCodeModal}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-3xl shadow-2xl max-w-lg w-full border border-emerald-900/10 overflow-hidden animate-in zoom-in-95"
+          >
             <div className="bg-[#0B6B4E] text-white p-5 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 bg-white/10 rounded-xl">
@@ -853,8 +882,14 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
 
       {/* ADD REPORT LINK MODAL */}
       {selectedPatientForUpload && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full border border-emerald-900/10 overflow-hidden animate-in zoom-in-95">
+        <div 
+          onClick={closeUploadModal}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-3xl shadow-2xl max-w-lg w-full border border-emerald-900/10 overflow-hidden animate-in zoom-in-95"
+          >
             <div className="bg-[#0B6B4E] text-white p-5 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 bg-white/10 rounded-xl">
@@ -978,8 +1013,16 @@ export const PatientReportsTab: React.FC<PatientReportsTabProps> = ({
 
       {/* CONFIRM DELETE MODAL */}
       {reportToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 border border-emerald-900/10 space-y-4">
+        <div 
+          onClick={() => {
+            if (!isDeleting) setReportToDelete(null);
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 border border-emerald-900/10 space-y-4"
+          >
             <div className="flex items-center gap-3 text-red-600">
               <div className="p-3 bg-red-100 rounded-full">
                 <Trash2 className="w-6 h-6" />

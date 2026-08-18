@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Clock, UserCheck, Stethoscope, Accessibility } from 'lucide-react';
 
 export const TrustBar: React.FC = () => {

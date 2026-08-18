@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Sparkles, Building2, Calendar, CheckCircle2 } from 'lucide-react';
 
 export const HowItWorksSection: React.FC = () => {

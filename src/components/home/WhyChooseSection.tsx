@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Clock, UserCheck, Stethoscope, Accessibility, ShieldCheck, HeartHandshake } from 'lucide-react';
 import facilityRoomImg from '../../assets/images/facility_patient_room_1785393530865.jpg';
 

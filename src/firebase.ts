@@ -11,7 +11,7 @@ import { getStorage } from 'firebase/storage';
 import config from '../firebase-applet-config.json';
 
 // Silence non-fatal Firestore offline/connection retry notices
-setLogLevel('error');
+setLogLevel('silent');
 
 const firebaseConfig = {
   apiKey: config.apiKey,

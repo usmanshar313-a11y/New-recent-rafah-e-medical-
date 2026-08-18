@@ -44,6 +44,17 @@ export const DepartmentsPage: React.FC = () => {
     }
   }, [searchTerm, setSearchParams]);
 
+  useEffect(() => {
+    if (!isFilterModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsFilterModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFilterModalOpen]);
+
   // GSAP Entrance animation for department cards & hero elements
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -314,7 +325,10 @@ export const DepartmentsPage: React.FC = () => {
 
       {/* Department Selection Filter Modal / Bottom Sheet */}
       {isFilterModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in">
+        <div 
+          onClick={() => setIsFilterModalOpen(false)}
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in"
+        >
           <div
             className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border border-[#E4E9E5] overflow-hidden animate-in slide-in-from-bottom-6 sm:zoom-in-95"
             onClick={(e) => e.stopPropagation()}

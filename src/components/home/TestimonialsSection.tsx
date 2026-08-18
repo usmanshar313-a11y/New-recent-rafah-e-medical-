@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Star, MessageSquarePlus, CheckCircle2, X, Heart } from 'lucide-react';
 import { collection, getDocs, addDoc, query, where } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -62,6 +62,17 @@ export const TestimonialsSection: React.FC = () => {
 
     fetchReviews();
   }, []);
+
+  useEffect(() => {
+    if (!modalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [modalOpen]);
 
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,8 +190,14 @@ export const TestimonialsSection: React.FC = () => {
 
       {/* Review Submission Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white text-[#182334] w-full max-w-md rounded-3xl shadow-2xl p-6 border border-[#E4E9E5] space-y-4">
+        <div 
+          onClick={() => setModalOpen(false)}
+          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white text-[#182334] w-full max-w-md rounded-3xl shadow-2xl p-6 border border-[#E4E9E5] space-y-4"
+          >
             <div className="flex items-center justify-between border-b border-[#E4E9E5] pb-3">
               <h3 className="font-heading font-bold text-base text-[#182334]">Write a Patient Review</h3>
               <button onClick={() => setModalOpen(false)} className="text-[#5F6875] hover:text-[#182334] cursor-pointer">

@@ -209,6 +209,18 @@ export const PortalPage: React.FC = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (!zipModalOpen && !confirmModal.isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (zipModalOpen) closeZipModal();
+        if (confirmModal.isOpen) setConfirmModal((prev) => ({ ...prev, isOpen: false }));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [zipModalOpen, confirmModal.isOpen]);
+
   const fetchPatientZipCode = async () => {
     const currentUid = auth.currentUser?.uid || user?.uid;
     if (!currentUid) return null;
@@ -1854,8 +1866,14 @@ export const PortalPage: React.FC = () => {
 
       {/* ZIP Code Security Verification Modal */}
       {zipModalOpen && selectedReportForView && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-fadeIn">
-          <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
+        <div 
+          onClick={closeZipModal}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-fadeIn"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden"
+          >
             <div className="p-6 sm:p-7 space-y-5">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
@@ -1927,8 +1945,14 @@ export const PortalPage: React.FC = () => {
       )}
 
       {confirmModal.isOpen && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
+        <div 
+          onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 p-4"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden"
+          >
             <div className="p-5 sm:p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>

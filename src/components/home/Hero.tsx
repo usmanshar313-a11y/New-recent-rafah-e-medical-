@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Calendar, Phone, ShieldCheck } from 'lucide-react';
 import heroReceptionImg from '../../assets/images/hero_reception_1785393482596.jpg';
 

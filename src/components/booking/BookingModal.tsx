@@ -118,6 +118,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
   }, [isOpen, user, patientProfile, preselectedDoctorId, preselectedServiceId]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   const fetchMetadata = async () => {
     try {
       // Doctors

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Building2, Clock, CheckCircle2, ArrowRight, Accessibility, MapPin, Award } from 'lucide-react';
 import facilityTreatmentImg from '../../assets/images/facility_treatment_1785393518585.jpg';
 
