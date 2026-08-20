@@ -31,6 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'departments') {
       navigate('/departments');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'about') {
       navigate('/about');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -172,10 +173,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
 
             {/* Primary CTA */}
             <button
-              onClick={() => {
-                navigate('/departments');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onClick={onOpenBooking}
               className="bg-[#22A25A] hover:bg-[#168A4A] text-white px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow-xs hover:shadow-md transition-all flex items-center gap-2 cursor-pointer shrink-0"
             >
               <Calendar className="w-4 h-4" />
@@ -276,10 +274,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                navigate('/departments');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                onOpenBooking();
               }}
-              className="w-full bg-[#22A25A] hover:bg-[#168A4A] text-white py-3 rounded-xl text-sm font-bold shadow-xs flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-[#22A25A] hover:bg-[#168A4A] text-white py-3 rounded-xl text-sm font-bold shadow-xs flex items-center justify-center gap-2 mt-2 cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
               Book Appointment
