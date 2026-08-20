@@ -10,17 +10,17 @@ export const FloatingWhatsApp: React.FC<FloatingActionsProps> = () => {
   )}`;
 
   return (
-    <div className="fixed bottom-[72px] sm:bottom-[80px] right-4 sm:right-6 z-50 pointer-events-none">
+    <div className="fixed bottom-5 sm:bottom-6 right-4 sm:right-6 z-50 pointer-events-none">
       {/* Floating WhatsApp Button */}
       <a
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="pointer-events-auto w-14 h-14 sm:w-[176px] sm:h-[52px] flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#1da851] active:bg-[#168840] text-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105 active:scale-95 border-2 border-white/30 text-sm sm:text-base font-bold cursor-pointer"
+        className="pointer-events-auto w-16 h-16 sm:w-[180px] sm:h-[54px] flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#1da851] active:bg-[#168840] text-white rounded-full shadow-2xl hover:shadow-2xl transition-all duration-200 hover:scale-105 active:scale-95 border-2 border-white/40 text-sm sm:text-base font-bold cursor-pointer"
         aria-label="Chat on WhatsApp"
       >
         <svg
-          className="w-7 h-7 sm:w-6 sm:h-6 fill-current text-white shrink-0"
+          className="w-8 h-8 sm:w-6 sm:h-6 fill-current text-white shrink-0"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
