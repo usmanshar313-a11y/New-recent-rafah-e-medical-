@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, Building2, Calendar, CheckCircle2, Phone, ShieldAlert, ArrowRight } from 'lucide-react';
-import emergencyAmbulanceImg from '../../assets/images/emergency_ambulance_1785393504809.jpg';
+import emergencyAmbulanceImg from '../../assets/images/rapid_emergency_1787326580493.jpg';
 
 export const HowItWorksSection: React.FC = () => {
   const STEPS = [

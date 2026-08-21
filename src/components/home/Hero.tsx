@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Phone, ShieldCheck } from 'lucide-react';
-import heroReceptionImg from '../../assets/images/hero_reception_1785393482596.jpg';
+import heroReceptionImg from '../../assets/images/receptionist_1787326562967.jpg';
 
 interface HeroProps {
   onOpenBooking?: () => void;

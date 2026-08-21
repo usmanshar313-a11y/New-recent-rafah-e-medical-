@@ -1,6 +1,6 @@
 import React from 'react';
 import { Clock, UserCheck, Stethoscope, Accessibility, ShieldCheck, HeartHandshake } from 'lucide-react';
-import facilityRoomImg from '../../assets/images/facility_patient_room_1785393530865.jpg';
+import facilitiesImg from '../../assets/images/facilities_1787326620558.jpg';
 
 export const WhyChooseSection: React.FC = () => {
   const PILLARS = [
@@ -52,8 +52,8 @@ export const WhyChooseSection: React.FC = () => {
           <div className="lg:col-span-5">
             <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-lg bg-white group">
               <img
-                src={facilityRoomImg}
-                alt="Rafah-E-Aam Patient Care Room"
+                src={facilitiesImg}
+                alt="Modern Hospital Facilities at Rafah-E-Aam Medical Centre"
                 referrerPolicy="no-referrer"
                 loading="lazy"
                 className="w-full h-[320px] sm:h-[400px] lg:h-[420px] object-cover object-center group-hover:scale-105 transition-transform duration-700"

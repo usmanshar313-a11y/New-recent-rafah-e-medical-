@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Building2, Clock, CheckCircle2, ArrowRight, Accessibility, MapPin } from 'lucide-react';
-import facilityTreatmentImg from '../../assets/images/facility_treatment_1785393518585.jpg';
+import trustAndCareImg from '../../assets/images/trust_and_care_1787326594337.jpg';
 
 export const AboutSection: React.FC = () => {
   return (
@@ -13,8 +13,8 @@ export const AboutSection: React.FC = () => {
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-lg bg-white group">
               <img
-                src={facilityTreatmentImg}
-                alt="Rafah-E-Aam Medical Centre Treatment Facility"
+                src={trustAndCareImg}
+                alt="Compassionate Patient Care at Rafah-E-Aam Medical Centre"
                 referrerPolicy="no-referrer"
                 loading="lazy"
                 decoding="async"

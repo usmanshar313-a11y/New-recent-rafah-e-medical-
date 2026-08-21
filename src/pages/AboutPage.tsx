@@ -15,10 +15,10 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import aboutSeminarImg from '../assets/images/about_seminar_1785393494261.jpg';
-import emergencyAmbulanceImg from '../assets/images/emergency_ambulance_1785393504809.jpg';
-import facilityTreatmentImg from '../assets/images/facility_treatment_1785393518585.jpg';
-import facilityPatientRoomImg from '../assets/images/facility_patient_room_1785393530865.jpg';
+import aboutSeminarImg from '../assets/images/seminar_doctors_1787326608646.jpg';
+import emergencyAmbulanceImg from '../assets/images/rapid_emergency_1787326580493.jpg';
+import treatmentRoomImg from '../assets/images/treatment_room_1787326637796.jpg';
+import facilitiesImg from '../assets/images/facilities_1787326620558.jpg';
 
 export const AboutPage: React.FC = () => {
   useEffect(() => {
@@ -258,7 +258,7 @@ export const AboutPage: React.FC = () => {
             <div className="card-gradient rounded-3xl overflow-hidden border border-[#E4E9E5] shadow-xs hover:shadow-md transition-all duration-300 group">
               <div className="relative overflow-hidden h-64 sm:h-72">
                 <img
-                  src={facilityTreatmentImg}
+                  src={treatmentRoomImg}
                   alt="Modern treatment room at Rafah-E-Aam Medical Centre"
                   referrerPolicy="no-referrer"
                   loading="lazy"
@@ -283,8 +283,8 @@ export const AboutPage: React.FC = () => {
             <div className="card-gradient rounded-3xl overflow-hidden border border-[#E4E9E5] shadow-xs hover:shadow-md transition-all duration-300 group">
               <div className="relative overflow-hidden h-64 sm:h-72">
                 <img
-                  src={facilityPatientRoomImg}
-                  alt="Comfortable patient care room at Rafah-E-Aam Medical Centre"
+                  src={facilitiesImg}
+                  alt="Comfortable patient care room and facilities at Rafah-E-Aam Medical Centre"
                   referrerPolicy="no-referrer"
                   loading="lazy"
                   decoding="async"
