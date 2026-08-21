@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { Sparkles, Building2, Calendar, CheckCircle2 } from 'lucide-react';
 
 export const HowItWorksSection: React.FC = () => {
@@ -29,13 +28,7 @@ export const HowItWorksSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 relative z-10">
         
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center max-w-2xl mx-auto space-y-3.5"
-        >
+        <div className="text-center max-w-2xl mx-auto space-y-3.5 gsap-reveal">
           <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#E4E9E5]">
             <Sparkles className="w-4 h-4 text-[#22A25A]" />
             EASY APPOINTMENT PROCESS
@@ -46,7 +39,7 @@ export const HowItWorksSection: React.FC = () => {
           <p className="text-xs sm:text-sm text-[#5F6875] leading-relaxed font-medium">
             Booking an OPD consultation at Rafah-E-Aam Medical Centre takes just three easy steps.
           </p>
-        </motion.div>
+        </div>
 
         {/* 3 Steps Cards Grid */}
         <div className="relative">
@@ -57,13 +50,9 @@ export const HowItWorksSection: React.FC = () => {
             {STEPS.map((step, idx) => {
               const Icon = step.icon;
               return (
-                <motion.div
+                <div
                   key={idx}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="card-gradient p-6 sm:p-7 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all space-y-4 relative"
+                  className="card-gradient p-6 sm:p-7 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all space-y-4 relative gsap-reveal"
                 >
                   <div className="flex items-center justify-between">
                     <div className="w-12 h-12 rounded-2xl bg-[#EFF4EC] text-[#22A25A] flex items-center justify-center font-bold shadow-xs">
@@ -81,7 +70,7 @@ export const HowItWorksSection: React.FC = () => {
                   <p className="text-xs sm:text-sm text-[#5F6875] leading-relaxed font-medium">
                     {step.desc}
                   </p>
-                </motion.div>
+                </div>
               );
             })}
           </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
 import { Calendar, Phone, ShieldCheck } from 'lucide-react';
 import heroReceptionImg from '../../assets/images/hero_reception_1785393482596.jpg';
 
@@ -26,12 +25,7 @@ export const Hero: React.FC<HeroProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-10 lg:gap-12 xl:gap-14 items-center">
           
           {/* LEFT SIDE: Typography & CTAs */}
-          <motion.div 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="max-w-[560px] space-y-5 sm:space-y-6 text-left mx-auto lg:mx-0"
-          >
+          <div className="max-w-[560px] space-y-5 sm:space-y-6 text-left mx-auto lg:mx-0 gsap-reveal">
             {/* Eyebrow */}
             <div>
               <span className="inline-block text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#22A25A] bg-[#EFF4EC] pl-[12px] pr-[5px] py-[2px] rounded-full border border-[#E4E9E5]">
@@ -73,15 +67,10 @@ export const Hero: React.FC<HeroProps> = () => {
                 <span>Call Now</span>
               </a>
             </div>
-          </motion.div>
+          </div>
 
           {/* RIGHT SIDE: Circular Image Frame with Ambient Glow & Orbit */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
-            className="flex justify-center lg:justify-end"
-          >
+          <div className="flex justify-center lg:justify-end gsap-reveal">
             <div className="relative">
               
               {/* Soft Ambient Radial Glow Behind Circle */}
@@ -113,7 +102,7 @@ export const Hero: React.FC<HeroProps> = () => {
               </div>
 
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>

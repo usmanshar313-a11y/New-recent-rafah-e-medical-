@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { UserCheck, Calendar, Clock, MapPin, ArrowRight, Stethoscope } from 'lucide-react';
+import { UserCheck, Calendar, Clock, ArrowRight, Stethoscope } from 'lucide-react';
 import { ALL_DOCTORS } from '../../data/departmentsData';
 import { getDepartmentTheme } from '../common/DepartmentIcon';
 
@@ -19,13 +18,7 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12 relative z-10">
         
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center max-w-2xl mx-auto space-y-3.5"
-        >
+        <div className="text-center max-w-2xl mx-auto space-y-3.5 gsap-reveal">
           <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#E4E9E5]">
             <UserCheck className="w-4 h-4 text-[#22A25A]" />
             SENIOR CONSULTANT PANEL
@@ -36,21 +29,17 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
           <p className="text-xs sm:text-sm text-[#5F6875] leading-relaxed font-medium">
             Experienced consultants across multiple specialties, here to care for you and your family.
           </p>
-        </motion.div>
+        </div>
 
         {/* Doctor Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredDoctors.map((doc, idx) => {
+          {featuredDoctors.map((doc) => {
             const theme = getDepartmentTheme(doc.departmentId || doc.specialty);
 
             return (
-              <motion.div
+              <div
                 key={doc.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="card-gradient rounded-3xl p-5 border border-[#E4E9E5] shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group"
+                className="card-gradient rounded-3xl p-5 border border-[#E4E9E5] shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group gsap-reveal"
               >
                 <div className="space-y-4">
                   {/* Doctor Photo Frame */}
@@ -101,13 +90,13 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
                   <span>Book Consultation</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
         {/* View All Doctors Button */}
-        <div className="text-center pt-2">
+        <div className="text-center pt-2 gsap-reveal">
           <Link
             to="/departments"
             className="inline-flex items-center gap-2.5 bg-[#22A25A] hover:bg-[#168A4A] text-white px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all cursor-pointer hover:gap-3.5"

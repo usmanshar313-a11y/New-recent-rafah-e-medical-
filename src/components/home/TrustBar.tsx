@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { Clock, UserCheck, Stethoscope, Accessibility } from 'lucide-react';
 
 export const TrustBar: React.FC = () => {
@@ -34,13 +33,9 @@ export const TrustBar: React.FC = () => {
             const Icon = item.icon;
             const isOrangeChip = idx % 2 === 1;
             return (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="flex items-center gap-3.5 group"
+                className="flex items-center gap-3.5 group gsap-reveal"
               >
                 <div
                   className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 transition-colors duration-300 ${
@@ -59,7 +54,7 @@ export const TrustBar: React.FC = () => {
                     {item.detail}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

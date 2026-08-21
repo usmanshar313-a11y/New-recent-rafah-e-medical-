@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { Clock, UserCheck, Stethoscope, Accessibility, ShieldCheck, HeartHandshake } from 'lucide-react';
 import facilityRoomImg from '../../assets/images/facility_patient_room_1785393530865.jpg';
 
@@ -33,13 +32,7 @@ export const WhyChooseSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10 space-y-12">
         
         {/* Section Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center max-w-2xl mx-auto space-y-3.5"
-        >
+        <div className="text-center max-w-2xl mx-auto space-y-3.5 gsap-reveal">
           <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#E4E9E5]">
             <HeartHandshake className="w-4 h-4 text-[#22A25A]" />
             WHY FAMILIES CHOOSE US
@@ -50,19 +43,13 @@ export const WhyChooseSection: React.FC = () => {
           <p className="text-xs sm:text-sm text-[#5F6875] leading-relaxed font-medium">
             Rafah-E-Aam Medical Centre combines expert medical consultants, 24/7 emergency readiness, and patient-centered care.
           </p>
-        </motion.div>
+        </div>
 
         {/* Content Layout: Left Image + Right 2x2 Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
           {/* LEFT: Hospital Room Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5"
-          >
+          <div className="lg:col-span-5 gsap-reveal">
             <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-lg bg-white group">
               <img
                 src={facilityRoomImg}
@@ -80,20 +67,16 @@ export const WhyChooseSection: React.FC = () => {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* RIGHT: 2x2 Feature Grid */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
             {PILLARS.map((pillar, idx) => {
               const Icon = pillar.icon;
               return (
-                <motion.div
+                <div
                   key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  className="card-gradient p-5 sm:p-6 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:border-[#22A25A]/40 transition-all space-y-3"
+                  className="card-gradient p-5 sm:p-6 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:border-[#22A25A]/40 transition-all space-y-3 gsap-reveal"
                 >
                   <div className="w-10 h-10 rounded-2xl bg-[#EFF4EC] text-[#22A25A] flex items-center justify-center font-bold shrink-0">
                     <Icon className="w-5 h-5 text-[#22A25A]" />
@@ -104,7 +87,7 @@ export const WhyChooseSection: React.FC = () => {
                   <p className="text-xs text-[#5F6875] leading-relaxed font-medium">
                     {pillar.desc}
                   </p>
-                </motion.div>
+                </div>
               );
             })}
           </div>

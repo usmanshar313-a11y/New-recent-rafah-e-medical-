@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
 import { Star, MessageSquarePlus, CheckCircle2, X, Heart } from 'lucide-react';
 import { collection, getDocs, addDoc, query, where } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -101,13 +100,7 @@ export const TestimonialsSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 relative z-10">
         
         {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6"
-        >
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 gsap-reveal">
           <div className="space-y-3">
             <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider border border-[#E4E9E5] inline-flex items-center gap-1.5">
               <Heart className="w-3.5 h-3.5 text-[#22A25A]" />
@@ -143,18 +136,14 @@ export const TestimonialsSection: React.FC = () => {
               <span>Write a Review</span>
             </button>
           </div>
-        </motion.div>
+        </div>
 
         {/* Reviews Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {reviews.slice(0, 3).map((rev, idx) => (
-            <motion.div
+          {reviews.slice(0, 3).map((rev) => (
+            <div
               key={rev.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-30px' }}
-              transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="card-gradient p-6 rounded-3xl border border-[#E4E9E5] shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all"
+              className="card-gradient p-6 rounded-3xl border border-[#E4E9E5] shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all gsap-reveal"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -182,7 +171,7 @@ export const TestimonialsSection: React.FC = () => {
                   <div className="text-[10px] text-[#5F6875] font-bold uppercase tracking-wider">Verified Patient</div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 

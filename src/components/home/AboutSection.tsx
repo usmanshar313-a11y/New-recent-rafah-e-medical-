@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { Building2, Clock, CheckCircle2, ArrowRight, Accessibility, MapPin, Award } from 'lucide-react';
+import { Building2, Clock, CheckCircle2, ArrowRight, Accessibility, MapPin } from 'lucide-react';
 import facilityTreatmentImg from '../../assets/images/facility_treatment_1785393518585.jpg';
 
 export const AboutSection: React.FC = () => {
@@ -11,13 +10,7 @@ export const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           {/* LEFT: Hospital Facility Image & Badge */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 relative"
-          >
+          <div className="lg:col-span-5 relative gsap-reveal">
             <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-xl shadow-gray-200 bg-white group">
               <img
                 src={facilityTreatmentImg}
@@ -39,16 +32,10 @@ export const AboutSection: React.FC = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* RIGHT: About Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-7 space-y-6 text-left"
-          >
+          <div className="lg:col-span-7 space-y-6 text-left gsap-reveal">
             {/* Badges */}
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="inline-flex items-center gap-1.5 text-[#22A25A] font-extrabold text-xs tracking-wider uppercase bg-[#EFF4EC] px-4 py-1.5 rounded-full border border-[#E4E9E5]">
@@ -95,7 +82,7 @@ export const AboutSection: React.FC = () => {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>
