@@ -25,20 +25,36 @@ export const HomePage: React.FC = () => {
     <div className="space-y-0">
       <Hero />
       <TrustBar />
-      <AboutSection />
-      <DepartmentsSection onOpenBooking={handleOpenGeneralBooking} />
-      <WhyChooseSection />
-      <DoctorsPreviewSection onOpenBooking={handleOpenGeneralBooking} />
-      <HowItWorksSection />
-      <TestimonialsSection />
-      <LocationSection onOpenBooking={handleOpenGeneralBooking} />
+      <div className="section-deferred">
+        <AboutSection />
+      </div>
+      <div className="section-deferred">
+        <DepartmentsSection onOpenBooking={handleOpenGeneralBooking} />
+      </div>
+      <div className="section-deferred">
+        <WhyChooseSection />
+      </div>
+      <div className="section-deferred">
+        <DoctorsPreviewSection onOpenBooking={handleOpenGeneralBooking} />
+      </div>
+      <div className="section-deferred">
+        <HowItWorksSection />
+      </div>
+      <div className="section-deferred">
+        <TestimonialsSection />
+      </div>
+      <div className="section-deferred">
+        <LocationSection onOpenBooking={handleOpenGeneralBooking} />
+      </div>
 
-      <BookingModal
-        isOpen={bookingModalOpen}
-        onClose={() => setBookingModalOpen(false)}
-        preselectedDoctorId={selectedDoctorId}
-        preselectedServiceId={selectedServiceId}
-      />
+      {bookingModalOpen && (
+        <BookingModal
+          isOpen={bookingModalOpen}
+          onClose={() => setBookingModalOpen(false)}
+          preselectedDoctorId={selectedDoctorId}
+          preselectedServiceId={selectedServiceId}
+        />
+      )}
     </div>
   );
 };

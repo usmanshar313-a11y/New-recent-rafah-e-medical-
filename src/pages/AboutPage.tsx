@@ -155,10 +155,12 @@ export const AboutPage: React.FC = () => {
                 src={aboutSeminarImg}
                 alt="Medical seminar and staff training presentation at Rafah-E-Aam Medical Centre"
                 referrerPolicy="no-referrer"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-64 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-xs px-3.5 py-2 rounded-xl text-[11px] font-bold text-[#22A25A] border border-[#E4E9E5]">
+              <div className="absolute bottom-3 left-3 right-3 bg-white/90 px-3.5 py-2 rounded-xl text-[11px] font-bold text-[#22A25A] border border-[#E4E9E5]">
                 Regular Clinical Seminars & Guideline Workshops
               </div>
             </div>
@@ -223,10 +225,12 @@ export const AboutPage: React.FC = () => {
                 src={emergencyAmbulanceImg}
                 alt="Paramedic and equipped ambulance for 24/7 emergency rescue services at Rafah-E-Aam Medical Centre"
                 referrerPolicy="no-referrer"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-72 sm:h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-3 right-3 bg-black/60 backdrop-blur-xs px-3.5 py-2 rounded-xl text-[11px] font-bold text-white border border-white/20">
+              <div className="absolute bottom-3 left-3 right-3 bg-black/60 px-3.5 py-2 rounded-xl text-[11px] font-bold text-white border border-white/20">
                 On-Call Paramedic Rescue Team
               </div>
             </div>
@@ -257,6 +261,8 @@ export const AboutPage: React.FC = () => {
                   src={facilityTreatmentImg}
                   alt="Modern treatment room at Rafah-E-Aam Medical Centre"
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-3 left-3 bg-[#22A25A] text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
@@ -280,6 +286,8 @@ export const AboutPage: React.FC = () => {
                   src={facilityPatientRoomImg}
                   alt="Comfortable patient care room at Rafah-E-Aam Medical Centre"
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-3 left-3 bg-[#22A25A] text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">

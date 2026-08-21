@@ -18,8 +18,8 @@ export const Hero: React.FC<HeroProps> = () => {
   return (
     <section id="home" className="relative bg-white pt-[clamp(1px,3vw,5px)] pb-[clamp(55px,6vw,70px)] overflow-hidden">
       {/* Subtle Ambient Background Accents */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#22A25A]/5 rounded-full blur-3xl pointer-events-none -z-0" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#EFF4EC]/50 rounded-full blur-3xl pointer-events-none -z-0" />
+      <div className="absolute top-0 right-0 w-80 h-80 bg-[#22A25A]/5 rounded-full pointer-events-none -z-0" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#EFF4EC]/60 rounded-full pointer-events-none -z-0" />
 
       <div className="max-w-[1240px] mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-10 lg:gap-12 xl:gap-14 items-center">
@@ -73,25 +73,25 @@ export const Hero: React.FC<HeroProps> = () => {
           <div className="flex justify-center lg:justify-end">
             <div className="relative">
               
-              {/* Soft Ambient Radial Glow Behind Circle */}
-              <div className="absolute -inset-8 bg-gradient-to-tr from-[#22A25A]/10 via-[#EFF4EC]/50 to-transparent rounded-full blur-2xl -z-10 pointer-events-none" />
-
               {/* Subtle Dotted Circular Orbit Border */}
               <div className="absolute -inset-4 sm:-inset-6 rounded-full border-2 border-dashed border-[#22A25A]/20 pointer-events-none" />
 
               {/* Circular Image Container */}
-              <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] xl:w-[500px] xl:h-[500px] rounded-full overflow-hidden border-4 sm:border-8 border-white shadow-xl shadow-gray-200 bg-white shrink-0">
+              <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] xl:w-[500px] xl:h-[500px] rounded-full overflow-hidden border-4 sm:border-8 border-white shadow-lg bg-white shrink-0">
                 <img
                   src={heroReceptionImg}
                   alt="Rafah-E-Aam Medical Centre Hospital Reception"
                   referrerPolicy="no-referrer"
                   loading="eager"
-                  className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
+                  decoding="async"
+                  width="500"
+                  height="500"
+                  className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-500"
                 />
               </div>
 
               {/* Single Floating Info Badge */}
-              <div className="absolute -bottom-2 -left-2 sm:bottom-4 sm:-left-4 bg-white/95 backdrop-blur-md px-4 py-3 rounded-2xl border border-[#E4E9E5] shadow-xl shadow-gray-300/50 flex items-center gap-3.5">
+              <div className="absolute -bottom-2 -left-2 sm:bottom-4 sm:-left-4 bg-white px-4 py-3 rounded-2xl border border-[#E4E9E5] shadow-lg shadow-gray-200/60 flex items-center gap-3.5">
                 <div className="w-10 h-10 rounded-xl bg-[#EFF4EC] text-[#22A25A] flex items-center justify-center font-bold shrink-0">
                   <ShieldCheck className="w-5 h-5 text-[#22A25A]" />
                 </div>

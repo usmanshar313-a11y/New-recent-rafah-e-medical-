@@ -48,6 +48,10 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
                       src={doc.photoURL}
                       alt={doc.name}
                       referrerPolicy="no-referrer"
+                      loading="lazy"
+                      decoding="async"
+                      width="300"
+                      height="208"
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-2.5 right-2.5 bg-[#22A25A] text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-2xs">

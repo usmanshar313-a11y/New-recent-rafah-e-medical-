@@ -11,18 +11,21 @@ export const AboutSection: React.FC = () => {
           
           {/* LEFT: Hospital Facility Image & Badge */}
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-xl shadow-gray-200 bg-white group">
+            <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-lg bg-white group">
               <img
                 src={facilityTreatmentImg}
                 alt="Rafah-E-Aam Medical Centre Treatment Facility"
                 referrerPolicy="no-referrer"
                 loading="lazy"
-                className="w-full h-[320px] sm:h-[400px] lg:h-[440px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                decoding="async"
+                width="600"
+                height="440"
+                className="w-full h-[320px] sm:h-[400px] lg:h-[440px] object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
               {/* Floating Location Badge */}
-              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-[#E4E9E5] shadow-lg flex items-center gap-3">
+              <div className="absolute bottom-4 left-4 right-4 bg-white p-3.5 rounded-2xl border border-[#E4E9E5] shadow-lg flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#22A25A] text-white flex items-center justify-center shrink-0">
                   <MapPin className="w-5 h-5 text-white" />
                 </div>

@@ -31,8 +31,10 @@ const SAMPLE_REVIEWS: Review[] = [
   },
 ];
 
+let cachedReviews: Review[] | null = null;
+
 export const TestimonialsSection: React.FC = () => {
-  const [reviews, setReviews] = useState<Review[]>(SAMPLE_REVIEWS);
+  const [reviews, setReviews] = useState<Review[]>(cachedReviews || SAMPLE_REVIEWS);
   const [modalOpen, setModalOpen] = useState(false);
 
   // Form states
@@ -43,6 +45,10 @@ export const TestimonialsSection: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
+    if (cachedReviews && cachedReviews.length > 0) {
+      return;
+    }
+
     const fetchReviews = async () => {
       try {
         const q = query(collection(db, 'reviews'), where('approved', '==', true));
@@ -52,6 +58,7 @@ export const TestimonialsSection: React.FC = () => {
           fetched.push({ id: doc.id, ...doc.data() } as Review);
         });
         if (fetched.length > 0) {
+          cachedReviews = fetched;
           setReviews(fetched);
         }
       } catch (e) {
