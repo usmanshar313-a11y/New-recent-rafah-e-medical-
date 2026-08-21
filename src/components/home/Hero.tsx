@@ -56,7 +56,7 @@ export const Hero: React.FC<HeroProps> = () => {
                 className="bg-[#22A25A] hover:bg-[#168A4A] text-white px-7 py-3.5 rounded-full text-sm sm:text-base font-bold shadow-md shadow-[#22A25A]/20 hover:-translate-y-0.5 active:scale-95 transition-all inline-flex items-center justify-center gap-2.5 cursor-pointer"
               >
                 <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                <span>Book an Appointment</span>
+                <span>Consult a Doctor</span>
               </button>
 
               <a

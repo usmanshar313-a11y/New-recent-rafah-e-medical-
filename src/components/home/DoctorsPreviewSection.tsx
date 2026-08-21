@@ -87,13 +87,13 @@ export const DoctorsPreviewSection: React.FC<DoctorsPreviewSectionProps> = ({ on
                 </div>
 
                 {/* Action Button */}
-                <button
-                  onClick={onOpenBooking}
+                <Link
+                  to={`/departments/${doc.departmentId}`}
                   className="w-full bg-[#22A25A] hover:bg-[#168A4A] text-white py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
-                  <span>Book Consultation</span>
+                  <span>Consult Doctor & Details</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                </Link>
               </div>
             );
           })}

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Sparkles, Building2, Calendar, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Sparkles, Building2, Calendar, CheckCircle2, Phone, ShieldAlert, ArrowRight } from 'lucide-react';
+import emergencyAmbulanceImg from '../../assets/images/emergency_ambulance_1785393504809.jpg';
 
 export const HowItWorksSection: React.FC = () => {
   const STEPS = [
@@ -25,7 +27,7 @@ export const HowItWorksSection: React.FC = () => {
 
   return (
     <section className="py-16 sm:py-20 bg-white text-[#182334] relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3.5">
@@ -73,6 +75,56 @@ export const HowItWorksSection: React.FC = () => {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* 24/7 Emergency & Rapid Response Visual Banner */}
+        <div className="bg-[#22A25A] text-white rounded-3xl overflow-hidden shadow-lg border border-[#168A4A] grid grid-cols-1 lg:grid-cols-12 items-center">
+          <div className="lg:col-span-7 p-6 sm:p-10 space-y-4">
+            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-xs text-white text-xs font-bold px-3.5 py-1.5 rounded-full border border-white/20">
+              <ShieldAlert className="w-4 h-4 text-[#F28C45]" />
+              <span>24/7 Emergency Casualty Unit</span>
+            </div>
+
+            <h3 className="font-heading font-black text-2xl sm:text-3xl leading-tight">
+              Immediate Care When Every Second Counts
+            </h3>
+
+            <p className="text-xs sm:text-sm text-[#EFF4EC] leading-relaxed max-w-xl">
+              Our 24-hour casualty ward in Gulberg Town is equipped with on-call trauma surgeons, oxygen supplies, ECG monitoring, and dedicated ambulance rescue transport.
+            </p>
+
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <a
+                href="tel:+922136342011"
+                className="inline-flex items-center gap-2 bg-[#F28C45] hover:bg-[#E07B34] text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-full shadow-md transition-all active:scale-95 cursor-pointer"
+              >
+                <Phone className="w-4 h-4" />
+                <span>Call Emergency: +92 21 36342011</span>
+              </a>
+
+              <Link
+                to="/departments"
+                className="inline-flex items-center gap-2 bg-white hover:bg-[#EFF4EC] text-[#22A25A] font-bold text-xs sm:text-sm px-5 py-3 rounded-full shadow-xs transition-all"
+              >
+                <span>View Departments & Doctors</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5 h-56 sm:h-72 lg:h-full relative overflow-hidden bg-[#168A4A]">
+            <img
+              src={emergencyAmbulanceImg}
+              alt="24/7 Emergency Ambulance Service at Rafah-E-Aam Medical Centre Karachi"
+              referrerPolicy="no-referrer"
+              loading="lazy"
+              decoding="async"
+              width="450"
+              height="350"
+              className="w-full h-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#22A25A] via-transparent to-transparent pointer-events-none" />
           </div>
         </div>
 

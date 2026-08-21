@@ -29,13 +29,13 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
 
           {/* Action Buttons */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 max-w-md mx-auto">
-            <button
-              onClick={onOpenBooking}
+            <Link
+              to="/departments"
               className="w-full sm:w-auto bg-[#22A25A] hover:bg-[#168A4A] text-white py-3.5 px-7 rounded-full text-xs sm:text-sm font-bold shadow-lg shadow-[#22A25A]/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Calendar className="w-4 h-4 text-white" />
-              <span>Book an Appointment</span>
-            </button>
+              <span>Book Appointment & View Doctors</span>
+            </Link>
 
             <a
               href="tel:+922136342011"

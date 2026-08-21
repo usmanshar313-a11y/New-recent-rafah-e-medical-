@@ -13,23 +13,42 @@ export const FloatingWhatsApp: React.FC<FloatingActionsProps> = () => {
     <div className="fixed bottom-5 sm:bottom-6 right-4 sm:right-6 z-50 pointer-events-none">
       {/* Floating WhatsApp Button */}
       <a
+        id="floating-whatsapp-btn"
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="pointer-events-auto w-16 h-16 sm:w-[180px] sm:h-[54px] flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#1da851] active:bg-[#168840] text-white rounded-full shadow-2xl hover:shadow-2xl transition-all duration-200 hover:scale-105 active:scale-95 border-2 border-white/40 text-sm sm:text-base font-bold cursor-pointer"
-        aria-label="Chat on WhatsApp"
+        className="pointer-events-auto group relative flex items-center justify-center sm:gap-2.5 bg-[#25D366] hover:bg-[#20bd5a] active:bg-[#1caa52] text-white w-14 h-14 sm:w-auto sm:h-[50px] sm:px-5 sm:py-2.5 rounded-full shadow-[0_8px_25px_rgba(37,211,102,0.45)] hover:shadow-[0_12px_30px_rgba(37,211,102,0.6)] transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-white cursor-pointer"
+        aria-label="Chat with Rafah-E-Aam Medical Centre on WhatsApp"
       >
+        {/* Subtle Online Pulse Ring */}
+        <span className="absolute -top-1 -right-1 flex h-4 w-4">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border-2 border-white"></span>
+        </span>
+
+        {/* Real Official WhatsApp Logo Vector */}
         <svg
-          className="w-8 h-8 sm:w-6 sm:h-6 fill-current text-white shrink-0"
-          viewBox="0 0 24 24"
+          className="w-7 h-7 sm:w-6 sm:h-6 shrink-0 transition-transform group-hover:scale-110"
+          viewBox="0 0 32 32"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.029 6.987 2.894a9.825 9.825 0 012.888 6.982c-.001 5.451-4.437 9.885-9.885 9.885m0-18C5.23 3.785.39 8.623.39 14.611c0 2.112.551 4.108 1.583 5.864L0 24l3.635-1.921c1.698.927 3.623 1.416 5.586 1.416h.005c5.987 0 10.828-4.838 10.828-10.828 0-2.893-1.127-5.612-3.172-7.658a10.76 10.76 0 00-7.653-3.173" />
+          {/* Inner speech bubble & phone handset */}
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M16 2C8.268 2 2 8.268 2 16c0 2.73.784 5.28 2.146 7.436L2.64 29.36l6.108-1.502A13.93 13.93 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm8.076 19.866c-.336.944-1.954 1.808-2.73 1.924-.7.104-1.58.148-2.548-.16-.6-.188-1.374-.446-2.37-.878-4.168-1.808-6.902-6.02-7.112-6.298-.206-.278-1.688-2.246-1.688-4.284 0-2.038 1.066-3.042 1.444-3.456.378-.414.826-.518 1.102-.518.276 0 .552.004.792.016.254.012.592-.096.926.704.344.826 1.17 2.856 1.272 3.064.104.208.172.45.034.726-.138.276-.206.448-.412.69-.208.24-.436.536-.624.72-.208.208-.426.434-.184.848.24.414 1.074 1.77 2.304 2.864 1.582 1.41 2.912 1.848 3.324 2.054.414.208.656.174.9-.104.24-.276 1.03-1.202 1.306-1.616.276-.414.55-.344.928-.206.378.138 2.404 1.134 2.816 1.34.414.208.688.31.792.482.102.174.102 1.01-.234 1.954z"
+            fill="white"
+          />
         </svg>
-        <span className="hidden sm:inline tracking-wide font-semibold">WhatsApp Us</span>
+
+        <span className="hidden sm:inline font-bold text-sm tracking-wide">
+          WhatsApp 24/7
+        </span>
       </a>
     </div>
   );
 };
+
 
 
