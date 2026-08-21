@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import { MapPin, Phone, Clock, Accessibility, ExternalLink, Navigation, Mail, MessageSquare, HeartPulse } from 'lucide-react';
 
@@ -41,12 +40,7 @@ export const ContactPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Info Card */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 card-gradient p-6 sm:p-8 rounded-3xl shadow-2xs border border-[#E4E9E5] flex flex-col justify-between space-y-6"
-          >
+          <div className="lg:col-span-5 card-gradient p-6 sm:p-8 rounded-3xl shadow-2xs border border-[#E4E9E5] flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="border-b border-[#E4E9E5] pb-3">
                 <h2 className="font-heading font-extrabold text-xl sm:text-2xl text-[#182334]">
@@ -113,14 +107,11 @@ export const ContactPage: React.FC = () => {
               <span>Get Directions on Google Maps</span>
               <ExternalLink className="w-3.5 h-3.5 ml-1 opacity-80" />
             </a>
-          </motion.div>
+          </div>
 
           {/* Map Embed */}
-          <motion.div 
+          <div 
             id="map-container"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-7 bg-white rounded-3xl shadow-2xs border border-[#E4E9E5] overflow-hidden min-h-[420px] flex flex-col"
           >
             <div className="bg-[#F5F1E8]/40 px-6 py-4 border-b border-[#E4E9E5] flex items-center justify-between">
@@ -142,7 +133,7 @@ export const ContactPage: React.FC = () => {
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>

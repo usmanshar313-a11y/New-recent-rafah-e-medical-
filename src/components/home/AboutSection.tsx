@@ -10,7 +10,7 @@ export const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           {/* LEFT: Hospital Facility Image & Badge */}
-          <div className="lg:col-span-5 relative gsap-reveal">
+          <div className="lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-xl shadow-gray-200 bg-white group">
               <img
                 src={facilityTreatmentImg}
@@ -35,7 +35,7 @@ export const AboutSection: React.FC = () => {
           </div>
 
           {/* RIGHT: About Content */}
-          <div className="lg:col-span-7 space-y-6 text-left gsap-reveal">
+          <div className="lg:col-span-7 space-y-6 text-left">
             {/* Badges */}
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="inline-flex items-center gap-1.5 text-[#22A25A] font-extrabold text-xs tracking-wider uppercase bg-[#EFF4EC] px-4 py-1.5 rounded-full border border-[#E4E9E5]">

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { 
   Building2, 
   Clock, 
@@ -14,7 +14,6 @@ import {
   Sparkles
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 import aboutSeminarImg from '../assets/images/about_seminar_1785393494261.jpg';
 import emergencyAmbulanceImg from '../assets/images/emergency_ambulance_1785393504809.jpg';
@@ -22,20 +21,16 @@ import facilityTreatmentImg from '../assets/images/facility_treatment_1785393518
 import facilityPatientRoomImg from '../assets/images/facility_patient_room_1785393530865.jpg';
 
 export const AboutPage: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  useScrollAnimation(containerRef, '.gsap-reveal');
-
   return (
-    <div ref={containerRef} className="bg-white min-h-screen py-10 text-[#182334]">
+    <div className="bg-white min-h-screen py-10 text-[#182334]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Page Banner Header */}
-        <div className="bg-[#22A25A] text-white p-8 sm:p-10 rounded-3xl shadow-lg border border-[#168A4A] flex flex-col md:flex-row items-center justify-between gap-6 gsap-reveal">
+        <div className="bg-[#22A25A] text-white p-8 sm:p-10 rounded-3xl shadow-lg border border-[#168A4A] flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl text-center md:text-left">
             <span className="bg-[#168A4A] text-white text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider inline-block">
               About Rafah-E-Aam Medical Centre
@@ -59,7 +54,7 @@ export const AboutPage: React.FC = () => {
         </div>
 
         {/* Main Hospital Overview Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center gsap-reveal">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           <div className="lg:col-span-7 space-y-6">
             <div className="card-gradient p-8 rounded-3xl shadow-xs border border-[#E4E9E5] space-y-5">
@@ -152,7 +147,7 @@ export const AboutPage: React.FC = () => {
         </div>
 
         {/* Clinical Excellence & Continuing Staff Education Section */}
-        <div className="card-gradient rounded-3xl p-6 sm:p-10 border border-[#E4E9E5] shadow-xs gsap-reveal">
+        <div className="card-gradient rounded-3xl p-6 sm:p-10 border border-[#E4E9E5] shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <div className="lg:col-span-5 relative group overflow-hidden rounded-2xl shadow-md border border-[#E4E9E5]">
@@ -197,7 +192,7 @@ export const AboutPage: React.FC = () => {
         </div>
 
         {/* 24/7 Emergency & Rapid Ambulance Rescue Section */}
-        <div className="bg-[#22A25A] text-white rounded-3xl p-6 sm:p-10 border border-[#168A4A] shadow-md gsap-reveal">
+        <div className="bg-[#22A25A] text-white rounded-3xl p-6 sm:p-10 border border-[#168A4A] shadow-md">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <div className="lg:col-span-7 space-y-4 order-2 lg:order-1">
@@ -240,7 +235,7 @@ export const AboutPage: React.FC = () => {
         </div>
 
         {/* Facility Gallery Section */}
-        <div className="space-y-6 gsap-reveal">
+        <div className="space-y-6">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#22A25A] bg-[#EFF4EC] px-3.5 py-1 rounded-full uppercase tracking-wider">
               <Bed className="w-4 h-4 text-[#22A25A]" /> Hospital Tour
@@ -305,7 +300,7 @@ export const AboutPage: React.FC = () => {
         </div>
 
         {/* Quick Actions Navigation Banner */}
-        <div className="bg-[#22A25A] rounded-3xl p-8 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-6 gsap-reveal border border-[#168A4A]">
+        <div className="bg-[#22A25A] rounded-3xl p-8 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-6 border border-[#168A4A]">
           <div className="space-y-1 text-center sm:text-left">
             <h3 className="font-heading font-bold text-xl text-white">Need Specialist Medical Advice?</h3>
             <p className="text-xs text-[#EFF4EC]">Explore our doctors or schedule a visit with our medical reception team.</p>
@@ -313,16 +308,16 @@ export const AboutPage: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-3">
             <Link
-              to="/doctors"
+              to="/departments"
               className="bg-white hover:bg-white/90 text-[#22A25A] font-bold px-5 py-2.5 rounded-xl text-xs transition-colors"
             >
               View Specialist Panel
             </Link>
             <Link
-              to="/services"
+              to="/departments"
               className="bg-[#168A4A] hover:bg-[#168A4A]/80 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition-colors flex items-center gap-1.5"
             >
-              <span>Explore Services</span>
+              <span>Explore Departments</span>
               <ArrowRight className="w-3.5 h-3.5 text-white" />
             </Link>
           </div>

@@ -28,7 +28,7 @@ export const HowItWorksSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-3.5 gsap-reveal">
+        <div className="text-center max-w-2xl mx-auto space-y-3.5">
           <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#E4E9E5]">
             <Sparkles className="w-4 h-4 text-[#22A25A]" />
             EASY APPOINTMENT PROCESS
@@ -52,7 +52,7 @@ export const HowItWorksSection: React.FC = () => {
               return (
                 <div
                   key={idx}
-                  className="card-gradient p-6 sm:p-7 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all space-y-4 relative gsap-reveal"
+                  className="card-gradient p-6 sm:p-7 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all space-y-4 relative"
                 >
                   <div className="flex items-center justify-between">
                     <div className="w-12 h-12 rounded-2xl bg-[#EFF4EC] text-[#22A25A] flex items-center justify-center font-bold shadow-xs">

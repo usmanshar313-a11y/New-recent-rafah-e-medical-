@@ -35,7 +35,7 @@ export const TrustBar: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="flex items-center gap-3.5 group gsap-reveal"
+                className="flex items-center gap-3.5 group"
               >
                 <div
                   className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 transition-colors duration-300 ${

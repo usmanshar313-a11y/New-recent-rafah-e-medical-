@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
   ArrowLeft, 
@@ -13,14 +13,10 @@ import {
   Sparkles
 } from 'lucide-react';
 import { collection, getDocs } from 'firebase/firestore';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { db } from '../firebase';
 import { DEPARTMENTS_DATA } from '../data/departmentsData';
 import { Department, Doctor } from '../types';
 import { DepartmentIcon, getDepartmentTheme } from '../components/common/DepartmentIcon';
-
-gsap.registerPlugin(ScrollTrigger);
 
 // In-Memory Doctor Cache to prevent redundant Firestore network reads
 const departmentDoctorCache: Record<string, Doctor[]> = {};
@@ -31,8 +27,6 @@ export const DepartmentDetailPage: React.FC = () => {
   const [department, setDepartment] = useState<Department | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedDoctorForModal, setSelectedDoctorForModal] = useState<Doctor | null>(null);
-
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -119,75 +113,6 @@ export const DepartmentDetailPage: React.FC = () => {
     loadDepartmentData();
   }, [departmentId]);
 
-  // GSAP Entrance Scroll Animation for Department Detail page elements
-  useEffect(() => {
-    if (!department || loading) return;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      // 1. Animate Header & Navigation elements
-      gsap.fromTo(
-        '.gsap-header',
-        { opacity: 0, y: -20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.12,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 90%',
-            once: true,
-          },
-        }
-      );
-
-      // 2. Animate Section Title
-      gsap.fromTo(
-        '.gsap-section-title',
-        { opacity: 0, x: -20 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.gsap-section-title',
-            start: 'top 92%',
-            once: true,
-          },
-        }
-      );
-
-      // 3. Stagger animate Doctor Cards
-      const cards = containerRef.current?.querySelectorAll('.doc-card');
-      if (cards && cards.length > 0) {
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 35, scale: 0.98 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.55,
-            stagger: 0.1,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: cards[0],
-              start: 'top 88%',
-              once: true,
-            },
-          }
-        );
-      }
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [department, loading]);
-
   const handleOpenBooking = (docId: string) => {
     window.dispatchEvent(
       new CustomEvent('open-booking-modal', {
@@ -227,13 +152,13 @@ export const DepartmentDetailPage: React.FC = () => {
   }
 
   return (
-    <div ref={containerRef} className="bg-white min-h-screen py-6 sm:py-8 text-[#182334]">
+    <div className="bg-white min-h-screen py-6 sm:py-8 text-[#182334]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         
         {/* Navigation & Header Section */}
         <div className="space-y-4">
           {/* ← Back to Departments link */}
-          <div className="gsap-header">
+          <div>
             <Link
               to="/departments"
               className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#22A25A] hover:text-[#168A4A] bg-white px-3.5 py-2 rounded-xl border border-[#E4E9E5] shadow-2xs transition-all hover:-translate-x-0.5"
@@ -246,7 +171,7 @@ export const DepartmentDetailPage: React.FC = () => {
           {(() => {
             const deptTheme = getDepartmentTheme(department.id);
             return (
-              <div className="gsap-header bg-white p-5 sm:p-6 rounded-2xl border border-[#E4E9E5] shadow-2xs flex flex-col sm:flex-row items-start sm:items-center gap-4" style={{ borderLeftWidth: '4px', borderLeftColor: deptTheme.primary }}>
+              <div className="bg-white p-5 sm:p-6 rounded-2xl border border-[#E4E9E5] shadow-2xs flex flex-col sm:flex-row items-start sm:items-center gap-4" style={{ borderLeftWidth: '4px', borderLeftColor: deptTheme.primary }}>
                 <div className={`p-3 ${deptTheme.bgTint} rounded-xl border ${deptTheme.borderTint} shrink-0 ${deptTheme.iconColor}`}>
                   <DepartmentIcon iconType={department.icon} deptId={department.id} className="w-6 h-6" />
                 </div>
@@ -264,7 +189,7 @@ export const DepartmentDetailPage: React.FC = () => {
         </div>
 
         {/* Section Indicator */}
-        <div className="gsap-section-title flex items-center justify-between px-1">
+        <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#182334]">
             <UserCheck className="w-4.5 h-4.5 text-[#22A25A]" />
             <span>Consulting Specialists ({department.doctors.length})</span>
@@ -288,7 +213,7 @@ export const DepartmentDetailPage: React.FC = () => {
               return (
                 <div
                   key={doc.id}
-                  className="doc-card card-gradient rounded-2xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between space-y-6"
+                  className="card-gradient rounded-2xl border border-[#E4E9E5] shadow-2xs hover:shadow-md transition-all p-6 sm:p-7 flex flex-col justify-between space-y-6"
                 >
                   <div className="space-y-4">
                     {/* Photo, Name, Specialty, Room */}

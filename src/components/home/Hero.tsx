@@ -25,7 +25,7 @@ export const Hero: React.FC<HeroProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-10 lg:gap-12 xl:gap-14 items-center">
           
           {/* LEFT SIDE: Typography & CTAs */}
-          <div className="max-w-[560px] space-y-5 sm:space-y-6 text-left mx-auto lg:mx-0 gsap-reveal">
+          <div className="max-w-[560px] space-y-5 sm:space-y-6 text-left mx-auto lg:mx-0">
             {/* Eyebrow */}
             <div>
               <span className="inline-block text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#22A25A] bg-[#EFF4EC] pl-[12px] pr-[5px] py-[2px] rounded-full border border-[#E4E9E5]">
@@ -70,14 +70,14 @@ export const Hero: React.FC<HeroProps> = () => {
           </div>
 
           {/* RIGHT SIDE: Circular Image Frame with Ambient Glow & Orbit */}
-          <div className="flex justify-center lg:justify-end gsap-reveal">
+          <div className="flex justify-center lg:justify-end">
             <div className="relative">
               
               {/* Soft Ambient Radial Glow Behind Circle */}
               <div className="absolute -inset-8 bg-gradient-to-tr from-[#22A25A]/10 via-[#EFF4EC]/50 to-transparent rounded-full blur-2xl -z-10 pointer-events-none" />
 
-              {/* Subtle Dotted Circular Orbit Border with Gentle Rotation */}
-              <div className="absolute -inset-4 sm:-inset-6 rounded-full border-2 border-dashed border-[#22A25A]/20 pointer-events-none animate-[spin_90s_linear_infinite]" />
+              {/* Subtle Dotted Circular Orbit Border */}
+              <div className="absolute -inset-4 sm:-inset-6 rounded-full border-2 border-dashed border-[#22A25A]/20 pointer-events-none" />
 
               {/* Circular Image Container */}
               <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] xl:w-[500px] xl:h-[500px] rounded-full overflow-hidden border-4 sm:border-8 border-white shadow-xl shadow-gray-200 bg-white shrink-0">

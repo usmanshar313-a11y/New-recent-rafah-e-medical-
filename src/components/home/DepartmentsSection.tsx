@@ -70,7 +70,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-3.5 gsap-reveal">
+        <div className="text-center max-w-2xl mx-auto space-y-3.5">
           <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#E4E9E5]">
             <Building2 className="w-4 h-4 text-[#22A25A]" />
             FEATURED MEDICAL SERVICES
@@ -92,7 +92,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
             return (
               <div
                 key={dept.id}
-                className={`card-gradient p-6 rounded-3xl border border-[#E4E9E5] ${theme.hoverBorder} shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group gsap-reveal`}
+                className={`card-gradient p-6 rounded-3xl border border-[#E4E9E5] ${theme.hoverBorder} shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 group`}
                 style={{ borderTopWidth: '4px', borderTopColor: theme.primary }}
               >
                 <div className="space-y-3.5">
@@ -139,7 +139,7 @@ export const DepartmentsSection: React.FC<DepartmentsSectionProps> = ({ onOpenBo
         </div>
 
         {/* Bottom CTA Banner */}
-        <div className="bg-[#EFF4EC] rounded-3xl p-6 sm:p-8 border border-[#E4E9E5] shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6 gsap-reveal">
+        <div className="bg-[#EFF4EC] rounded-3xl p-6 sm:p-8 border border-[#E4E9E5] shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3.5 text-xs sm:text-sm text-[#182334] font-medium text-center sm:text-left">
             <CheckCircle2 className="w-5 h-5 text-[#22A25A] shrink-0" />
             <span>Discover all 15+ departments, 34+ senior doctor profiles, OPD room numbers, and timings.</span>

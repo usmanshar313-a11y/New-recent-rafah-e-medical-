@@ -32,7 +32,7 @@ export const WhyChooseSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10 space-y-12">
         
         {/* Section Heading */}
-        <div className="text-center max-w-2xl mx-auto space-y-3.5 gsap-reveal">
+        <div className="text-center max-w-2xl mx-auto space-y-3.5">
           <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 border border-[#E4E9E5]">
             <HeartHandshake className="w-4 h-4 text-[#22A25A]" />
             WHY FAMILIES CHOOSE US
@@ -49,7 +49,7 @@ export const WhyChooseSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
           {/* LEFT: Hospital Room Image */}
-          <div className="lg:col-span-5 gsap-reveal">
+          <div className="lg:col-span-5">
             <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-lg bg-white group">
               <img
                 src={facilityRoomImg}
@@ -76,7 +76,7 @@ export const WhyChooseSection: React.FC = () => {
               return (
                 <div
                   key={idx}
-                  className="card-gradient p-5 sm:p-6 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:border-[#22A25A]/40 transition-all space-y-3 gsap-reveal"
+                  className="card-gradient p-5 sm:p-6 rounded-3xl border border-[#E4E9E5] shadow-2xs hover:border-[#22A25A]/40 transition-all space-y-3"
                 >
                   <div className="w-10 h-10 rounded-2xl bg-[#EFF4EC] text-[#22A25A] flex items-center justify-center font-bold shrink-0">
                     <Icon className="w-5 h-5 text-[#22A25A]" />

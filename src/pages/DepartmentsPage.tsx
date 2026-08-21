@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { 
   Search, 
@@ -13,15 +13,11 @@ import {
   Check,
   RotateCcw
 } from 'lucide-react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Department } from '../types';
 import { DEPARTMENTS_DATA } from '../data/departmentsData';
 import { DepartmentIcon, getDepartmentTheme } from '../components/common/DepartmentIcon';
 
 export { DEPARTMENTS_DATA };
-
-gsap.registerPlugin(ScrollTrigger);
 
 export const DepartmentsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -33,8 +29,6 @@ export const DepartmentsPage: React.FC = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [modalSearchTerm, setModalSearchTerm] = useState('');
 
-  const containerRef = useRef<HTMLDivElement>(null);
-
   // Sync search input with URL search param
   useEffect(() => {
     if (searchTerm) {
@@ -43,6 +37,10 @@ export const DepartmentsPage: React.FC = () => {
       setSearchParams({}, { replace: true });
     }
   }, [searchTerm, setSearchParams]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (!isFilterModalOpen) return;
@@ -54,50 +52,6 @@ export const DepartmentsPage: React.FC = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isFilterModalOpen]);
-
-  // GSAP Entrance animation for department cards & hero elements
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.dept-hero-content',
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
-      );
-
-      gsap.fromTo(
-        '.dept-search-bar',
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.4, delay: 0.1, ease: 'power2.out' }
-      );
-
-      gsap.utils.toArray<HTMLDivElement>('.dept-card').forEach((card) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 35, scale: 0.98 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.55,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 90%',
-              toggleActions: 'play none none none',
-              markers: false,
-            },
-          }
-        );
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [selectedDeptId, searchTerm]);
 
   // Filter departments based on selected department filter or search term
   const filteredDepartments = departments.filter((dept) => {
@@ -128,11 +82,11 @@ export const DepartmentsPage: React.FC = () => {
   );
 
   return (
-    <div ref={containerRef} className="bg-white min-h-screen py-8 sm:py-10 text-[#182334]">
+    <div className="bg-white min-h-screen py-8 sm:py-10 text-[#182334]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
 
         {/* Hero Banner Section */}
-        <div className="dept-hero-content bg-[#22A25A] text-white rounded-3xl p-7 sm:p-12 shadow-xs relative overflow-hidden border border-[#168A4A]">
+        <div className="bg-[#22A25A] text-white rounded-3xl p-7 sm:p-12 shadow-xs relative overflow-hidden border border-[#168A4A]">
           <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
           <div className="max-w-3xl space-y-3 sm:space-y-4 relative z-10">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#168A4A] border border-white/20 text-xs font-extrabold uppercase tracking-wider text-white">
@@ -149,7 +103,7 @@ export const DepartmentsPage: React.FC = () => {
         </div>
 
         {/* Search & Filter Controls */}
-        <div className="dept-search-bar card-gradient p-4 sm:p-6 rounded-2xl border border-[#E4E9E5] shadow-2xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="card-gradient p-4 sm:p-6 rounded-2xl border border-[#E4E9E5] shadow-2xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
           
           {/* Text Search Input */}
           <div className="relative flex-1">
@@ -252,7 +206,7 @@ export const DepartmentsPage: React.FC = () => {
               return (
                 <div
                   key={dept.id}
-                  className={`dept-card card-gradient rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md ${theme.hoverBorder} transition-all flex flex-col lg:flex-row overflow-hidden group`}
+                  className={`card-gradient rounded-3xl border border-[#E4E9E5] shadow-2xs hover:shadow-md ${theme.hoverBorder} transition-all flex flex-col lg:flex-row overflow-hidden group`}
                 >
                   {/* Left / Upper Block: Tinted Header Zone */}
                   <div className={`p-6 sm:p-7 ${theme.bgTint} border-b lg:border-b-0 lg:border-r border-[#E4E9E5] flex flex-col justify-between space-y-4 shrink-0 lg:w-[300px] xl:w-[340px]`}>

@@ -10,7 +10,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
   return (
     <section id="location" className="py-16 sm:py-24 bg-white text-[#182334] relative overflow-hidden">
       <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-        <div className="card-gradient rounded-3xl p-8 sm:p-12 border border-[#E4E9E5] shadow-sm text-center space-y-6 gsap-reveal">
+        <div className="card-gradient rounded-3xl p-8 sm:p-12 border border-[#E4E9E5] shadow-sm text-center space-y-6">
           {/* Eyebrow badge */}
           <div className="inline-flex items-center gap-2 bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full border border-[#E4E9E5]">
             <MapPin className="w-4 h-4 text-[#22A25A]" />

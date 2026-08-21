@@ -100,7 +100,7 @@ export const TestimonialsSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 relative z-10">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 gsap-reveal">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
           <div className="space-y-3">
             <span className="bg-[#EFF4EC] text-[#22A25A] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider border border-[#E4E9E5] inline-flex items-center gap-1.5">
               <Heart className="w-3.5 h-3.5 text-[#22A25A]" />
@@ -143,7 +143,7 @@ export const TestimonialsSection: React.FC = () => {
           {reviews.slice(0, 3).map((rev) => (
             <div
               key={rev.id}
-              className="card-gradient p-6 rounded-3xl border border-[#E4E9E5] shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all gsap-reveal"
+              className="card-gradient p-6 rounded-3xl border border-[#E4E9E5] shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
